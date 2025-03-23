@@ -79,9 +79,7 @@ const about = {
     title: "Introduction",
     description: (
       <>
-        Selene is a Jakarta-based design engineer with a passion for transforming complex challenges
-        into simple, elegant design solutions. Her work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
+        Larry is just a normal developer with no outstanding skill, attempt to learn everythings he can.
       </>
     ),
   },
@@ -90,9 +88,9 @@ const about = {
     title: "Work Experience",
     experiences: [
       {
-        company: "FLY",
-        timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
+        company: "Standard",
+        timeframe: "07/2024 - Present",
+        role: "Junior Fullstack Software Engineer",
         achievements: [
           <>
             Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
@@ -114,9 +112,9 @@ const about = {
         ],
       },
       {
-        company: "Creativ3",
-        timeframe: "2018 - 2022",
-        role: "Lead Designer",
+        company: "VIPTAM Groups",
+        timeframe: "10/2023 - 07/2024",
+        role: "Fresher BA, Tester, Backend & Frontend Developer",
         achievements: [
           <>
             Developed a design system that unified the brand across multiple platforms, improving
@@ -136,12 +134,12 @@ const about = {
     title: "Studies",
     institutions: [
       {
-        name: "University of Jakarta",
-        description: <>Studied software engineering.</>,
+        name: "Hanoi University of Science and Technology (HUST)",
+        description: <>Studied computer science.</>,
       },
       {
-        name: "Build the Future",
-        description: <>Studied online marketing and personal branding.</>,
+        name: "Kim Thanh High School",
+        description: <></>,
       },
     ],
   },
@@ -150,8 +148,8 @@ const about = {
     title: "Technical skills",
     skills: [
       {
-        title: "Figma",
-        description: <>Able to prototype in Figma with Once UI with unnatural speed.</>,
+        title: "Frameworks",
+        description: <>Able to use Nestjs, Nextjs, Reactjs,....</>,
         // optional: leave the array empty if you don't want to display images
         images: [
           {
@@ -169,8 +167,8 @@ const about = {
         ],
       },
       {
-        title: "Next.js",
-        description: <>Building next gen apps with Next.js + Once UI + Supabase.</>,
+        title: "Languages",
+        description: <>TypeScript, JavaScript, PHP, Python,...</>,
         // optional: leave the array empty if you don't want to display images
         images: [
           {
