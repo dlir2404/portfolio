@@ -50,8 +50,8 @@ type FontConfig = {
 };
 
 /*
-	Replace with code for secondary and tertiary fonts
-	from https://once-ui.com/customize
+  Replace with code for secondary and tertiary fonts
+  from https://once-ui.com/customize
 */
 const secondary: FontConfig | undefined = undefined;
 const tertiary: FontConfig | undefined = undefined;
