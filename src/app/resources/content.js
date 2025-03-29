@@ -72,7 +72,7 @@ const about = {
   },
   calendar: {
     display: true,
-    link: "https://cal.com",
+    link: "https://cal.com/dlir2404/30min",
   },
   intro: {
     display: true,
