@@ -93,19 +93,22 @@ const about = {
         role: "Junior Fullstack Software Engineer",
         achievements: [
           <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
+            Contributed to key projects such as Socials (a multi-platform social media management tool), Writers (an AI-powered SEO optimization tool), and Bookmarks (a smart bookmark management system).
           </>,
           <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
+            Gained invaluable experience working in a SaaS company alongside talented professionals. A special thanks to my mentor, Mr. Ethan, a senior developer at Standard, for guiding me in both technical and soft skills, significantly shaping my growth as a developer.
           </>,
         ],
         images: [
-          // optional: leave the array empty if you don't want to display images
           {
-            src: "/images/projects/project-01/cover-01.jpg",
-            alt: "Once UI Project",
+            src: "/images/projects/socials/socials.png",
+            alt: "Socials Project",
+            width: 16,
+            height: 9,
+          },
+          {
+            src: "/images/projects/writers/writers.png",
+            alt: "Writers Project",
             width: 16,
             height: 9,
           },
@@ -117,15 +120,9 @@ const about = {
         role: "Fresher BA, Tester, Backend & Frontend Developer",
         achievements: [
           <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
-          </>,
-          <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
+            Played diverse roles including Business Analyst, Tester, and Backend & Frontend Developer, gaining a holistic understanding of the software development lifecycle. This experience provided a strong foundation in project workflows and cross-functional collaboration.
           </>,
         ],
-        images: [],
       },
     ],
   },
@@ -185,7 +182,7 @@ const about = {
 
 const blog = {
   label: "Blog",
-  title: "Writing about design and tech...",
+  title: "Writing everythings about tech...",
   description: `Read what ${person.name} has been up to recently`,
   // Create new blog posts by adding a new .mdx file to app/blog/posts
   // All posts will be listed on the /blog route
@@ -194,7 +191,7 @@ const blog = {
 const work = {
   label: "Work",
   title: "My projects",
-  description: `Design and dev projects by ${person.name}`,
+  description: `Some main projects of ${person.name}`,
   // Create new project pages by adding a new .mdx file to app/blog/posts
   // All projects will be listed on the /home and /work routes
 };
