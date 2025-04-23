@@ -123,6 +123,7 @@ const about = {
             Played diverse roles including Business Analyst, Tester, and Backend & Frontend Developer, gaining a holistic understanding of the software development lifecycle. This experience provided a strong foundation in project workflows and cross-functional collaboration.
           </>,
         ],
+        images: []
       },
     ],
   },
