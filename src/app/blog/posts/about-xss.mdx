@@ -30,7 +30,18 @@ Người dùng có thể nhập URL của ảnh từ một trang web khác, và 
 
 Kẻ tấn công vô tình biết được điều này và đã lừa người dùng thay avatar của mình bằng một URL độc hại như sau:
 
-
+<CodeBlock
+  codePreview={false}
+  codeInstances={[
+    {
+      code: `<img src="https://example.com/evil.png" onerror="alert('XSS!')" />`,
+      label: 'html',
+      language: 'html'
+    }
+  ]}
+  copyButton={true}
+  compact={true}
+/>
 
 `https://example.com/evil.png` là một ảnh không tồn tại, vì vậy trình duyệt sẽ không thể tải được ảnh này và sẽ gọi hàm `onerror` để xử lý lỗi. Trong trường hợp này, hàm `onerror` sẽ thực thi mã JavaScript mà kẻ tấn công đã chèn vào, dẫn đến việc hiển thị thông báo "XSS!".
 
