@@ -48,9 +48,16 @@ const social = [
 ];
 
 const home = {
+  path: "/",
+  image: "/images/og/home.jpg",
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
+  featured: {
+    display: true,
+    title: <>Recent project: <strong className="ml-4">Once UI</strong></>,
+    href: "/work/building-once-ui-a-customizable-design-system",
+  },
   headline: <>Software engineer and builder</>,
   subline: (
     <>
@@ -60,8 +67,9 @@ const home = {
 };
 
 const about = {
+  path: "/about",
   label: "About",
-  title: "About me",
+  title: `About – ${person.name}`,
   description: `Meet ${person.name}, ${person.role} from ${person.location}`,
   tableOfContent: {
     display: true,
@@ -150,12 +158,12 @@ const about = {
         description: <>Able to use Nestjs, Nextjs, Reactjs,....</>,
         // optional: leave the array empty if you don't want to display images
         images: [
-          // {
-          //   src: "/images/projects/project-01/cover-02.jpg",
-          //   alt: "Project image",
-          //   width: 16,
-          //   height: 9,
-          // },
+          {
+            src: "/images/projects/project-01/avatar-01.jpg",
+            alt: "Project image",
+            width: 16,
+            height: 9,
+          },
           // {
           //   src: "/images/projects/project-01/cover-03.jpg",
           //   alt: "Project image",
@@ -182,6 +190,7 @@ const about = {
 };
 
 const blog = {
+  path: "/blog",
   label: "Blog",
   title: "Writing everythings about tech...",
   description: `Read what ${person.name} has been up to recently`,
@@ -190,6 +199,7 @@ const blog = {
 };
 
 const work = {
+  path: "/work",
   label: "Work",
   title: "My projects",
   description: `Some main projects of ${person.name}`,
@@ -198,80 +208,52 @@ const work = {
 };
 
 const gallery = {
+  path: "/gallery",
   label: "Gallery",
-  title: "My photo gallery",
+  title: `Photo gallery – ${person.name}`,
   description: `A photo collection by ${person.name}`,
-  // Images from https://pexels.com
+  // Images by https://lorant.one
+  // These are placeholder images, replace with your own
   images: [
     {
-      src: "/images/gallery/img-01.jpg",
+      src: "/images/gallery/horizontal-1.jpg",
+      alt: "image",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/horizontal-2.jpg",
+      alt: "image",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/horizontal-3.jpg",
+      alt: "image",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/horizontal-4.jpg",
+      alt: "image",
+      orientation: "horizontal",
+    },
+    {
+      src: "/images/gallery/vertical-1.jpg",
       alt: "image",
       orientation: "vertical",
     },
     {
-      src: "/images/gallery/img-02.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/img-03.jpg",
+      src: "/images/gallery/vertical-2.jpg",
       alt: "image",
       orientation: "vertical",
     },
     {
-      src: "/images/gallery/img-04.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/img-05.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/img-06.jpg",
+      src: "/images/gallery/vertical-3.jpg",
       alt: "image",
       orientation: "vertical",
     },
     {
-      src: "/images/gallery/img-07.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/img-08.jpg",
+      src: "/images/gallery/vertical-4.jpg",
       alt: "image",
       orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/img-09.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/img-10.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/img-11.jpg",
-      alt: "image",
-      orientation: "vertical",
-    },
-    {
-      src: "/images/gallery/img-12.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/img-13.jpg",
-      alt: "image",
-      orientation: "horizontal",
-    },
-    {
-      src: "/images/gallery/img-14.jpg",
-      alt: "image",
-      orientation: "horizontal",
     },
   ],
 };
