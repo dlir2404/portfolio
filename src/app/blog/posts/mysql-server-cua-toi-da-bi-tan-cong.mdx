@@ -97,3 +97,77 @@ Và khi kiểm tra nội dung của table này thì... Bùmmmmm! Một thông đ
 />
 
 Đại loại là một vị hacker nào đó đã "tiện tay" xóa sạch database của tôi và để lại lời nhắn đòi Bitcoin để lấy lại dữ liệu. Đúng là cái tát trời giáng!
+
+May mắn thay, dữ liệu bị mất chỉ là dữ liệu test, không có gì quan trọng. Nhưng cái khó chịu là cứ vài ngày lại mất data một lần làm mình phát điên :))))). Và tôi cũng cần phải fix cái lỗ hổng này thật sớm trước khi app go live để tránh mất dữ liệu thật.
+
+## Phân tích nguyên nhân và cách khắc phục
+
+Sau khi ngồi "đập đầu vào tường" một hồi, tôi đã xác định được hai nguyên nhân chính:
+
+1. **Expose port không cần thiết**: Tôi đã mở port 3306 của MySQL ra internet, điều này hoàn toàn không cần thiết vì app backend của tôi đã chạy trong cùng một network với database. Expose port kiểu này chẳng khác nào mở toang cửa mời kẻ trộm vào nhà.
+
+2. **Mật khẩu quá đơn giản**: `12345678`? Seriously? Đúng kiểu mật khẩu mà một đứa trẻ 5 tuổi cũng đoán được. Với các bot tự động quét internet tìm kiếm các dịch vụ MySQL đang mở, việc brute-force mật khẩu đơn giản này chỉ là chuyện vài giây.
+
+## Giải pháp khắc phục
+
+Sau khi xác định được nguyên nhân, việc khắc phục trở nên khá đơn giản:
+
+### 1. Chỉnh sửa file docker-compose.yml, không cần expose port ra ngoài nữa, giao tiếp giữa backend và database chỉ cần dùng mạng nội bộ là đủ
+
+```yml
+services:
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_DATABASE: intel-money
+    volumes:
+      - db_data:/var/lib/mysql
+    # Không expose port ra ngoài nữa
+    # ports:
+    #  - "3306:3306"
+    container_name: mysql-db
+    networks:
+      - app-network
+    ...
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db_data:
+
+```
+
+### 2. Tạo một mật khẩu mới mạnh hơn
+
+### 3. Cài đặt và cấu hình backup tự động
+Để phòng ngừa trường hợp xấu nhất, tôi đã thiết lập backup tự động mỗi ngày bằng cách thêm images sau vào docker compose:
+
+```yml
+mysql-backup:
+    image: fradelg/mysql-cron-backup
+    restart: always
+    environment:
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASS: M2V4ICj0j7IQ
+      MYSQL_DB: intel-money
+      CRON_TIME: "0 2 * * *"  # backup lúc 2h sáng mỗi ngày
+      MAX_BACKUPS: "7"
+      TZ: "Asia/Ho_Chi_Minh"
+    volumes:
+      - ./data/db-backups:/backup
+    depends_on:
+      - db
+```
+
+Sau khi áp dụng các biện pháp trên, server MySQL của tôi đã không còn bị tấn công nữa. Tôi có thể ngủ ngon mà không lo lắng sáng mai tỉnh dậy sẽ lại thấy thông báo "RECOVER_YOUR_DATA" :))))))
+
+Bài học rút ra từ câu chuyện đau lòng này:
+
+- Không bao giờ expose port database ra internet nếu không thực sự cần thiết
+- Luôn sử dụng mật khẩu mạnh (và khác nhau cho mỗi dịch vụ)
