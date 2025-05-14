@@ -1,0 +1,99 @@
+---
+title: "Container MySQL server của tôi đã bị tấn công, toàn bộ dữ liệu bị mất sạch"
+publishedAt: "2025-05-14"
+image: "/images/blogs/mysql-lost-data/thumbnails.png"
+summary: "Câu chuyện đau lòng về việc server MySQL của tôi bị tấn công ransomware và những bài học đắt giá từ sự cố này."
+tag: "Security"
+---
+
+## Chuyện này đã xảy ra một vài lần trước đây, nhưng tới tận hôm nay tôi mới tìm được nguyên nhân "có vẻ" như là thực sự
+
+Vào một ngày đẹp trời, tôi đang chuẩn bị tiếp tục code đồ án trên điện thoại thì bùm! Tất cả API đều die sạch, không thể truy cập được gì.
+
+Tôi nhanh chóng SSH vào server, check logs của backend và thấy thông báo lạ thế này:
+
+<SmartImage
+  src="/images/blogs/mysql-lost-data/img1.jpg"
+  alt="Backend log thông báo lỗi kết nối database"
+  aspectRatio="16/9"
+  radius="l"
+  isLoading={false}
+  objectFit="cover"
+/>
+
+Tôi kiểu "????". Làm thế nào mà database lại biến mất được nhỉ? Rõ ràng trong docker-compose.yml tôi đã bind mount volume đàng hoàng mà:
+
+```yml
+services:
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_DATABASE: intel-money
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    container_name: mysql-db
+    ...
+
+volumes:
+  db_data:
+```
+
+Chưa tin vào mắt mình, tôi tiếp tục truy cập vào container để kiểm tra trực tiếp:
+
+`docker exec -it mysql-db mysql -u root -p`
+
+Sau đó liệt kê danh sách database:
+
+`show databases;`
+
+Và đây là lúc tôi chú ý tới một database lạ hoắc: `RECOVER_YOUR_DATA`:
+
+```terminal
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| RECOVER_YOUR_DATA  |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.01 sec)
+```
+
+Thực ra đây không phải lần đầu tôi gặp phải tình trạng này. Trước đây cũng đã xảy ra vài lần, cứ khoảng 3-4 ngày là database lại "bay màu" một lần. Nhưng lúc đó tôi chỉ restore lại data mà không thực sự tìm hiểu được chính xác nguyên nhân gốc gác. Lần này thì tôi đã quá bực mình rồi!
+
+Tôi quyết định kiểm tra kỹ database lạ này xem có gì. Tiếp tục truy vấn:
+
+```terminal
+mysql> use RECOVER_YOUR_DATA;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-----------------------------+
+| Tables_in_RECOVER_YOUR_DATA |
++-----------------------------+
+| RECOVER_YOUR_DATA           |
++-----------------------------+
+1 row in set (0.00 sec)
+```
+
+Và khi kiểm tra nội dung của table này thì... Bùmmmmm! Một thông điệp "ngọt ngào" hiện ra:
+
+<SmartImage 
+    src="/images/blogs/mysql-lost-data/img2.jpg" 
+    alt="Ransomware message yêu cầu tiền chuộc" 
+    aspectRatio="32/9" 
+    radius="l" 
+    isLoading={false} 
+    objectFit="cover" 
+/>
+
+Đại loại là một vị hacker nào đó đã "tiện tay" xóa sạch database của tôi và để lại lời nhắn đòi Bitcoin để lấy lại dữ liệu. Đúng là cái tát trời giáng!
