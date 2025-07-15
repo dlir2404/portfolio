@@ -16,13 +16,21 @@ Nhưng mà, nếu chỉ có một luồng, tại sao những thứ như setTimeo
 
 ## Event Loop – “ảo thuật gia” đứng sau mọi thứ
 
-Hãy tưởng tượng JavaScript như một đầu bếp chỉ có một tay (call stack), nhưng lại có rất nhiều trợ lý (Web APIs, Browser APIs). Khi bạn gọi setTimeout hoặc fetch, đầu bếp sẽ “giao việc” cho trợ lý, rồi tiếp tục nấu các món khác. Khi trợ lý làm xong, họ sẽ báo lại, và đầu bếp sẽ xử lý tiếp khi rảnh tay.
+Trước hết ta cần làm quen các khái niệm sau: 
+- Callstack: Một stack các function được gọi. Khi môt function được gọi, nó sẽ được xếp vào đây, và sẽ hoạt động theo nguyên tắc LIFO
+- Callback queue: Một hàng đợi các callback chờ được thực thi
+
+Rồi, bây giờ hãy tưởng tượng JavaScript như một đầu bếp chỉ có một tay (call stack) đầu bếp này sẽ thực hiện tuần tự các công việc được list ra từ trên xuống dưới (thứ tự các dòng code của bạn)
+Nhưng vị đầu bếp này lại có rất nhiều trợ lý (Web APIs, Browser APIs, thư viện libuv của Nodejs). Khi bạn gọi setTimeout hoặc fetch, đầu bếp sẽ “giao việc” cho trợ lý, rồi tiếp tục nấu các món khác. 
+Như vậy, người thực hiện các tác vụ như đếm thời gian, gọi api bản chất không phải đầu bếp (JavaScript) mà là các trợ lý.
+
+Khi trợ lý làm xong, họ sẽ báo lại cho đầu bếp (chính là cách đưa các callback vào queue), và đầu bếp sẽ xử lý những việc còn lại (callback) tiếp khi khi mà đầu bếp đã làm xong các việc trong list ban đầu.
+
+Chính vì vậy, các công việc còn lại (callbacks) phải chờ đầu bếp làm xong các món chính đã.
 
 Cơ chế này gọi là event loop. Nó giúp JavaScript xử lý các tác vụ bất đồng bộ mà không cần phải tạo thêm luồng mới. Nhờ vậy, giao diện web vẫn mượt mà, không bị “đơ” khi chờ dữ liệu từ server hay các tác vụ tốn thời gian.
 
-Dưới đây là biểu đồ minh họa cho quá trình chạy thực sự của JavaScript trên môi trường Nodejs:
-
-<SmartImage src="/images/blogs/js-co-thuc-su-don-luong/chart.png" aspectRatio="605/855" radius="l" sizes="400px" />
+Mình sẽ để biểu đồ flow ở dưới cùng của blog cho các bạn nào muốn tham khảo nhé :v
 
 Chính vì các task nặng sau khi được thực hiện xong, callback của nó sẽ được đẩy vào 1 cái queue, chờ khi nào callstack rảnh thì mới được thực hiện. Mình đã nhận thấy ra một điều khá thú vị: rằng setTimeout sẽ thực sự không chuẩn.
 
@@ -39,6 +47,9 @@ setTimeout(() => {
 for (let i = 0; i < 1_000_000_000; i++) {}
 ```
 
+Đầu bếp này, chỉ giao một việc rất rất cỏn con cho trợ lý thôi, rồi ông ta tiếp tục băm thịt 1 tỉ lần.
+Theo lý thuyết, công việc đếm thời gian kia mất 0s cho trợ lý thực hiện, rồi ông đầu bếp sẽ in ra delay. Cùng xem kết quả thực tế nhé:
+
 <SmartImage src="/images/blogs/js-co-thuc-su-don-luong/test.png" aspectRatio="358/169" radius="l" sizes="400px" />
 
 Trễ có 0,3s thôi sao, thử tăng lên 10 tỉ xem sao :))) :
@@ -53,10 +64,11 @@ Kết quả
 
 Câu trả lời là: Đúng và… không hẳn! Engine JavaScript (ví dụ V8 của Chrome) chỉ có một call stack, nên về bản chất là đơn luồng. Nhưng môi trường thực thi (trình duyệt hoặc Node.js) lại cung cấp các API chạy song song ở “hậu trường”. Khi các tác vụ này hoàn thành, chúng mới được đẩy vào hàng đợi (queue) để JavaScript xử lý tiếp.
 
-Nếu bạn muốn thực sự chạy song song, JavaScript vẫn có “vũ khí bí mật” là Web Workers. Đây là cách để tạo ra các luồng riêng biệt, giúp xử lý các tác vụ nặng mà không làm ảnh hưởng đến luồng chính.
-
 ## Tổng kết
 
-Tóm lại, JavaScript đơn luồng ở mức engine, nhưng nhờ event loop và các API của môi trường, nó vẫn có thể xử lý nhiều việc “gần như song song”. Khi cần thực sự đa luồng, bạn có thể dùng Web Workers. Vậy nên, đừng quá lo lắng về “đơn luồng” – chỉ cần hiểu cách hoạt động, bạn sẽ tận dụng được sức mạnh thật sự của JavaScript!
+Tóm lại, JavaScript đơn luồng ở mức engine, nhưng nhờ event loop và các API của môi trường, nó vẫn có thể xử lý nhiều việc “gần như song song”. Vậy nên, đừng quá lo lắng về “đơn luồng” – chỉ cần hiểu cách hoạt động, bạn sẽ tận dụng được sức mạnh thật sự của JavaScript!
 
+Dưới đây là biểu đồ minh họa cho quá trình chạy thực sự của JavaScript trên môi trường Nodejs:
+
+<SmartImage src="/images/blogs/js-co-thuc-su-don-luong/chart.png" aspectRatio="605/855" radius="l" sizes="400px" />
 ---
