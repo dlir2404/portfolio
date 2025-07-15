@@ -2,7 +2,7 @@
 title: "JavaScript có thực sự đơn luồng?"
 publishedAt: "2025-07-14"
 image: "/images/blogs/duo-boot-win-vs-ubuntu/thumbnails.png"
-summary: ""
+summary: "JavaScript chỉ có một luồng thực thi chính, nhưng nhờ event loop và các API môi trường, nó vẫn xử lý được nhiều tác vụ bất đồng bộ mà không bị "đơ". Bài viết giải thích cơ chế này qua ví dụ thực tế và hình minh họa."
 tag: "Q&A"
 ---
 
@@ -17,7 +17,7 @@ Nhưng mà, nếu chỉ có một luồng, tại sao những thứ như setTimeo
 ## Event Loop – “ảo thuật gia” đứng sau mọi thứ
 
 Trước hết ta cần làm quen các khái niệm sau: 
-- Callstack: Một stack các function được gọi. Khi môt function được gọi, nó sẽ được xếp vào đây, và sẽ hoạt động theo nguyên tắc LIFO
+- Callstack: Một stack các function được gọi. Khi một function được gọi, nó sẽ được xếp vào đây, và sẽ hoạt động theo nguyên tắc LIFO
 - Callback queue: Một hàng đợi các callback chờ được thực thi
 
 Rồi, bây giờ hãy tưởng tượng JavaScript như một đầu bếp chỉ có một tay (call stack) đầu bếp này sẽ thực hiện tuần tự các công việc được list ra từ trên xuống dưới (thứ tự các dòng code của bạn)
@@ -34,7 +34,7 @@ Mình sẽ để biểu đồ flow ở dưới cùng của blog cho các bạn n
 
 Chính vì các task nặng sau khi được thực hiện xong, callback của nó sẽ được đẩy vào 1 cái queue, chờ khi nào callstack rảnh thì mới được thực hiện. Mình đã nhận thấy ra một điều khá thú vị: rằng setTimeout sẽ thực sự không chuẩn.
 
-Nếu thời gian của setTimeout hết, mà trong callstack vẫn còn function đang được thực thi, thì nó sẽ phải chờ, mà nêú function đó cũng rất tốn thời gian thì sẽ phải chờ càng lâu.
+Nếu thời gian của setTimeout hết, mà trong callstack vẫn còn function đang được thực thi, thì nó sẽ phải chờ, mà nếu function đó cũng rất tốn thời gian thì sẽ phải chờ càng lâu.
 
 Mình cùng thử nhé, mình sẽ cho chạy một tỉ vòng lặp xem sao: 
 ```html
@@ -48,7 +48,7 @@ for (let i = 0; i < 1_000_000_000; i++) {}
 ```
 
 Đầu bếp này, chỉ giao một việc rất rất cỏn con cho trợ lý thôi, rồi ông ta tiếp tục băm thịt 1 tỉ lần.
-Theo lý thuyết, công việc đếm thời gian kia mất 0s cho trợ lý thực hiện, rồi ông đầu bếp sẽ in ra delay. Cùng xem kết quả thực tế nhé:
+Theo lý thuyết, công việc đếm thời gian kia mất 0s cho trợ lý thực hiện, rồi ông đầu bếp sẽ in ra độ trễ. Cùng xem kết quả thực tế nhé:
 
 <SmartImage src="/images/blogs/js-co-thuc-su-don-luong/test.png" aspectRatio="358/169" radius="l" sizes="400px" />
 
