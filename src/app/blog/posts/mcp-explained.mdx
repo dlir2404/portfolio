@@ -60,7 +60,7 @@ AI: *"Cho tôi xài cái calculate với!"* 🤝
 
 ## 🎯 Ba "anh em ruột" của MCP
 
-### 1. 🛠️ **Tools** - "Functions AI có thể gọi"
+### 1. 🛠️ Tools - "Functions AI có thể gọi"
 
 ```typescript
 // Server expose tools
@@ -82,7 +82,7 @@ await client.callTool('calculate', { expression: '2 + 2' });
 - `get_weather(city)` - Lấy thông tin thời tiết
 - `create_file(path, content)` - Tạo file
 
-### 2. 📚 **Resources** - "Data AI có thể đọc"
+### 2. 📚 Resources - "Data AI có thể đọc"
 
 ```typescript
 // Server expose resources
@@ -99,7 +99,7 @@ Resources giống như **API endpoints** nhưng để đọc data thôi, không 
 - Configuration: `config://app.json`
 - Documentation: `docs://api-guide`
 
-### 3. 💬 **Prompts** - "Templates cho AI"
+### 3. 💬 Prompts - "Templates cho AI"
 
 Đây là phần **thú vị nhất**! Thay vì hardcode prompts trong AI app, server có thể cung cấp **domain-specific prompts** với expertise cao!
 
@@ -137,7 +137,7 @@ Remember to explain each algebraic manipulation clearly.
 
 ## 🚀 MCP hoạt động như thế nào?
 
-### **Phase 1: Discovery** 
+### Phase 1: Discovery
 ```typescript
 // AI: "Tôi muốn biết bạn có gì?"
 const tools = await client.listTools();
@@ -150,7 +150,7 @@ const prompts = await client.listPrompts();
 // Prompts: [solve-equation, debug-code, optimize-query]
 ```
 
-### **Phase 2: Execution**
+### Phase 2: Execution
 ```typescript
 // AI quyết định: "Tôi cần tính toán!"
 const result = await client.callTool('calculate', {
@@ -170,7 +170,7 @@ const debugPrompt = await client.getPrompt('debug-code', {
 // → Structured prompt với debugging best practices
 ```
 
-### **Phase 3: Real-time Updates**
+### Phase 3: Real-time Updates
 ```typescript
 // Server thông báo: "Tôi có tools mới!"
 server.notify('tools/list_changed');
@@ -234,7 +234,7 @@ const codeReview = await client.getPrompt('code-review', {
 
 ## 🎭 Tại sao MCP "đỉnh" thế?
 
-### **1. 🔌 Pluggable Architecture**
+### 1. 🔌 Pluggable Architecture
 ```typescript
 // Dễ dàng thêm/bớt capabilities
 await addServer('./new-awesome-server.js');
@@ -242,7 +242,7 @@ await removeServer('./old-server.js');
 // AI tự động adapt với tools mới!
 ```
 
-### **2. 🌐 Network-native**
+### 2. 🌐 Network-native
 ```typescript
 // Local servers
 await client.connect('node', ['./local-server.js']);
@@ -251,7 +251,7 @@ await client.connect('node', ['./local-server.js']);
 await client.connect('http://api.example.com/mcp');
 ```
 
-### **3. 📏 Standardization**
+### 3. 📏 Standardization
 Tất cả MCP servers đều có **same interface**:
 - `tools/list` - List available tools
 - `tools/call` - Execute a tool
@@ -260,7 +260,7 @@ Tất cả MCP servers đều có **same interface**:
 - `prompts/list` - List available prompts
 - `prompts/get` - Get prompt template
 
-### **4. 🔄 Dynamic & Real-time**
+### 4. 🔄 Dynamic & Real-time
 ```typescript
 // Server có thể update capabilities runtime
 server.addTool('new_feature', ...);
@@ -268,7 +268,7 @@ server.notify('tools/list_changed');
 // AI tự động biết và sử dụng ngay!
 ```
 
-### **5. 🎯 Specialized Domains**
+### 5. 🎯 Specialized Domains
 Mỗi server focus vào **expertise riêng**:
 - **Math server**: Advanced calculations, equation solving
 - **Database server**: Query optimization, schema analysis
