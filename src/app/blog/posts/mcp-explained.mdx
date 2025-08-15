@@ -39,16 +39,7 @@ const availableTools = await discoverAllTools(); // ← Dynamic!
 
 ## 🏗️ Kiến trúc MCP - Đơn giản mà hiệu quả
 
-```
-┌─────────────┐    MCP Protocol    ┌─────────────┐
-│             │ ◄─────────────────► │             │
-│ AI App      │                    │ MCP Server  │
-│ (Claude,    │      "Xin chào!     │ (Math,      │
-│  VS Code)   │   Tôi có tools gì?" │  Database,  │
-│             │                    │  Weather)   │
-└─────────────┘                    └─────────────┘
-   MCP Host                           MCP Server
-```
+![MCP Architecture Flow](/images/blogs/mcp-explained/mcp-architecture-flow.png)
 
 **MCP Host**: AI application (như Claude, VS Code)
 **MCP Server**: Chương trình cung cấp tools/resources
