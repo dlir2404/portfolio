@@ -14,18 +14,17 @@ const protectedRoutes = {
   "/work/automate-design-handovers-with-a-figma-to-code-pipeline": true,
 };
 
-import { Geist } from "next/font/google";
-import { Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 
-const primaryFont = Geist({
+const primaryFont = Inter({
   variable: "--font-primary",
   subsets: ["latin"],
   display: "swap",
 });
 
-const monoFont = Geist_Mono({
+const codeFont = JetBrains_Mono({
   variable: "--font-code",
-  subsets: ["latin"],
+  subsets: ["latin", "vietnamese"],
   display: "swap",
 });
 
@@ -33,7 +32,7 @@ const font = {
   primary: primaryFont,
   secondary: primaryFont,
   tertiary: primaryFont,
-  code: monoFont,
+  code: codeFont,
 };
 
 const style = {
