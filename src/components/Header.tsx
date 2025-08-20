@@ -3,12 +3,14 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { Fade, Flex, Line, ToggleButton } from "@/once-ui/components";
+import { Fade, Flex, Line, ToggleButton, IconButton } from "@/once-ui/components";
 import styles from "@/components/Header.module.scss";
+import { SearchModal } from "@/components";
 
 import { routes, display } from "@/app/resources";
 import { person, about, blog, work, gallery } from "@/app/resources/content";
 import { ThemeToggle } from "./ThemeToggle";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 
 type TimeDisplayProps = {
   timeZone: string;
@@ -45,6 +47,12 @@ export default TimeDisplay;
 
 export const Header = () => {
   const pathname = usePathname() ?? "";
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+
+  // Global keyboard shortcut for search
+  useKeyboardShortcuts({
+    onSearch: () => setIsSearchModalOpen(true),
+  });
 
   return (
     <>
@@ -144,16 +152,32 @@ export const Header = () => {
                   />
                 </>
               )}
+              
               {display.themeSwitcher && (
                 <>
                   <Line background="neutral-alpha-medium" vert maxHeight="24" />
                   <ThemeToggle />
                 </>
               )}
+              
+              {/* Search Icon Button */}
+              <IconButton
+                icon="search"
+                size="m"
+                variant="ghost"
+                onClick={() => setIsSearchModalOpen(true)}
+                tooltip="Search (⌘K)"
+              />
             </Flex>
           </Flex>
         </Flex>
       </Flex>
+      
+      {/* Search Modal */}
+      <SearchModal 
+        isOpen={isSearchModalOpen} 
+        onClose={() => setIsSearchModalOpen(false)} 
+      />
     </>
   );
 };

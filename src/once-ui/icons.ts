@@ -26,6 +26,7 @@ import {
   HiMoon,
   HiSun,
   HiOutlineDocument,
+  HiMagnifyingGlass,
 } from "react-icons/hi2";
 
 import {
@@ -73,6 +74,7 @@ export const iconLibrary: Record<string, IconType> = {
   moon: HiMoon,
   sun: HiSun,
   document: HiOutlineDocument,
+  search: HiMagnifyingGlass,
 };
 
 export type IconLibrary = typeof iconLibrary;

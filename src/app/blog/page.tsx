@@ -34,6 +34,7 @@ export default function Blog() {
       <Heading marginBottom="l" variant="display-strong-s">
         {blog.title}
       </Heading>
+      
       <Column
 				fillWidth flex={1}>
 				<Posts range={[1,1]} thumbnail direction="column"/>
