@@ -63,23 +63,23 @@ export default function Header() {
           }}
         >
           <div className="flex items-center justify-between px-6">
-            {/* Logo */}
+            {/* Avatar */}
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="flex items-center"
             >
               <div className="relative">
-                <motion.div
-                  className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 flex items-center justify-center font-mono font-bold text-white shadow-xl"
+                <motion.img
+                  src="/images/avatar.jpg"
+                  alt="Avatar"
+                  className="w-10 h-10 rounded-2xl object-cover shadow-xl border-2 border-white/20"
                   whileHover={{ 
-                    rotate: 180,
+                    rotate: 15,
                     boxShadow: '0 0 30px rgba(147, 51, 234, 0.5)'
                   }}
                   transition={{ duration: 0.3 }}
-                >
-                  L
-                </motion.div>
+                />
                 <motion.div
                   className="absolute inset-0 w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 opacity-30 blur-lg"
                   animate={{ scale: [1, 1.2, 1] }}

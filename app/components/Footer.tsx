@@ -45,13 +45,13 @@ export default function Footer() {
               whileHover={{ scale: 1.05 }}
             >
               <div className="relative">
-                <motion.div
-                  className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 flex items-center justify-center font-mono font-bold text-white shadow-xl"
-                  whileHover={{ rotate: 360 }}
+                <motion.img
+                  src="/images/avatar.jpg"
+                  alt="Avatar"
+                  className="w-12 h-12 rounded-2xl object-cover shadow-xl border-2 border-white/20"
+                  whileHover={{ rotate: 15 }}
                   transition={{ duration: 0.6 }}
-                >
-                  L
-                </motion.div>
+                />
                 <motion.div
                   className="absolute inset-0 w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 opacity-30 blur-lg"
                   animate={{ scale: [1, 1.2, 1] }}
