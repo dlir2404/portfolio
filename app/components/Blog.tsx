@@ -121,7 +121,7 @@ export default function Blog() {
           className="text-center mb-16"
         >
           <motion.h2
-            className="text-4xl md:text-5xl font-bold mb-6"
+            className="text-4xl md:text-5xl font-bold pb-6"
             whileInView={{ 
               backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
             }}
