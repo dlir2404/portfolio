@@ -1,16 +1,34 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Code, User, Briefcase, PenTool, Mail } from 'lucide-react';
+
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showHeader, setShowHeader] = useState(true);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      const currentScrollY = window.scrollY;
+      setScrolled(currentScrollY > 50);
+
+      // Only apply hide/show on mobile
+      if (window.innerWidth < 768) {
+        if (currentScrollY > lastScrollY.current && currentScrollY > 30) {
+          // Scrolling down
+          setShowHeader(false);
+        } else if (currentScrollY < lastScrollY.current) {
+          // Scrolling up
+          setShowHeader(true);
+        }
+        lastScrollY.current = currentScrollY;
+      } else {
+        setShowHeader(true); // Always show on desktop
+      }
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -27,7 +45,8 @@ export default function Header() {
   return (
     <motion.header
       initial={{ y: -100 }}
-      animate={{ y: 0 }}
+      animate={{ y: showHeader ? 0 : '-110%' }}
+      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled ? 'py-2' : 'py-4'
       }`}
