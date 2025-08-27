@@ -1,0 +1,36 @@
+[
+  {
+    "slug": "building-modern-web-apps",
+    "title": "Building Modern Web Applications with Next.js and TypeScript",
+    "excerpt": "Explore the power of Next.js 14 and TypeScript for creating scalable, performant web applications with modern development practices.",
+    "date": "2024-01-15",
+    "readTime": "8 min read",
+    "tags": [
+      "Next.js",
+      "TypeScript",
+      "Web Development",
+      "Performance"
+    ],
+    "featured": true,
+    "image": "https://images.pexels.com/photos/11035471/pexels-photo-11035471.jpeg",
+    "author": "Larry",
+    "searchContent": "Building Modern Web Applications with Next.js and TypeScript Explore the power of Next.js 14 and TypeScript for creating scalable, performant web applications with modern development practices. Next.js TypeScript Web Development Performance"
+  },
+  {
+    "slug": "mastering-css-animations",
+    "title": "Mastering CSS Animations and Transitions",
+    "excerpt": "Learn how to create smooth, performant animations that enhance user experience without compromising accessibility.",
+    "date": "2024-01-10",
+    "readTime": "6 min read",
+    "tags": [
+      "CSS",
+      "Animations",
+      "UX Design",
+      "Performance"
+    ],
+    "featured": false,
+    "image": "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg",
+    "author": "Larry",
+    "searchContent": "Mastering CSS Animations and Transitions Learn how to create smooth, performant animations that enhance user experience without compromising accessibility. CSS Animations UX Design Performance"
+  }
+]
