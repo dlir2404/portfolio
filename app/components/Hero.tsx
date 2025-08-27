@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
-import { ChevronDown, Github, Linkedin, Twitter, Code, Sparkles, Zap, Rocket } from 'lucide-react';
+import { ChevronDown, Github, Linkedin, Code, Sparkles, Zap, Rocket, Facebook } from 'lucide-react';
 import * as THREE from 'three';
+import Link from 'next/link';
 
 export default function Hero() {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -387,9 +388,9 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 1.2 }}
         >
           {[
-            { Icon: Github, href: 'https://github.com', label: 'GitHub' },
-            { Icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-            { Icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
+            { Icon: Github, href: 'https://github.com/dlir2404', label: 'GitHub' },
+            { Icon: Linkedin, href: 'https://www.linkedin.com/in/linh-%C4%91%C3%ACnh-128b7630a/', label: 'LinkedIn' },
+            { Icon: Facebook, href: 'https://www.facebook.com/Dlir24', label: 'Facebook' },
           ].map(({ Icon, href, label }, index) => (
             <motion.a
               key={label}
@@ -424,7 +425,9 @@ export default function Hero() {
             transition={{ duration: 2, repeat: Infinity }}
             className="text-white/50 hover:text-white/80 cursor-pointer transition-colors duration-300"
           >
-            <ChevronDown size={32} />
+            <Link href="#about">
+              <ChevronDown size={32} />
+            </Link>
           </motion.div>
         </motion.div>
       </div>

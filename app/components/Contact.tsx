@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Mail, MapPin, Phone, Github, Linkedin, Twitter, MessageCircle } from 'lucide-react';
+import { Send, Mail, MapPin, Phone, Github, Linkedin, Facebook, MessageCircle } from 'lucide-react';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -34,27 +34,27 @@ export default function Contact() {
     {
       icon: Mail,
       label: 'Email',
-      value: 'hello@larry.is-a.dev',
-      href: 'mailto:hello@larry.is-a.dev'
+      value: 'dinhlinh.work24@gmail.com',
+      href: 'mailto:dinhlinh.work24@gmail.com'
     },
     {
       icon: Phone,
       label: 'Phone',
-      value: '+1 (555) 123-4567',
-      href: 'tel:+15551234567'
+      value: '+84 966103320',
+      href: 'tel:+84966103320'
     },
     {
       icon: MapPin,
       label: 'Location',
-      value: 'Digital Nomad',
+      value: 'Dong Da, Hanoi',
       href: '#'
     }
   ];
 
   const socialLinks = [
-    { icon: Github, href: 'https://github.com', label: 'GitHub' },
-    { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
+    { icon: Github, href: 'https://github.com/dlir2404', label: 'GitHub' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/linh-%C4%91%C3%ACnh-128b7630a/', label: 'LinkedIn' },
+    { icon: Facebook, href: 'https://www.facebook.com/Dlir24', label: 'Facebook' },
   ];
 
   return (

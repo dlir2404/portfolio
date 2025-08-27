@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Heart, Github, Linkedin, Twitter, Mail, ArrowUp } from 'lucide-react';
+import { Heart, Github, Linkedin, Facebook, Mail, ArrowUp } from 'lucide-react';
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -19,10 +19,10 @@ export default function Footer() {
   ];
 
   const socialLinks = [
-    { icon: Github, href: 'https://github.com', label: 'GitHub' },
-    { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
-    { icon: Mail, href: 'mailto:hello@larry.is-a.dev', label: 'Email' },
+    { icon: Github, href: 'https://github.com/dlir2404', label: 'GitHub' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/linh-%C4%91%C3%ACnh-128b7630a/', label: 'LinkedIn' },
+    { icon: Facebook, href: 'https://www.facebook.com/Dlir24', label: 'Facebook' },
+    { icon: Mail, href: 'mailto:dinhlinh.work24@gmail.com', label: 'Email' },
   ];
 
   return (
@@ -145,7 +145,7 @@ export default function Footer() {
                 whileHover={{ scale: 1.02, color: '#fff' }}
                 className="transition-colors duration-300"
               >
-                hello@larry.is-a.dev
+                dinhlinh.work24@gmail.com
               </motion.p>
               <motion.p
                 whileHover={{ scale: 1.02, color: '#fff' }}
