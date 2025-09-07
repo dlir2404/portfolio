@@ -1,23 +1,83 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Code, Database, Globe, Smartphone, Zap, Users } from 'lucide-react';
+import { Code, Database, Globe, Smartphone, Zap, Cloud, Server } from 'lucide-react';
+
+const skills = [
+  { 
+    name: 'Frontend', 
+    icon: Globe, 
+    color: 'from-blue-500 to-cyan-500', 
+    skills: [
+      'React',
+      'Next.js', 
+      'Redux',
+      'Tailwind CSS',
+      'HTML/CSS',
+      'jQuery',
+      'HTML Canvas',
+    ]
+  },
+  { 
+    name: 'Backend', 
+    icon: Server, 
+    color: 'from-violet-500 to-purple-500', 
+    skills: [
+      'Nest.js',
+      'Express',
+      'Spring Boot',
+      'Socket.io',
+      'AI Agents',
+      'RabbitMQ',
+      'Redis'
+    ]
+  },
+  { 
+    name: 'Database', 
+    icon: Database, 
+    color: 'from-emerald-500 to-green-500', 
+    skills: [
+      'PostgreSQL',
+      'MongoDB', 
+      'MySQL',
+      'Clickhouse',
+      'Elasticsearch',
+      'Solr'
+    ]
+  },
+  { 
+    name: 'DevOps & Cloud', 
+    icon: Cloud, 
+    color: 'from-orange-500 to-red-500', 
+    skills: [
+      'Docker',
+      'Kubernetes',
+      'CI/CD',
+      'Git',
+      'Linux',
+      'Automation'
+    ]
+  },
+  { 
+    name: 'Mobile', 
+    icon: Smartphone, 
+    color: 'from-pink-500 to-rose-500', 
+    skills: [
+      'Flutter',
+      'Android (Kotlin)',
+      'React Native'
+    ]
+  }
+];
+
+const stats = [
+  { number: '2.5+', label: 'Years Experience' },
+  { number: '20+', label: 'Projects Completed' },
+  { number: '15+', label: 'Technologies Mastered' },
+  { number: '24/7', label: 'Development Passion' }, 
+];
 
 export default function About() {
-  const skills = [
-    { name: 'Frontend', icon: Globe, color: 'from-blue-500 to-cyan-500', skills: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS'] },
-    { name: 'Backend', icon: Database, color: 'from-purple-500 to-pink-500', skills: ['Node.js', 'Python', 'PostgreSQL', 'MongoDB'] },
-    { name: 'Mobile', icon: Smartphone, color: 'from-green-500 to-teal-500', skills: ['React Native', 'Flutter', 'iOS', 'Android'] },
-    { name: 'DevOps', icon: Zap, color: 'from-orange-500 to-red-500', skills: ['Docker', 'AWS', 'CI/CD', 'Kubernetes'] },
-  ];
-
-  const stats = [
-    { number: '3+', label: 'Years Experience' },
-    { number: '50+', label: 'Projects Completed' },
-    { number: '15+', label: 'Technologies Mastered' },
-    { number: '100%', label: 'Client Satisfaction' },
-  ];
-
   return (
     <section id="about" className="py-20 px-4 relative">
       <div className="container mx-auto max-w-7xl">
@@ -68,7 +128,7 @@ export default function About() {
                 whileInView={{ opacity: [0.8, 1, 0.8] }}
                 transition={{ duration: 3, repeat: Infinity }}
               >
-                I'm a passionate full-stack developer with over 3 years of experience building modern web applications. 
+                I'm a passionate full-stack developer with over 2.5 years of experience building modern web applications. 
                 My journey started with curiosity about how things work on the internet, and it has evolved into a 
                 deep love for creating digital experiences that solve real problems.
               </motion.p>
@@ -78,9 +138,9 @@ export default function About() {
                 whileInView={{ opacity: [0.8, 1, 0.8] }}
                 transition={{ duration: 3, repeat: Infinity, delay: 1 }}
               >
-                I specialize in React, Next.js, and Node.js, but I'm always excited to learn new technologies 
-                and tackle challenging problems. When I'm not coding, you'll find me exploring the latest tech trends, 
-                contributing to open source projects, or sharing knowledge with the developer community.
+                I specialize in Nest.js and Next.js, but I'm always excited to learn new technologies 
+                and tackle challenging problems. When I'm not coding, you'll find me working on personal projects, 
+                exploring the latest tech trends, or learning from tech blogs and documentation.
               </motion.p>
 
               <motion.div
@@ -89,7 +149,7 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
-                {['Problem Solver', 'Team Player', 'Continuous Learner', 'Open Source Contributor'].map((trait, index) => (
+                {['Problem Solver', 'Team Player', 'Continuous Learner', 'Tech Enthusiast'].map((trait, index) => (
                   <motion.span
                     key={trait}
                     className="px-4 py-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-white/10 rounded-full text-sm font-medium text-white"
@@ -113,42 +173,46 @@ export default function About() {
             viewport={{ once: true }}
             className="grid grid-cols-2 gap-6"
           >
-            {skills.map((skill, index) => {
-              const Icon = skill.icon;
-              return (
-                <motion.div
-                  key={skill.name}
-                  className="group p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl hover:bg-white/10 transition-all duration-300"
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
+              {skills.map((skill, index) => {
+                const Icon = skill.icon;
+                return (
                   <motion.div
-                    className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${skill.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.6 }}
+                    key={skill.name}
+                    className="group p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl hover:bg-white/10 transition-all duration-300 flex flex-col"
+                    whileHover={{ scale: 1.02, y: -3 }}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.08 }}
+                    viewport={{ once: true }}
                   >
-                    <Icon className="text-white" size={24} />
-                  </motion.div>
-                  <h3 className="text-lg font-semibold text-white mb-3">{skill.name}</h3>
-                  <div className="space-y-2">
-                    {skill.skills.map((tech, techIndex) => (
+                    <div className="flex items-center mb-4">
                       <motion.div
-                        key={tech}
-                        className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300"
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.4, delay: (index * 0.1) + (techIndex * 0.05) }}
+                        className={`w-12 h-12 rounded-xl bg-gradient-to-br ${skill.color} flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300`}
+                        whileHover={{ rotate: 360 }}
+                        transition={{ duration: 0.6 }}
                       >
-                        {tech}
+                        <Icon className="text-white" size={24} />
                       </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
-              );
-            })}
+                      <h3 className="text-lg font-semibold text-white">{skill.name}</h3>
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-2">
+                      {skill.skills.map((tech, techIndex) => (
+                        <motion.div
+                          key={tech}
+                          className="text-xs text-gray-300 bg-white/5 group-hover:bg-white/10 px-3 py-1.5 rounded-full border border-white/10"
+                          initial={{ opacity: 0, y: 10 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3, delay: (index * 0.08) + (techIndex * 0.04) }}
+                          whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.15)' }}
+                        >
+                          {tech}
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
+                );
+              })}
           </motion.div>
         </div>
 
