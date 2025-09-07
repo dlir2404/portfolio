@@ -220,6 +220,7 @@ export default function Hero() {
 
       {/* Main Content */}
       <div className="relative z-30 text-center px-4 max-w-6xl mx-auto">
+        <div className='md:h-28 2xl:hidden'></div>
         {/* Greeting */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -244,7 +245,7 @@ export default function Hero() {
 
         {/* Main Heading */}
         <motion.h1
-          className="text-4xl md:text-6xl lg:text-8xl font-bold mb-6 leading-tight"
+          className="text-4xl md:text-6xl lg:text-8xl font-bold mb-0 2xl:mb-6 leading-tight"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2 }}
@@ -278,7 +279,7 @@ export default function Hero() {
 
         {/* Typewriter Effect */}
         <motion.div
-          className="h-16 md:h-20 mb-8 flex items-center justify-center"
+          className="h-16 md:h-20 mb-0 2xl:mb-8 flex items-center justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.5 }}
@@ -306,7 +307,7 @@ export default function Hero() {
 
         {/* Description */}
         <motion.p
-          className="text-lg md:text-xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed"
+          className="text-lg md:text-xl text-gray-400 mb-8 md:mb-4 2xl:mb-12 max-w-3xl mx-auto leading-relaxed"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
@@ -334,7 +335,7 @@ export default function Hero() {
 
         {/* CTA Buttons */}
         <motion.div
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 md:mb-4 2xl:mb-16"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1 }}
@@ -397,7 +398,7 @@ export default function Hero() {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full text-gray-400 hover:text-white hover:border-white/30 transition-all duration-300 group"
+              className="p-4 md:p-2 2xl:p-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full text-gray-400 hover:text-white hover:border-white/30 transition-all duration-300 group"
               whileHover={{ 
                 scale: 1.1, 
                 boxShadow: '0 0 30px rgba(147, 51, 234, 0.3)',
