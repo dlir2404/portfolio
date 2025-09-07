@@ -5,11 +5,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Calendar, Clock, ArrowRight, BookOpen, Tag } from 'lucide-react';
 import Fuse from 'fuse.js';
 import Link from 'next/link';
+import { useSearch } from '@/hooks/useSearch';
 
 interface BlogPost {
   slug: string;
   title: string;
-  excerpt: string;
+  summary: string;
   date: string;
   readTime: string;
   tags: string[];
@@ -18,96 +19,17 @@ interface BlogPost {
 }
 
 export default function Blog() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
-  const [selectedTag, setSelectedTag] = useState<string>('all');
+  const [selectedTag, setSelectedTag] = useState<string>('All');
+  const {
+    query,
+    results,
+    handleSearchChange,
+  } = useSearch({ maxResults: 20, threshold: 0.4 });
 
-  // Sample blog posts data (in real app, this would come from your blog system)
-  const blogPosts: BlogPost[] = [
-    {
-      slug: 'building-modern-web-apps',
-      title: 'Building Modern Web Applications with Next.js and TypeScript',
-      excerpt: 'Explore the power of Next.js 14 and TypeScript for creating scalable, performant web applications with modern development practices.',
-      date: '2024-01-15',
-      readTime: '8 min read',
-      tags: ['Next.js', 'TypeScript', 'Web Development', 'Performance'],
-      featured: true,
-      image: 'https://images.pexels.com/photos/11035471/pexels-photo-11035471.jpeg'
-    },
-    {
-      slug: 'mastering-css-animations',
-      title: 'Mastering CSS Animations and Transitions',
-      excerpt: 'Learn how to create smooth, performant animations that enhance user experience without compromising accessibility.',
-      date: '2024-01-10',
-      readTime: '6 min read',
-      tags: ['CSS', 'Animations', 'UX Design', 'Performance'],
-      featured: false,
-      image: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg'
-    },
-    {
-      slug: 'react-state-management',
-      title: 'React State Management: From useState to Zustand',
-      excerpt: 'A comprehensive guide to managing state in React applications, from basic hooks to advanced state management libraries.',
-      date: '2024-01-05',
-      readTime: '12 min read',
-      tags: ['React', 'State Management', 'JavaScript', 'Architecture'],
-      featured: true,
-      image: 'https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg'
-    },
-    {
-      slug: 'serverless-deployment',
-      title: 'Serverless Deployment Strategies for Modern Apps',
-      excerpt: 'Discover the best practices for deploying serverless applications using Vercel, Netlify, and AWS.',
-      date: '2023-12-28',
-      readTime: '10 min read',
-      tags: ['Serverless', 'Deployment', 'DevOps', 'Cloud'],
-      featured: false,
-      image: 'https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg'
-    },
-    {
-      slug: 'api-design-principles',
-      title: 'RESTful API Design Principles and Best Practices',
-      excerpt: 'Learn how to design clean, maintainable, and scalable REST APIs that follow industry standards.',
-      date: '2023-12-20',
-      readTime: '9 min read',
-      tags: ['API Design', 'Backend', 'REST', 'Architecture'],
-      featured: false,
-      image: 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg'
-    }
-  ];
+  const allTags = ['All', 'JavaScript', 'React', 'Next.js', 'CSS', 'Web Development', 'AI', 'Q&A'];
 
-  const fuse = new Fuse(blogPosts, {
-    keys: ['title', 'excerpt', 'tags'],
-    threshold: 0.3,
-  });
-
-  const allTags = ['all', ...Array.from(new Set(blogPosts.flatMap(post => post.tags)))];
-
-  useEffect(() => {
-    setPosts(blogPosts);
-    setFilteredPosts(blogPosts);
-  }, []);
-
-  useEffect(() => {
-    let filtered = posts;
-
-    // Filter by search term
-    if (searchTerm) {
-      const results = fuse.search(searchTerm);
-      filtered = results.map(result => result.item);
-    }
-
-    // Filter by tag
-    if (selectedTag !== 'all') {
-      filtered = filtered.filter(post => post.tags.includes(selectedTag));
-    }
-
-    setFilteredPosts(filtered);
-  }, [searchTerm, selectedTag, posts]);
-
-  const featuredPosts = filteredPosts.filter(post => post.featured);
-  const regularPosts = filteredPosts.filter(post => !post.featured);
+  const featuredPosts = results.filter(post => post.featured);
+  const regularPosts = results.filter(post => !post.featured);
 
   return (
     <section id="blog" className="py-20 px-4 relative">
@@ -163,8 +85,8 @@ export default function Blog() {
               <input
                 type="text"
                 placeholder="Search articles..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                value={query}
+                onChange={(e) => handleSearchChange(e.target.value)}
                 className="w-full pl-12 pr-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-white/30 transition-colors duration-300"
               />
             </motion.div>
@@ -175,7 +97,7 @@ export default function Blog() {
             {allTags.map((tag, index) => (
               <motion.button
                 key={tag}
-                onClick={() => setSelectedTag(tag)}
+                onClick={() => handleSearchChange(tag)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                   selectedTag === tag
                     ? 'bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg'
@@ -188,7 +110,7 @@ export default function Blog() {
                 transition={{ duration: 0.3, delay: index * 0.05 }}
               >
                 <span className="flex items-center gap-1">
-                  {tag !== 'all' && <Tag size={14} />}
+                  {tag !== 'All' && <Tag size={14} />}
                   {tag}
                 </span>
               </motion.button>
@@ -198,7 +120,7 @@ export default function Blog() {
 
         <AnimatePresence mode="wait">
           <motion.div
-            key={`${searchTerm}-${selectedTag}`}
+            key={`${query}-${selectedTag}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -265,7 +187,7 @@ export default function Blog() {
                           animate={{ opacity: [0.8, 1, 0.8] }}
                           transition={{ duration: 3, repeat: Infinity, delay: index * 0.2 }}
                         >
-                          {post.excerpt}
+                          {post.summary}
                         </motion.p>
                         <div className="flex flex-wrap gap-2 mb-4">
                           {post.tags.slice(0, 3).map((tag, tagIndex) => (
@@ -355,7 +277,7 @@ export default function Blog() {
                           animate={{ opacity: [0.8, 1, 0.8] }}
                           transition={{ duration: 3, repeat: Infinity, delay: index * 0.2 }}
                         >
-                          {post.excerpt}
+                          {post.summary}
                         </motion.p>
                         <div className="flex flex-wrap gap-2 mb-4">
                           {post.tags.slice(0, 2).map((tag) => (
@@ -390,7 +312,7 @@ export default function Blog() {
             )}
 
             {/* No Results */}
-            {filteredPosts.length === 0 && (
+            {results.length === 0 && (
               <motion.div
                 className="text-center py-16"
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -408,8 +330,8 @@ export default function Blog() {
                 <p className="text-gray-400 mb-6">Try adjusting your search terms or filters</p>
                 <motion.button
                   onClick={() => {
-                    setSearchTerm('');
-                    setSelectedTag('all');
+                    handleSearchChange('');
+                    setSelectedTag('All');
                   }}
                   className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full font-semibold text-white hover:from-blue-500 hover:to-purple-500 transition-all duration-300"
                   whileHover={{ scale: 1.05 }}

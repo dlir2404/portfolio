@@ -1,0 +1,173 @@
+---
+title: "Container MySQL server của tôi đã bị tấn công, toàn bộ dữ liệu bị mất sạch"
+publishedAt: "2025-05-14"
+image: "/images/blogs/mysql-lost-data/img0.png"
+summary: "Câu chuyện đau lòng về việc server MySQL của tôi bị tấn công ransomware và những bài học đắt giá từ sự cố này."
+tags: ["Security"]
+---
+
+## Chuyện này đã xảy ra một vài lần trước đây, nhưng tới tận hôm nay tôi mới tìm được nguyên nhân "có vẻ" như là thực sự
+
+Vào một ngày đẹp trời, tôi đang chuẩn bị tiếp tục code đồ án trên điện thoại thì bùm! Tất cả API đều die sạch, không thể truy cập được gì.
+
+Tôi nhanh chóng SSH vào server, check logs của backend và thấy thông báo lạ thế này:
+
+<SmartImage
+  src="/images/blogs/mysql-lost-data/img1.png"
+  alt="Backend log thông báo lỗi kết nối database"
+  aspectRatio="741/179"
+  radius="l"
+  isLoading={false}
+  objectFit="cover"
+/>
+
+Tôi kiểu "????". Làm thế nào mà database lại biến mất được nhỉ? Rõ ràng trong docker-compose.yml tôi đã bind mount volume đàng hoàng mà:
+
+```yml
+services:
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_DATABASE: intel-money
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    container_name: mysql-db
+    ...
+
+volumes:
+  db_data:
+```
+
+Chưa tin vào mắt mình, tôi tiếp tục truy cập vào container để kiểm tra trực tiếp:
+
+`docker exec -it mysql-db mysql -u root -p`
+
+Sau đó liệt kê danh sách database:
+
+`show databases;`
+
+Và đây là lúc tôi chú ý tới một database lạ hoắc: `RECOVER_YOUR_DATA`:
+
+```terminal
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| RECOVER_YOUR_DATA  |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.01 sec)
+```
+
+Thực ra đây không phải lần đầu tôi gặp phải tình trạng này. Trước đây cũng đã xảy ra vài lần, cứ khoảng 3-4 ngày là database lại "bay màu" một lần. Nhưng lúc đó tôi chỉ restore lại data mà không thực sự tìm hiểu được chính xác nguyên nhân gốc gác. Lần này thì tôi đã quá bực mình rồi!
+
+Tôi quyết định kiểm tra kỹ database lạ này xem có gì. Tiếp tục truy vấn:
+
+```terminal
+mysql> use RECOVER_YOUR_DATA;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-----------------------------+
+| Tables_in_RECOVER_YOUR_DATA |
++-----------------------------+
+| RECOVER_YOUR_DATA           |
++-----------------------------+
+1 row in set (0.00 sec)
+```
+
+Và khi kiểm tra nội dung của table này thì... Bùmmmmm! Một thông điệp "ngọt ngào" hiện ra:
+
+<SmartImage 
+    src="/images/blogs/mysql-lost-data/img2.png" 
+    alt="Ransomware message yêu cầu tiền chuộc" 
+    aspectRatio="1070/280" 
+    radius="l" 
+    isLoading={false} 
+    objectFit="cover" 
+/>
+
+Đại loại là một vị hacker nào đó đã "tiện tay" xóa sạch database của tôi và để lại lời nhắn đòi Bitcoin để lấy lại dữ liệu. Đúng là cái tát trời giáng!
+
+May mắn thay, dữ liệu bị mất chỉ là dữ liệu test, không có gì quan trọng. Nhưng cái khó chịu là cứ vài ngày lại mất data một lần làm mình phát điên :))))). Và tôi cũng cần phải fix cái lỗ hổng này thật sớm trước khi app go live để tránh mất dữ liệu thật.
+
+## Phân tích nguyên nhân và cách khắc phục
+
+Sau khi ngồi "đập đầu vào tường" một hồi, tôi đã xác định được hai nguyên nhân chính:
+
+1. **Expose port không cần thiết**: Tôi đã mở port 3306 của MySQL ra internet, điều này hoàn toàn không cần thiết vì app backend của tôi đã chạy trong cùng một network với database. Expose port kiểu này chẳng khác nào mở toang cửa mời kẻ trộm vào nhà.
+
+2. **Mật khẩu quá đơn giản**: `12345678`? Seriously? Đúng kiểu mật khẩu mà một đứa trẻ 5 tuổi cũng đoán được. Với các bot tự động quét internet tìm kiếm các dịch vụ MySQL đang mở, việc brute-force mật khẩu đơn giản này chỉ là chuyện vài giây.
+
+## Giải pháp khắc phục
+
+Sau khi xác định được nguyên nhân, việc khắc phục trở nên khá đơn giản:
+
+### 1. Chỉnh sửa file docker-compose.yml, không cần expose port ra ngoài nữa, giao tiếp giữa backend và database chỉ cần dùng mạng nội bộ là đủ
+
+```yml
+services:
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_DATABASE: intel-money
+    volumes:
+      - db_data:/var/lib/mysql
+    # Không expose port ra ngoài nữa
+    # ports:
+    #  - "3306:3306"
+    container_name: mysql-db
+    networks:
+      - app-network
+    ...
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db_data:
+
+```
+
+### 2. Tạo một mật khẩu mới mạnh hơn
+
+### 3. Cài đặt và cấu hình backup tự động
+Để phòng ngừa trường hợp xấu nhất, tôi đã thiết lập backup tự động mỗi ngày bằng cách thêm images sau vào docker compose:
+
+```yml
+mysql-backup:
+    image: fradelg/mysql-cron-backup
+    restart: always
+    environment:
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASS: M2V4ICj0j7IQ
+      MYSQL_DB: intel-money
+      CRON_TIME: "0 2 * * *"  # backup lúc 2h sáng mỗi ngày
+      MAX_BACKUPS: "7"
+      TZ: "Asia/Ho_Chi_Minh"
+    volumes:
+      - ./data/db-backups:/backup
+    depends_on:
+      - db
+```
+
+Sau khi áp dụng các biện pháp trên, server MySQL của tôi đã không còn bị tấn công nữa. Tôi có thể ngủ ngon mà không lo lắng sáng mai tỉnh dậy sẽ lại thấy thông báo "RECOVER_YOUR_DATA" :))))))
+
+Bài học rút ra từ câu chuyện đau lòng này:
+
+- Không bao giờ expose port database ra internet nếu không thực sự cần thiết
+- Luôn sử dụng mật khẩu mạnh (và khác nhau cho mỗi dịch vụ)

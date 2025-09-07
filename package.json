@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run generate-search && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-search": "npx tsx scripts/generate-blog-data.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

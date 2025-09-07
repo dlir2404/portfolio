@@ -2,12 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-const blogDirectory = path.join(process.cwd(), 'content/blog');
+const blogDirectory = path.join(process.cwd(), 'content/blogs');
 
 export interface BlogPost {
   slug: string;
   title: string;
-  excerpt: string;
+  summary: string;
   date: string;
   readTime: string;
   tags: string[];
@@ -20,7 +20,7 @@ export interface BlogPost {
 export interface BlogMetadata {
   slug: string;
   title: string;
-  excerpt: string;
+  summary: string;
   date: string;
   readTime: string;
   tags: string[];
@@ -78,17 +78,6 @@ export function getBlogMetadata(): BlogMetadata[] {
   return posts.map(({ content, ...metadata }) => metadata);
 }
 
-export function generateBlogSearchIndex(): void {
-  const posts = getAllBlogPosts();
-  const searchIndex = posts.map(({ content, ...post }) => ({
-    ...post,
-    searchContent: `${post.title} ${post.excerpt} ${post.tags.join(' ')}`,
-  }));
-
-  const outputPath = path.join(process.cwd(), 'public/blog-search-index.json');
-  fs.writeFileSync(outputPath, JSON.stringify(searchIndex, null, 2));
-}
-
 export function getFeaturedBlogPosts(): BlogPost[] {
   const posts = getAllBlogPosts();
   return posts.filter((post) => post.featured);
@@ -106,13 +95,4 @@ export function getAllBlogTags(): string[] {
     post.tags.forEach((tag) => tags.add(tag));
   });
   return Array.from(tags).sort();
-}
-
-// Generate search index on build
-if (process.env.NODE_ENV === 'production') {
-  try {
-    generateBlogSearchIndex();
-  } catch (error) {
-    console.warn('Failed to generate blog search index:', error);
-  }
 }

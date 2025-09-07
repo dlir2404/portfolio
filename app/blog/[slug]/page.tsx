@@ -27,10 +27,10 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
   return {
     title: `${post.title} | Larry Blog`,
-    description: post.excerpt,
+    description: post.summary,
     openGraph: {
       title: post.title,
-      description: post.excerpt,
+      description: post.summary,
       type: 'article',
       publishedTime: post.date,
       authors: [post.author],
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     twitter: {
       card: 'summary_large_image',
       title: post.title,
-      description: post.excerpt,
+      description: post.summary,
       images: [post.image],
     },
   };
