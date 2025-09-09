@@ -5,20 +5,18 @@ image: "/images/blogs/mysql-lost-data/img0.png"
 summary: "Câu chuyện đau lòng về việc server MySQL của tôi bị tấn công ransomware và những bài học đắt giá từ sự cố này."
 tags: ["Security"]
 ---
-
 ## Chuyện này đã xảy ra một vài lần trước đây, nhưng tới tận hôm nay tôi mới tìm được nguyên nhân "có vẻ" như là thực sự
 
 Vào một ngày đẹp trời, tôi đang chuẩn bị tiếp tục code đồ án trên điện thoại thì bùm! Tất cả API đều die sạch, không thể truy cập được gì.
 
 Tôi nhanh chóng SSH vào server, check logs của backend và thấy thông báo lạ thế này:
 
-<SmartImage
+<Image
   src="/images/blogs/mysql-lost-data/img1.png"
   alt="Backend log thông báo lỗi kết nối database"
-  aspectRatio="741/179"
-  radius="l"
-  isLoading={false}
-  objectFit="cover"
+  layout="responsive"
+  width={741}
+  height={179}
 />
 
 Tôi kiểu "????". Làm thế nào mà database lại biến mất được nhỉ? Rõ ràng trong docker-compose.yml tôi đã bind mount volume đàng hoàng mà:
@@ -87,13 +85,12 @@ mysql> show tables;
 
 Và khi kiểm tra nội dung của table này thì... Bùmmmmm! Một thông điệp "ngọt ngào" hiện ra:
 
-<SmartImage 
-    src="/images/blogs/mysql-lost-data/img2.png" 
-    alt="Ransomware message yêu cầu tiền chuộc" 
-    aspectRatio="1070/280" 
-    radius="l" 
-    isLoading={false} 
-    objectFit="cover" 
+<Image
+  src="/images/blogs/mysql-lost-data/img2.png"
+  alt="Ransomware message yêu cầu tiền chuộc"
+  layout="responsive"
+  width={1070}
+  height={280}
 />
 
 Đại loại là một vị hacker nào đó đã "tiện tay" xóa sạch database của tôi và để lại lời nhắn đòi Bitcoin để lấy lại dữ liệu. Đúng là cái tát trời giáng!
