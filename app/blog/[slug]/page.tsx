@@ -4,7 +4,7 @@ import { getBlogPostBySlug, getAllBlogSlugs } from '@/lib/blog';
 import { Calendar, Clock, User, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Metadata } from 'next';
-import Image from 'next/image';
+import { useMDXComponents } from '@/app/mdx-component';
 
 interface BlogPostPageProps {
   params: {
@@ -125,7 +125,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Article Content */}
         <article className="prose prose-invert prose-lg max-w-none">
           <div className="text-gray-300 leading-relaxed">
-            <MDXRemote source={post.content} components={{ Image }} />
+            <MDXRemote source={post.content} components={useMDXComponents()} />
           </div>
         </article>
 

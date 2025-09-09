@@ -17,7 +17,13 @@ Có bao giờ bạn thắc mắc tại sao AI như ChatGPT bỗng nhiên biết 
 
 Rồi **Model Context Protocol (MCP)** xuất hiện như một "siêu anh hùng" giải quyết vấn đề này! 🦸‍♂️
 
-![MCP Architecture Overview](/images/blogs/mcp-explained/mcp-architecture.png)
+<Image
+  src="/images/blogs/mcp-explained/mcp-architecture.png"
+  alt="MCP Architecture Overview"
+  layout="responsive"
+  width={1536}
+  height={1024}
+/>
 
 ## MCP = Tool Calling "ăn steroid"
 
@@ -42,7 +48,13 @@ const availableTools = await discoverAllTools(); // ← Dynamic!
 
 ## 🏗️ Kiến trúc MCP - Đơn giản mà hiệu quả
 
-![MCP Architecture Flow](/images/blogs/mcp-explained/mcp-architecture-flow.png)
+<Image
+  src="/images/blogs/mcp-explained/mcp-architecture-flow.png"
+  alt="MCP Architecture Flow"
+  layout="responsive"
+  width={1536}
+  height={1024}
+/>
 
 **MCP Host**: AI application (như Claude, VS Code)
 **MCP Server**: Chương trình cung cấp tools/resources
@@ -127,7 +139,13 @@ Remember to explain each algebraic manipulation clearly.
 - **Context-rich**: Server có thể build prompts với domain knowledge sâu
 - **Consistent**: Standardized prompting approach across tools
 
-![MCP Prompts Flow](/images/blogs/mcp-explained/mcp-prompts-flow.png)
+<Image
+  src="/images/blogs/mcp-explained/mcp-prompts-flow.png"
+  alt="MCP Prompts Flow"
+  layout="responsive"
+  width={512}
+  height={768}
+/>
 
 ## 🚀 MCP hoạt động như thế nào?
 
