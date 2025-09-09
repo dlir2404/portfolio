@@ -171,7 +171,7 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="grid grid-cols-2 gap-6"
+            className="grid lg:grid-cols-2 gap-6"
           >
               {skills.map((skill, index) => {
                 const Icon = skill.icon;
