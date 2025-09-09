@@ -8,7 +8,7 @@ export interface BlogPost {
   slug: string;
   title: string;
   summary: string;
-  date: string;
+  publishedAt: string;
   readTime: string;
   tags: string[];
   featured: boolean;
@@ -21,7 +21,7 @@ export interface BlogMetadata {
   slug: string;
   title: string;
   summary: string;
-  date: string;
+  publishedAt: string;
   readTime: string;
   tags: string[];
   featured: boolean;
@@ -47,7 +47,7 @@ export function getAllBlogPosts(): BlogPost[] {
     });
 
   // Sort posts by date
-  return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1));
+  return allPostsData.sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
 }
 
 export function getBlogPostBySlug(slug: string): BlogPost | null {

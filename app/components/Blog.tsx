@@ -167,7 +167,7 @@ export default function Blog() {
                         <div className="flex items-center gap-4 text-sm text-gray-400 mb-3">
                           <span className="flex items-center gap-1">
                             <Calendar size={14} />
-                            {new Date(post.date).toLocaleDateString()}
+                            {new Date(post.publishedAt).toLocaleDateString()}
                           </span>
                           <span className="flex items-center gap-1">
                             <Clock size={14} />
@@ -257,7 +257,7 @@ export default function Blog() {
                         <div className="flex items-center gap-4 text-sm text-gray-400 mb-3">
                           <span className="flex items-center gap-1">
                             <Calendar size={14} />
-                            {new Date(post.date).toLocaleDateString()}
+                            {new Date(post.publishedAt).toLocaleDateString()}
                           </span>
                           <span className="flex items-center gap-1">
                             <Clock size={14} />
