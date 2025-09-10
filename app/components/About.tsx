@@ -25,11 +25,12 @@ const skills = [
     skills: [
       'Nest.js',
       'Express',
+      'MCP',
       'Spring Boot',
       'Socket.io',
       'AI Agents',
       'RabbitMQ',
-      'Redis'
+      'Redis',
     ]
   },
   { 
