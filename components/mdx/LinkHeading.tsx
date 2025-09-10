@@ -2,6 +2,7 @@
 
 import { slugify } from "@/lib/utils";
 import { Button } from "../ui/button";
+import { toast } from "sonner"
 
 interface LinkHeadingProps {
     children: React.ReactNode
@@ -43,17 +44,17 @@ export default function LinkHeading({ children, as }: LinkHeadingProps) {
         const url = `${window.location.origin}${window.location.pathname}#${id}`;
         navigator.clipboard.writeText(url).then(
             () => {
-                alert("Link copied to clipboard!");
+                toast.success("Link copied to clipboard!");
             },
             () => {
-                alert("Failed to copy link.");
+                toast.error("Failed to copy link.");
             }
         );
     };
 
     return (
-        <div className="group">
-            <Component className={`${classMap[Component]} inline`} id={id}>
+        <div className={`flex items-center group ${classMap[Component]}`}>
+            <Component id={id}>
                 {children}
             </Component>
             <Button
