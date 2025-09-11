@@ -1,33 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { BlogMetadata, BlogPost } from '@/types';
 
 const blogDirectory = path.join(process.cwd(), 'content/blogs');
-
-export interface BlogPost {
-  slug: string;
-  title: string;
-  summary: string;
-  publishedAt: string;
-  readTime: string;
-  tags: string[];
-  featured: boolean;
-  image: string;
-  author: string;
-  content: string;
-}
-
-export interface BlogMetadata {
-  slug: string;
-  title: string;
-  summary: string;
-  publishedAt: string;
-  readTime: string;
-  tags: string[];
-  featured: boolean;
-  image: string;
-  author: string;
-}
 
 export function getAllBlogPosts(): BlogPost[] {
   const fileNames = fs.readdirSync(blogDirectory);

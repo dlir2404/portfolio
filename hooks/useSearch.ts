@@ -1,6 +1,6 @@
-import { BlogPost } from "@/lib/blog";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Fuse from 'fuse.js';
+import { BlogPost } from "@/types";
 
 interface UseSearchOptions {
     maxResults?: number;
