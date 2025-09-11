@@ -5,15 +5,17 @@ import Projects from './components/Projects';
 import Blog from './components/Blog';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import { getAllProjects } from '@/lib/project';
 
-export default function Home() {
+export default async function Home() {
+  const projects = await getAllProjects();
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
       <Header />
       <main>
         <Hero />
         <About />
-        <Projects />
+        <Projects projects={projects}/>
         <Blog />
         <Contact />
       </main>

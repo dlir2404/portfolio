@@ -3,83 +3,20 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Github, ChevronRight } from 'lucide-react';
+import { Project } from '@/types';
+import Link from 'next/link';
 
-export default function Projects() {
+export default function Projects({
+  projects
+}: {
+  projects: Project[];
+}) {
   const [activeFilter, setActiveFilter] = useState('all');
 
   const filters = ['all', 'web', 'mobile', 'fullstack', 'opensource'];
 
-  const projects = [
-    {
-      id: 1,
-      title: 'E-Commerce Platform',
-      description: 'Modern e-commerce solution with advanced features like real-time inventory, payment processing, and admin dashboard.',
-      image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg',
-      category: 'fullstack',
-      tags: ['Next.js', 'TypeScript', 'Stripe', 'PostgreSQL'],
-      github: 'https://github.com',
-      live: 'https://demo.com',
-      featured: true,
-    },
-    {
-      id: 2,
-      title: 'Task Management App',
-      description: 'Collaborative task management tool with real-time updates, team collaboration features, and advanced analytics.',
-      image: 'https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg',
-      category: 'web',
-      tags: ['React', 'Socket.io', 'Node.js', 'MongoDB'],
-      github: 'https://github.com',
-      live: 'https://demo.com',
-      featured: false,
-    },
-    {
-      id: 3,
-      title: 'Weather Mobile App',
-      description: 'Beautiful weather app with location services, forecasts, and customizable widgets for iOS and Android.',
-      image: 'https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg',
-      category: 'mobile',
-      tags: ['React Native', 'Expo', 'Weather API'],
-      github: 'https://github.com',
-      live: 'https://demo.com',
-      featured: false,
-    },
-    {
-      id: 4,
-      title: 'Open Source UI Library',
-      description: 'Comprehensive React component library with TypeScript support, extensive documentation, and accessibility features.',
-      image: 'https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg',
-      category: 'opensource',
-      tags: ['React', 'TypeScript', 'Storybook', 'Jest'],
-      github: 'https://github.com',
-      live: 'https://demo.com',
-      featured: true,
-    },
-    {
-      id: 5,
-      title: 'AI Content Generator',
-      description: 'AI-powered content generation platform with various templates, collaboration tools, and export options.',
-      image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg',
-      category: 'fullstack',
-      tags: ['Next.js', 'OpenAI API', 'Prisma', 'Tailwind'],
-      github: 'https://github.com',
-      live: 'https://demo.com',
-      featured: false,
-    },
-    {
-      id: 6,
-      title: 'Social Media Dashboard',
-      description: 'Analytics dashboard for social media management with real-time data visualization and reporting features.',
-      image: 'https://images.pexels.com/photos/590020/pexels-photo-590020.jpeg',
-      category: 'web',
-      tags: ['Vue.js', 'D3.js', 'Express', 'Redis'],
-      github: 'https://github.com',
-      live: 'https://demo.com',
-      featured: false,
-    },
-  ];
-
-  const filteredProjects = activeFilter === 'all' 
-    ? projects 
+  const filteredProjects = activeFilter === 'all'
+    ? projects
     : projects.filter(project => project.category === activeFilter);
 
   return (
@@ -95,7 +32,7 @@ export default function Projects() {
         >
           <motion.h2
             className="text-4xl md:text-5xl font-bold mb-6"
-            whileInView={{ 
+            whileInView={{
               backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
             }}
             transition={{ duration: 3, repeat: Infinity }}
@@ -130,11 +67,10 @@ export default function Projects() {
             <motion.button
               key={filter}
               onClick={() => setActiveFilter(filter)}
-              className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeFilter === filter
-                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                  : 'bg-white/5 backdrop-blur-sm border border-white/10 text-gray-400 hover:text-white hover:border-white/20'
-              }`}
+              className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${activeFilter === filter
+                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                : 'bg-white/5 backdrop-blur-sm border border-white/10 text-gray-400 hover:text-white hover:border-white/20'
+                }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0, y: 20 }}
@@ -158,10 +94,9 @@ export default function Projects() {
           >
             {filteredProjects.map((project, index) => (
               <motion.article
-                key={project.id}
-                className={`group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-500 ${
-                  project.featured ? 'md:col-span-2 lg:col-span-2' : ''
-                }`}
+                key={index}
+                className={`group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-500 ${project.featured ? 'md:col-span-2 lg:col-span-2' : ''
+                  }`}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -189,14 +124,14 @@ export default function Projects() {
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   />
-                  
+
                   {/* Overlay Links */}
                   <motion.div
                     className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     initial={{ scale: 0.8 }}
                     whileHover={{ scale: 1 }}
                   >
-                    <motion.a
+                    {project.live && <motion.a
                       href={project.live}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -205,9 +140,9 @@ export default function Projects() {
                       whileTap={{ scale: 0.9 }}
                     >
                       <ExternalLink size={20} />
-                    </motion.a>
-                    <motion.a
-                      href={project.github}
+                    </motion.a>}
+                    {project.repo && <motion.a
+                      href={project.repo}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="p-3 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors duration-300"
@@ -215,30 +150,32 @@ export default function Projects() {
                       whileTap={{ scale: 0.9 }}
                     >
                       <Github size={20} />
-                    </motion.a>
+                    </motion.a>}
                   </motion.div>
                 </div>
 
                 {/* Project Content */}
                 <div className="p-6">
-                  <motion.h3
-                    className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors duration-300"
-                    whileHover={{ x: 5 }}
-                  >
-                    {project.title}
-                  </motion.h3>
-                  
+                  <Link href={`/project/${project.slug}`}>
+                    <motion.h3
+                      className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors duration-300"
+                      whileHover={{ x: 5 }}
+                    >
+                      {project.title}
+                    </motion.h3>
+                  </Link>
+
                   <motion.p
                     className="text-gray-400 mb-4 leading-relaxed"
                     animate={{ opacity: [0.8, 1, 0.8] }}
                     transition={{ duration: 3, repeat: Infinity, delay: index * 0.2 }}
                   >
-                    {project.description}
+                    {project.summary}
                   </motion.p>
 
                   {/* Tags */}
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map((tag, tagIndex) => (
+                    {project.tags?.map((tag, tagIndex) => (
                       <motion.span
                         key={tag}
                         className="px-3 py-1 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-white/10 rounded-full text-xs font-medium text-white"
@@ -253,19 +190,21 @@ export default function Projects() {
                   </div>
 
                   {/* Learn More Link */}
-                  <motion.div
-                    className="flex items-center text-blue-400 hover:text-blue-300 font-medium text-sm cursor-pointer group/link"
-                    whileHover={{ x: 5 }}
-                  >
-                    <span>View Project</span>
+                  <Link href={`/project/${project.slug}`}>
                     <motion.div
-                      className="ml-2"
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
+                      className="flex items-center text-blue-400 hover:text-blue-300 font-medium text-sm cursor-pointer group/link"
+                      whileHover={{ x: 5 }}
                     >
-                      <ChevronRight size={16} />
+                      <span>Read case study</span>
+                      <motion.div
+                        className="ml-2"
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      >
+                        <ChevronRight size={16} />
+                      </motion.div>
                     </motion.div>
-                  </motion.div>
+                  </Link>
                 </div>
               </motion.article>
             ))}
