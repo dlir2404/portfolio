@@ -77,7 +77,7 @@ export default function Experiences() {
                 >
                   {/* Timeline Node */}
                   <motion.div
-                    className={`absolute left-1/2 -translate-x-1/2 w-8 h-8 ${isCurrentJob
+                    className={`absolute top-1/2 left-0 md:left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 md:w-8 md:h-8 ${isCurrentJob
                       ? 'bg-gradient-to-br from-green-400 to-emerald-500 after:bg-green-500'
                       : 'bg-gradient-to-br from-emerald-400 to-blue-500 after:bg-blue-500'
                       } rounded-full border-4 border-gray-900 z-10 after:absolute after:inset-0 after:rounded-full after:blur-sm after:opacity-75 after:-z-10`}
@@ -95,7 +95,7 @@ export default function Experiences() {
 
                   {/* Experience Card */}
                   <motion.div
-                    className={`w-full md:w-5/12 ml-20 md:ml-0 group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-500 ${isEven ? 'md:mr-auto' : 'md:ml-auto'
+                    className={`w-(calc(100% - 32px)) md:w-5/12 ml-8 md:ml-0 group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-500 ${isEven ? 'md:mr-auto' : 'md:ml-auto'
                       } ${isCurrentJob ? 'ring-2 ring-green-500/30' : ''}`}
                     whileHover={{ y: -5, scale: 1.02 }}
                     initial={{ opacity: 0, y: 30 }}
@@ -121,7 +121,7 @@ export default function Experiences() {
                     <div className="flex items-start justify-between mb-6">
                       <div className="flex items-center gap-3">
                         <motion.div
-                          className={`w-12 h-12 rounded-xl ${isCurrentJob
+                          className={`min-w-[48px] w-12 h-12 rounded-xl ${isCurrentJob
                             ? 'bg-gradient-to-br from-green-500 to-emerald-500'
                             : 'bg-gradient-to-br from-emerald-500 to-blue-500'
                             } flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}
@@ -229,14 +229,14 @@ export default function Experiences() {
             viewport={{ once: true }}
           >
             <motion.div
-              className="absolute top-0 left-8 md:left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-full border-4 border-gray-900 z-10"
+              className="absolute top-0 left-0 md:left-1/2 transform -translate-x-1/2 md:-translate-y-1/2 w-8 h-8 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-full border-4 border-gray-900 z-10"
             >
               <div className="absolute inset-0 flex items-center justify-center">
                 <Star className="text-white" size={16} />
               </div>
             </motion.div>
             <motion.div
-              className="ml-20 md:ml-0 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 backdrop-blur-sm border border-emerald-500/30 rounded-2xl p-6 text-center"
+              className="ml-8 md:ml-0 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 backdrop-blur-sm border border-emerald-500/30 rounded-2xl p-6 text-center"
               whileHover={{ scale: 1.02 }}
             >
               <h3 className="text-lg font-bold text-emerald-400 mb-2">Career Start</h3>
