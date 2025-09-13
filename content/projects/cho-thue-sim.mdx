@@ -1,0 +1,103 @@
+---
+title: "Nền tảng cho thuê sim ảo tích hợp đa nhà cung cấp"
+summary: "Hệ thống cho thuê sim ảo tự động tích hợp 7 nhà cung cấp sim lớn trên thế giới, cung cấp giải pháp nhận SMS xác thực cho người dùng Việt Nam với giao diện tiếng Việt thân thiện."
+image: "/images/projects/cho-thue-sim/cover.png"
+publishedAt: "2023-09-15"
+live: "https://chothuesimcode.net/vi"
+repo: ""
+category: "Web"
+tags: ["Next.js", "NestJS", "Redis", "MongoDB", "API Integration"]
+featured: false
+teamSize: 1
+---
+
+## Overview
+
+Một nền tảng trung gian kết nối đến 7 nhà cung cấp sim ảo lớn trên thế giới, tổng hợp và cung cấp dịch vụ cho thuê sim nhận SMS với giao diện người dùng tiếng Việt. Hệ thống tự động hóa hoàn toàn quá trình thuê sim và nhận SMS, tích hợp thanh toán trực tuyến và quản lý tài khoản.
+
+## Key Features
+
+### Cho Người Dùng
+- **Đa dạng nguồn sim**: Tích hợp với 7 nhà cung cấp sim lớn:
+  - SMS-Man
+  - 5sim.net 
+  - VIOTP
+  - United SMS
+  - TextVerified
+  - PhoneBlur
+  - 2ndline.io
+- **Thanh toán linh hoạt**:
+  - Nạp tiền qua ngân hàng/ví điện tử
+  - Hệ thống khuyến mãi/mã giảm giá
+  - Hoàn tiền tự động khi thuê sim thất bại
+- **Tính năng thuê sim**:
+  - Chọn quốc gia/nhà mạng
+  - Theo dõi trạng thái SMS realtime
+  - Lịch sử thuê sim và giao dịch
+  - Gia hạn thời gian chờ SMS
+
+### Cho Admin
+- **Quản lý người dùng**:
+  - Thông tin & lịch sử giao dịch
+  - Phân quyền & khóa tài khoản
+  - Quản lý số dư & khuyến mãi
+- **Quản lý giao dịch**:
+  - Theo dõi doanh thu realtime
+  - Báo cáo thống kê theo thời gian
+  - Xuất báo cáo Excel/PDF
+- **Cấu hình hệ thống**:
+  - Điều chỉnh giá thuê sim
+  - Quản lý nhà cung cấp & API key
+  - Cài đặt tỷ lệ markup giá
+  - Cấu hình thông báo & email
+
+## Technical Implementation
+
+- **Frontend**: 
+  - Next.js với TypeScript
+  - TailwindCSS cho UI/UX
+  - WebSocket cho realtime updates
+  - SEO optimization
+
+- **Backend**:
+  - NestJS REST API 
+  - PostgresQL cho lưu trữ
+  - Redis cho caching & session
+  - Bull Queue cho background jobs
+
+- **Tích hợp API**:
+  - Custom adapter cho mỗi nhà cung cấp
+  - Error handling & retry mechanism
+  - Rate limiting & caching
+  - Load balancing giữa các nhà cung cấp
+
+- **Monitoring**:
+  - Logger system với Winston
+  - Sentry cho error tracking
+  - Prometheus metrics
+  - Grafana dashboards
+
+## Challenges and Solutions
+
+- **Đồng bộ hóa dữ liệu**: 
+  - Xử lý concurrent requests
+  - Tránh race conditions khi thuê sim
+  - Cache invalidation strategy
+  
+- **Tối ưu chi phí**:
+  - Smart routing tới nhà cung cấp rẻ nhất
+  - Tự động detection failed numbers
+  - Dynamic pricing dựa vào availability
+
+- **Availability**:
+  - Health check các nhà cung cấp
+  - Fallback mechanism khi API lỗi
+  - Auto-scaling theo tải
+
+## Future Development
+
+- Tích hợp thêm nhà cung cấp sim mới
+- Phát triển mobile app native
+- Thêm tính năng subscription plans
+- Machine learning cho dynamic pricing
+- Mở rộng sang thị trường quốc tế
