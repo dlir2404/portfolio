@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Code, User, Briefcase, PenTool, Mail } from 'lucide-react';
+import { Menu, X, Code, User, FolderKanban,BriefcaseBusiness, PenTool, Mail } from 'lucide-react';
 
 
 export default function Header() {
@@ -37,7 +37,8 @@ export default function Header() {
   const navItems = [
     { href: '#home', label: 'Home', icon: Code },
     { href: '#about', label: 'About', icon: User },
-    { href: '#projects', label: 'Projects', icon: Briefcase },
+    { href: '#experiences', label: 'Experiences', icon: BriefcaseBusiness },
+    { href: '#projects', label: 'Projects', icon: FolderKanban },
     { href: '#blog', label: 'Blog', icon: PenTool },
     { href: '#contact', label: 'Contact', icon: Mail },
   ];

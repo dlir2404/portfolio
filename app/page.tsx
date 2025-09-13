@@ -6,6 +6,7 @@ import Blog from './components/Blog';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import { getAllProjects } from '@/lib/project';
+import Experiences from './components/Experiences';
 
 export default async function Home() {
   const projects = await getAllProjects();
@@ -15,6 +16,7 @@ export default async function Home() {
       <main>
         <Hero />
         <About />
+        <Experiences />
         <Projects projects={projects}/>
         <Blog />
         <Contact />

@@ -1,7 +1,8 @@
 'use client';
 
+import SectionHeader from '@/components/ui/SectionHeader';
 import { motion } from 'framer-motion';
-import { Code, Database, Globe, Smartphone, Zap, Cloud, Server } from 'lucide-react';
+import { Code, Database, Globe, Smartphone, Zap, Cloud, Server, Section } from 'lucide-react';
 
 const skills = [
   { 
@@ -82,38 +83,7 @@ export default function About() {
   return (
     <section id="about" className="py-20 px-4 relative">
       <div className="container mx-auto max-w-7xl">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold mb-6"
-            whileInView={{ 
-              backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-            }}
-            transition={{ duration: 3, repeat: Infinity }}
-            style={{
-              background: 'linear-gradient(to right, #fff, #a855f7, #06b6d4, #fff)',
-              backgroundSize: '200% 200%',
-              WebkitBackgroundClip: 'text',
-              color: 'transparent',
-            }}
-          >
-            About Me
-          </motion.h2>
-          <motion.p
-            className="text-xl text-gray-400 max-w-3xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            Passionate developer with a love for creating innovative solutions and pushing the boundaries of what's possible with code.
-          </motion.p>
-        </motion.div>
+        <SectionHeader title="About Me" subtitle="Passionate developer with a love for creating innovative solutions and pushing the boundaries of what's possible with code." />
 
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Column - Text Content */}

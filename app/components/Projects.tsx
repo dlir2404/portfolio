@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, ChevronRight } from 'lucide-react';
+import { ExternalLink, Github, ChevronRight, Section } from 'lucide-react';
 import { Project } from '@/types';
 import Link from 'next/link';
+import SectionHeader from '@/components/ui/SectionHeader';
 
 export default function Projects({
   projects
@@ -23,37 +24,7 @@ export default function Projects({
     <section id="projects" className="py-20 px-4 relative">
       <div className="container mx-auto max-w-7xl">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold mb-6"
-            whileInView={{
-              backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-            }}
-            transition={{ duration: 3, repeat: Infinity }}
-            style={{
-              background: 'linear-gradient(to right, #fff, #06b6d4, #a855f7, #fff)',
-              backgroundSize: '200% 200%',
-              WebkitBackgroundClip: 'text',
-              color: 'transparent',
-            }}
-          >
-            Featured Projects
-          </motion.h2>
-          <motion.p
-            className="text-xl text-gray-400 max-w-3xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            A showcase of my recent work, spanning web applications, mobile apps, and open source contributions.
-          </motion.p>
-        </motion.div>
+        <SectionHeader title="Featured Projects" subtitle="A showcase of my recent work, spanning web applications, mobile apps, and open source contributions." />
 
         {/* Filter Buttons */}
         <motion.div

@@ -6,6 +6,7 @@ import { Search, Calendar, Clock, ArrowRight, BookOpen, Tag } from 'lucide-react
 import Fuse from 'fuse.js';
 import Link from 'next/link';
 import { useSearch } from '@/hooks/useSearch';
+import SectionHeader from '@/components/ui/SectionHeader';
 
 interface BlogPost {
   slug: string;
@@ -34,38 +35,7 @@ export default function Blog() {
   return (
     <section id="blog" className="py-20 px-4 relative">
       <div className="container mx-auto max-w-7xl">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold pb-6"
-            whileInView={{ 
-              backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-            }}
-            transition={{ duration: 3, repeat: Infinity }}
-            style={{
-              background: 'linear-gradient(to right, #fff, #ec4899, #8b5cf6, #fff)',
-              backgroundSize: '200% 200%',
-              WebkitBackgroundClip: 'text',
-              color: 'transparent',
-            }}
-          >
-            Blog & Insights
-          </motion.h2>
-          <motion.p
-            className="text-xl text-gray-400 max-w-3xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            Thoughts, tutorials, and insights about web development, technology trends, and best practices.
-          </motion.p>
-        </motion.div>
+        <SectionHeader title="Blog & Insights" subtitle="Thoughts, tutorials, and insights about web development, technology trends, and best practices." />
 
         {/* Search and Filters */}
         <motion.div
