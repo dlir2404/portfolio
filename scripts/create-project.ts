@@ -6,9 +6,12 @@ interface ProjectTemplate {
   summary: string;
   image: string;
   publishedAt: string;
-  category: string;
+  live?: string;
+  repo?: string;
+  category?: string;
   tags: string[];
-  teamSize: number;
+  featured: boolean;
+  teamSize?: number;
 }
 
 const createProjectTemplate = (title: string): string => {
@@ -17,8 +20,11 @@ const createProjectTemplate = (title: string): string => {
     summary: "",
     image: `/images/projects/${title.toLowerCase()}/cover.png`,
     publishedAt: new Date().toISOString().split('T')[0],
+    live: "",
+    repo: "",
     category: "",
     tags: [],
+    featured: false,
     teamSize: 1
   };
 
@@ -27,8 +33,11 @@ title: "${template.title}"
 summary: "${template.summary}"
 image: "${template.image}"
 publishedAt: "${template.publishedAt}"
+live: "${template.live}"
+repo: "${template.repo}"
 category: "${template.category}"
 tags: ${JSON.stringify(template.tags)}
+featured: ${template.featured}
 teamSize: ${template.teamSize}
 ---
 
