@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Code, User, FolderKanban,BriefcaseBusiness, PenTool, Mail } from 'lucide-react';
+import { Menu, X, Code, User, FolderKanban, BriefcaseBusiness, PenTool, Mail } from 'lucide-react';
 
 
 export default function Header() {
@@ -59,7 +59,9 @@ export default function Header() {
           }`}
           style={{
             background: 'linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02))',
+            WebkitBackdropFilter: 'blur(20px)',
             backdropFilter: 'blur(20px)',
+            WebkitTransform: 'translateZ(0)',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05)',
           }}
         >
