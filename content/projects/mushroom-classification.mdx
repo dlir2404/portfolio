@@ -1,0 +1,107 @@
+---
+title: "Mushroom Classification using Multiple ML Models"
+summary: "A comprehensive machine learning project comparing different classification models (KNN, SVM, Decision Tree, Gaussian NB, Neural Network) for mushroom classification with extensive data preprocessing and cross-validation"
+image: "/images/projects/mushroom-classification/cover.png"
+publishedAt: "2023-09-13"
+live: "https://colab.research.google.com/drive/1aFrlkYuxX718mGAj2PLhOpSudb5NAI88?usp=sharing"
+repo: ""
+category: "Machine Learning"
+tags: ["Python", "Scikit-learn", "Pandas", "Data Processing", "Classification"]
+featured: false
+teamSize: 1
+---
+
+## Overview
+
+A machine learning project focused on mushroom classification using multiple models and comparing their performance. The project includes comprehensive data preprocessing, feature engineering, and model evaluation using cross-validation techniques.
+
+## Data Processing Pipeline
+
+### Data Preparation
+- Loading and splitting semi-colon separated dataset
+- Handling 21 different features including:
+  - Categorical: cap shape, surface, color, gill properties
+  - Continuous: stem dimensions, cap diameter
+- Target variable: mushroom classification
+
+### Feature Engineering
+- **Categorical Features Processing**:
+  - One-hot encoding for 17 categorical features
+  - Feature label generation
+  - Conversion to sparse matrix format
+
+- **Continuous Features Processing**:
+  - Standard scaling for numerical features
+  - Normalization of stem dimensions and cap diameter
+  - Feature concatenation for final dataset
+
+## Model Implementation
+
+### Cross-validation
+- Implemented k-fold cross-validation (k=10)
+- Consistent evaluation across all models
+- Robust performance measurement
+
+### Models Evaluated
+
+1. **K-Nearest Neighbors (KNN)**
+   - Tested k values from 1 to 10
+   - Best performance at k=15
+   - Accuracy: 100%
+
+2. **Support Vector Machine (SVM)**
+   - Linear kernel implementation
+   - C=1 hyperparameter
+   - Accuracy: 88%
+
+3. **Decision Tree**
+   - Default parameters
+   - Accuracy: 100%
+
+4. **Gaussian Naive Bayes**
+   - Probabilistic classifier
+   - Accuracy: 60%
+
+5. **Neural Network**
+   - MLP Classifier
+   - Alpha=1, max_iterations=1000
+   - Accuracy: 100%
+
+## Results Analysis
+
+### Performance Comparison
+- Top Performing Models:
+  - KNN (k=15): 100%
+  - Neural Network: 100%
+  - Decision Tree: 100%
+- Mid-Range Performance:
+  - SVM: 88%
+- Lower Performance:
+  - Gaussian NB: 60%
+
+### Key Findings
+- Three models achieved perfect classification
+- SVM showed good but not optimal performance
+- Gaussian NB struggled with the feature space
+
+## Technical Implementation Details
+
+### Libraries Used
+- Pandas for data manipulation
+- Scikit-learn for ML models
+- NumPy for numerical operations
+- Matplotlib for visualization
+
+### Code Structure
+- Modular preprocessing pipeline
+- Cross-validation implementation
+- Model training and evaluation
+- Performance visualization
+
+## Future Improvements
+
+- Feature importance analysis
+- Hyperparameter tuning
+- Ensemble methods implementation
+- Additional data collection
+- Model optimization for speed
