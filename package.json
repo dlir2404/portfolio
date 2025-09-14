@@ -26,7 +26,7 @@
     "cmdk": "^1.0.0",
     "cursor-effects": "^1.0.17",
     "date-fns": "^3.6.0",
-    "embla-carousel-react": "^8.3.0",
+    "embla-carousel-react": "^8.6.0",
     "eslint": "8.49.0",
     "eslint-config-next": "13.5.1",
     "framer-motion": "^10.16.16",

@@ -2,6 +2,7 @@ import CodeSnippet from "@/components/mdx/CodeSnippet";
 import type { MDXComponents } from "mdx/types";
 import Image, { ImageProps } from "next/image";
 import LinkHeading from "@/components/mdx/LinkHeading";
+import { Carousel, CarouselProps } from "@/components/mdx/Carousel";
 
 function createCodeBlock(props: any) {
     // For pre tags that contain code blocks
@@ -49,6 +50,9 @@ const components = {
                 {...props}
             />
         </div>
+    ),
+    Carousel: ({ images, ...props }: CarouselProps) => (
+        <Carousel images={images} {...props} />
     ),
     pre: createCodeBlock as any,
 
