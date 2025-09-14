@@ -1,44 +1,130 @@
 ---
-title: "Revolutionizing Content Creation with AI-Powered SEO Optimization"
-summary: "An AI-powered content optimization tool providing real-time SEO scoring, keyword suggestions, and competitor analysis to help writers create better content. Uses AI and data APIs for automated insights and content generation."
-image: "/images/projects/writers/seo.png"
+title: "SEO Content Optimizer"
+summary: "Ứng dụng web hỗ trợ phân tích, gợi ý và sinh nội dung chuẩn SEO bằng AI và dữ liệu đối thủ, giúp marketer và copywriter tối ưu bài viết nhanh chóng và hiệu quả."
+image: "/images/projects/writers/cover.jpg"
 publishedAt: "2024-04-08"
-category: "AI"
-tags: ["Writing", "AI"]
+live: ""  
+repo: ""  
+category: "Web App"
+tags: ["SEO", "PHP", "JavaScript", "jQuery", "Internal Framework", "AI Integration"]
+featured: true
 teamSize: 1
 ---
 
-## Overview
+## Giới thiệu
 
-In the ever-evolving world of digital marketing, creating SEO-optimized content is crucial for driving organic traffic and improving search engine rankings. This project focuses on building a comprehensive tool that empowers content creators to write better, rank higher, and optimize their work for search engines. By integrating AI and various APIs, the tool provides actionable insights and recommendations to enhance content quality and visibility.
+Trong kỳ thực tập tại **True Platform**, mình phát triển một công cụ hỗ trợ **tối ưu SEO cho bài viết**.  
+Ứng dụng giải quyết những vấn đề thực tế mà marketer và content creator thường gặp phải:  
 
-## Key Features
+- Không biết bài viết đã đạt chuẩn SEO hay chưa.  
+- Mất thời gian phân tích đối thủ và nghiên cứu từ khóa.  
+- Cần công cụ sinh/nắn nội dung nhanh chóng mà vẫn đảm bảo chuẩn SEO.  
 
-- **Content Editor**: A user-friendly editor designed for seamless content creation and editing.
-- **SEO Scoring**: Real-time SEO score calculation based on the current content, helping users identify areas for improvement.
-- **Optimization Suggestions**: Detailed feedback on specific elements that need optimization, such as headings, meta descriptions, and keyword density.
-- **AI-Powered Recommendations**: Integration with AI APIs to suggest improvements for under-optimized sections.
-- **Keyword Suggestions**: AI-generated related keywords along with content ideas that incorporate those keywords effectively.
-- **Competitor Analysis**: Using Google API to search and crawl the top 10 ranking websites for the target keyword, providing insights into competitor strategies.
-- **Content Generation**: AI-powered full article generation from a single keyword, saving time and effort for content creators.
-- **Keyword Management**: Integration with DataForSeo API to fetch search volume and difficulty metrics for used keywords, enabling better keyword strategy planning.
+Sản phẩm được xây dựng trên **framework PHP nội bộ**, với **JavaScript thuần + jQuery** cho frontend, và tích hợp nhiều API SEO cùng AI để mang lại trải nghiệm viết – phân tích – tối ưu liền mạch.
 
-## Challenges and Learnings
+## Vai trò của mình
 
-Building this tool came with its own set of challenges:
-- **API Integration**: Ensuring seamless communication with multiple APIs, including AI, Google, and DataForSeo, required robust error handling and optimization.
-- **Real-Time Feedback**: Implementing real-time SEO scoring and suggestions demanded efficient algorithms to process content without lag.
-- **Competitor Crawling**: Crawling and analyzing competitor websites while adhering to ethical and legal guidelines was a critical learning experience.
-- **AI Content Generation**: Balancing AI-generated content quality with human-like readability and relevance posed an interesting challenge.
+- Phân tích yêu cầu và thiết kế toàn bộ luồng chức năng.  
+- Phát triển **frontend** (editor, dashboard, bảng điểm SEO, giao diện so sánh đối thủ).  
+- Xây dựng **backend** (tích hợp OpenAI API, DataForSEO, Google Search Console, crawler).  
+- Tối ưu hiệu năng: caching API, queue xử lý các tác vụ nặng như bulk content generation.  
 
-Through these challenges, we gained valuable insights into API integration, data processing, and the nuances of SEO optimization.
+## Các chức năng chính
 
-## Outcome
+### 1. SEO Score – Đánh giá SEO tự động
+- Phân tích title, meta description, heading, mật độ từ khóa, độ dài nội dung.  
+- Hiển thị **điểm SEO tổng quan** kèm chi tiết cho từng tiêu chí.  
+- Gợi ý cải thiện trực tiếp ngay trong editor.  
 
-The result is a powerful, all-in-one SEO optimization tool that simplifies the content creation process while maximizing its impact. Content creators can now:
-- Write with confidence, knowing their work is optimized for search engines.
-- Save time by leveraging AI for suggestions, keyword ideas, and full article generation.
-- Stay ahead of competitors by analyzing top-ranking websites and refining their strategies.
-- Make data-driven decisions with detailed keyword metrics.
+<Image
+  src="/images/projects/writers/seo-score.jpg"
+  alt="Đánh giá SEO tự động"
+  width={1916}
+  height={905}
+  className="w-full h-auto"
+/>
 
-This project not only enhances the efficiency of content writing but also empowers users to achieve better results in their digital marketing efforts.
+### 2. Keyword Suggestion – Gợi ý từ khóa
+- Sinh danh sách từ khóa liên quan và từ khóa phụ từ keyword chính.  
+- Gợi ý vị trí nên chèn keyword trong nội dung.  
+- Tự động cân đối mật độ keyword để tránh spam.  
+
+<Image
+  src="/images/projects/writers/keyword-suggestion.jpg"
+  alt="Gợi ý từ khóa"
+  width={1918}
+  height={909}
+  className="w-full h-auto"
+/>
+
+### 3. Content Suggestion – Gợi ý nội dung
+- AI sinh đoạn văn hoàn chỉnh dựa trên keyword được chọn.  
+- Cho phép chèn trực tiếp hoặc tinh chỉnh lại trước khi thêm vào bài viết.  
+- Hỗ trợ nhiều phong cách viết khác nhau.  
+
+<Image
+  src="/images/projects/writers/content-suggestion.jpg"
+  alt="Gợi ý nội dung từ AI"
+  width={1919}
+  height={908}
+  className="w-full h-auto"
+/>
+
+### 4. Competitor Analysis – Phân tích đối thủ
+- Crawl dữ liệu từ **top 10 kết quả tìm kiếm** của Google.  
+- Phân tích cấu trúc heading, title, meta, mật độ từ khóa, độ dài nội dung.  
+- Hiển thị bảng so sánh và biểu đồ trực quan để đối chiếu.  
+
+<Image
+  src="/images/projects/writers/competitor-analysis.png"
+  alt="Phân tích đối thủ"
+  width={1919}
+  height={908}
+  className="w-full h-auto"
+/>
+
+### 5. Auto Generate – Sinh nội dung tự động
+- Sinh đoạn nội dung hoàn chỉnh từ keyword chính.  
+- Hỗ trợ tạo outline trước khi sinh nội dung.  
+- Cho phép người dùng chọn độ dài và mức độ sáng tạo.  
+
+<Image
+  src="/images/projects/writers/auto-generate.png"
+  alt="Sinh nội dung tự động"
+  width={1918}
+  height={910}
+  className="w-full h-auto"
+/>
+
+### 6. Bulk Generate – Sinh nhiều biến thể
+- Từ một nội dung gốc, hệ thống tạo ra nhiều biến thể khác nhau.  
+- Phục vụ A/B Testing hoặc SEO cho nhiều trang vệ tinh.  
+- Tích hợp hàng đợi để xử lý hiệu quả, tránh nghẽn hiệu năng.  
+
+<Image
+  src="/images/projects/writers/bulk-generate.png"
+  alt="Sinh nội dung hàng loạt"
+  width={1918}
+  height={906}
+  className="w-full h-auto"
+/>
+
+## Kết quả đạt được
+
+- Hoàn thiện MVP với đầy đủ tính năng từ phân tích – gợi ý – sinh nội dung – so sánh đối thủ.  
+- Trình bày demo thành công cho mentor tại công ty, nhận phản hồi tích cực.  
+- Học hỏi sâu về SEO, tích hợp API, AI ứng dụng, và kiến trúc hệ thống hiệu năng cao.  
+
+## Công nghệ sử dụng
+
+- **Backend:** Framework PHP nội bộ.  
+- **Frontend:** JavaScript thuần + jQuery.  
+- **API tích hợp:** OpenAI API, DataForSEO API, Google Search Console API.  
+- **Khác:** Web crawler, caching, queue processing.  
+
+## Học được gì
+
+- Hiểu rõ quy trình phát triển sản phẩm thực tế, từ phân tích yêu cầu đến triển khai.  
+- Kinh nghiệm tích hợp nhiều API bên ngoài và xử lý dữ liệu lớn.  
+- Cải thiện kỹ năng frontend với JS/jQuery, backend với PHP.  
+- Hiểu tầm quan trọng của UX/UI trong công cụ phức tạp như SEO.  
