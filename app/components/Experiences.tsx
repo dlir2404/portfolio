@@ -53,14 +53,16 @@ export default function Experiences() {
 
         {/* Timeline */}
         <div className="relative max-w-6xl mx-auto">
-          {/* Timeline Line */}
-          <motion.div
-            className="absolute md:left-1/2 transform md:-translate-x-1/2 top-0 w-0.5 bg-gradient-to-b from-emerald-500 via-blue-500 to-purple-500"
-            initial={{ height: 0, top: 0 }}
-            whileInView={{ height: 'calc(100% - 104px)' }}
-            transition={{ duration: 2, delay: 0.5 }}
-            viewport={{ once: true }}
-          />
+          {/* Timeline Line - Reserve full space immediately */}
+          <div className="absolute md:left-1/2 transform md:-translate-x-1/2 top-0 w-0.5 h-[calc(100%-104px)] bg-gray-700">
+            <motion.div
+              className="w-full bg-gradient-to-b from-emerald-500 via-blue-500 to-purple-500"
+              initial={{ height: 0 }}
+              whileInView={{ height: '100%' }}
+              transition={{ duration: 2, delay: 0.5 }}
+              viewport={{ once: true }}
+            />
+          </div>
 
           {/* Experience Cards */}
           <div className="space-y-16">
@@ -83,7 +85,7 @@ export default function Experiences() {
                       } rounded-full border-4 border-gray-900 z-10 after:absolute after:inset-0 after:rounded-full after:blur-sm after:opacity-75 after:-z-10`}
                     initial={{ scale: 0, x: '-50%' }}
                     whileInView={{ scale: 1, x: '-50%' }}
-                    transition={{ duration: 0.5, delay: index * 0.2 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
                     whileHover={{
                       scale: 1.2,
                       boxShadow: isCurrentJob
@@ -93,14 +95,14 @@ export default function Experiences() {
                     viewport={{ once: true }}
                   />
 
-                  {/* Experience Card */}
+                  {/* Experience Card - Use transform instead of opacity for layout */}
                   <motion.div
                     className={`w-(calc(100% - 32px)) md:w-5/12 ml-8 md:ml-0 group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-500 ${isEven ? 'md:mr-auto' : 'md:ml-auto'
                       } ${isCurrentJob ? 'ring-2 ring-green-500/30' : ''}`}
                     whileHover={{ y: -5, scale: 1.02 }}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.2 + 0.4 }}
+                    initial={{ opacity: 1, y: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
                     viewport={{ once: true }}
                   >
                     {/* Current Job Badge */}
@@ -142,9 +144,9 @@ export default function Experiences() {
                                 key={role}
                                 className={`text-sm font-medium ${isCurrentJob ? 'text-green-400' : 'text-emerald-400'
                                   }`}
-                                initial={{ opacity: 0, x: -10 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.4, delay: index * 0.2 + roleIndex * 0.1 }}
+                                initial={{ opacity: 0.7 }}
+                                whileInView={{ opacity: 1 }}
+                                transition={{ duration: 0.3, delay: index * 0.1 + roleIndex * 0.05 }}
                                 viewport={{ once: true }}
                               >
                                 {role}
@@ -160,14 +162,10 @@ export default function Experiences() {
 
                     {/* Duration and Timeline */}
                     <div className="flex items-center gap-4 mb-6 text-sm text-gray-400">
-                      <motion.span
-                        className="flex items-center gap-1"
-                        animate={{ opacity: [0.8, 1, 0.8] }}
-                        transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
-                      >
+                      <span className="flex items-center gap-1">
                         <Calendar size={14} />
                         {formatDate(experience.startDate)} - {formatDate(experience.endDate)}
-                      </motion.span>
+                      </span>
                       <span className="flex items-center gap-1">
                         <Clock size={14} />
                         {duration}
@@ -175,13 +173,9 @@ export default function Experiences() {
                     </div>
 
                     {/* Summary */}
-                    <motion.p
-                      className="text-gray-300 leading-relaxed mb-6"
-                      animate={{ opacity: [0.9, 1, 0.9] }}
-                      transition={{ duration: 3, repeat: Infinity, delay: index * 0.4 }}
-                    >
+                    <p className="text-gray-300 leading-relaxed mb-6">
                       {experience.summary}
-                    </motion.p>
+                    </p>
 
                     {/* Tech Stack */}
                     <div className="space-y-3">
@@ -197,9 +191,9 @@ export default function Experiences() {
                               ? 'bg-gradient-to-r from-green-500/20 to-emerald-500/20'
                               : 'bg-gradient-to-r from-emerald-500/20 to-blue-500/20'
                               } backdrop-blur-sm border border-white/10 rounded-full text-xs font-medium text-white group-hover:border-white/20 transition-colors duration-300`}
-                            initial={{ opacity: 0, scale: 0.8 }}
+                            initial={{ opacity: 0.8, scale: 0.95 }}
                             whileInView={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.3, delay: index * 0.2 + techIndex * 0.05 }}
+                            transition={{ duration: 0.2, delay: index * 0.1 + techIndex * 0.02 }}
                             whileHover={{
                               scale: 1.05,
                               backgroundColor: isCurrentJob
@@ -223,18 +217,16 @@ export default function Experiences() {
           {/* Start Point */}
           <motion.div
             className="relative flex items-center justify-center mt-16"
-            initial={{ opacity: 0, scale: 0 }}
+            initial={{ opacity: 0.8, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, delay: 0.3 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <motion.div
-              className="absolute top-0 left-0 md:left-1/2 transform -translate-x-1/2 md:-translate-y-1/2 w-8 h-8 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-full border-4 border-gray-900 z-10"
-            >
+            <div className="absolute top-0 left-0 md:left-1/2 transform -translate-x-1/2 md:-translate-y-1/2 w-8 h-8 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-full border-4 border-gray-900 z-10">
               <div className="absolute inset-0 flex items-center justify-center">
                 <Star className="text-white" size={16} />
               </div>
-            </motion.div>
+            </div>
             <motion.div
               className="ml-8 md:ml-0 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 backdrop-blur-sm border border-emerald-500/30 rounded-2xl p-6 text-center"
               whileHover={{ scale: 1.02 }}
