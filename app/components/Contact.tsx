@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send, Mail, MapPin, Phone, Github, Linkedin, Facebook, MessageCircle, Section } from 'lucide-react';
 import SectionHeader from '@/components/ui/SectionHeader';
+import { baseInfo } from '@/content/informations/info';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -35,27 +36,27 @@ export default function Contact() {
     {
       icon: Mail,
       label: 'Email',
-      value: 'dinhlinh.work24@gmail.com',
-      href: 'mailto:dinhlinh.work24@gmail.com'
+      value: baseInfo.email,
+      href: `mailto:${baseInfo.email}`
     },
     {
       icon: Phone,
       label: 'Phone',
-      value: '+84 966103320',
-      href: 'tel:+84966103320'
+      value: baseInfo.phone,
+      href: `tel:${baseInfo.phone}`
     },
     {
       icon: MapPin,
       label: 'Location',
-      value: 'Dong Da, Hanoi',
-      href: '#'
+      value: baseInfo.location,
+      href: '#contact'
     }
   ];
 
   const socialLinks = [
-    { icon: Github, href: 'https://github.com/dlir2404', label: 'GitHub' },
-    { icon: Linkedin, href: 'https://www.linkedin.com/in/linh-%C4%91%C3%ACnh-128b7630a/', label: 'LinkedIn' },
-    { icon: Facebook, href: 'https://www.facebook.com/Dlir24', label: 'Facebook' },
+    { icon: Github, href: baseInfo.socials.github, label: 'GitHub' },
+    { icon: Linkedin, href: baseInfo.socials.linkedin, label: 'LinkedIn' },
+    { icon: Facebook, href: baseInfo.socials.facebook, label: 'Facebook' },
   ];
 
   return (

@@ -5,6 +5,7 @@ import { motion, useAnimation } from 'framer-motion';
 import { ChevronDown, Github, Linkedin, Code, Sparkles, Zap, Rocket, Facebook } from 'lucide-react';
 import * as THREE from 'three';
 import Link from 'next/link';
+import { baseInfo } from '@/content/informations/info';
 
 export default function Hero() {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -266,7 +267,7 @@ export default function Hero() {
               whileHover={{ scale: 1.05 }}
             >
               <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-                Larry
+                {baseInfo.shortName}
               </span>
               <motion.div
                 className="absolute -inset-2 bg-gradient-to-r from-blue-400/20 via-purple-500/20 to-pink-500/20 blur-xl rounded-lg opacity-0"
@@ -389,9 +390,9 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 1.2 }}
         >
           {[
-            { Icon: Github, href: 'https://github.com/dlir2404', label: 'GitHub' },
-            { Icon: Linkedin, href: 'https://www.linkedin.com/in/linh-%C4%91%C3%ACnh-128b7630a/', label: 'LinkedIn' },
-            { Icon: Facebook, href: 'https://www.facebook.com/Dlir24', label: 'Facebook' },
+            { Icon: Github, href: `${baseInfo.socials.github}`, label: 'GitHub' },
+            { Icon: Linkedin, href: `${baseInfo.socials.linkedin}`, label: 'LinkedIn' },
+            { Icon: Facebook, href: `${baseInfo.socials.facebook}`, label: 'Facebook' },
           ].map(({ Icon, href, label }, index) => (
             <motion.a
               key={label}

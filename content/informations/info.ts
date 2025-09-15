@@ -1,5 +1,21 @@
 import { Experience } from "@/types";
 
+export const baseInfo = {
+    name: "Larry Vu",
+    shortName: "Larry",
+    role: "Full Stack Developer",
+    portfolioURL: "https://larry.is-a.dev",
+    avatar: "/images/avatar.jpg",
+    email: "dinhlinh.work24@gmail.com",
+    phone: "+84 966103320",
+    location: "Dong Da, Hanoi, Vietnam",
+    socials: {
+        linkedin: "https://www.linkedin.com/in/linh-%C4%91%C3%ACnh-128b7630a/",
+        facebook: "https://www.facebook.com/Dlir24",
+        github: "https://github.com/dlir2404",
+    }
+}
+
 export const experiences: Experience[] = [
     {
         company: "Freelance / Outsourcing Team",

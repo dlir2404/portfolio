@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Code, User, FolderKanban, BriefcaseBusiness, PenTool, Mail } from 'lucide-react';
-
+import { baseInfo } from '@/content/informations/info';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -97,7 +97,7 @@ export default function Header() {
                   WebkitBackgroundClip: 'text'
                 }}
               >
-                Larry
+                {baseInfo.shortName}
               </motion.span>
             </motion.div>
 

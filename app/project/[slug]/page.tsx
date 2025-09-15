@@ -5,6 +5,7 @@ import { Metadata } from "next";
 import { useMDXComponents } from "@/app/mdx-component";
 import { Calendar, Clock, User, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { baseInfo } from "@/content/informations/info";
 
 interface ProjectPageProps {
     params: {
@@ -28,7 +29,7 @@ export async function generateMetadata({ params }: ProjectPageProps) {
     }
 
     return {
-        title: `${project.title} | Larry Portfolio`,
+        title: `${project.title} | ${baseInfo.shortName} Portfolio`,
         description: project.summary,
         openGraph: {
             title: project.title,

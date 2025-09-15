@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Heart, Github, Linkedin, Facebook, Mail, ArrowUp } from 'lucide-react';
+import { baseInfo } from '@/content/informations/info';
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -19,10 +20,10 @@ export default function Footer() {
   ];
 
   const socialLinks = [
-    { icon: Github, href: 'https://github.com/dlir2404', label: 'GitHub' },
-    { icon: Linkedin, href: 'https://www.linkedin.com/in/linh-%C4%91%C3%ACnh-128b7630a/', label: 'LinkedIn' },
-    { icon: Facebook, href: 'https://www.facebook.com/Dlir24', label: 'Facebook' },
-    { icon: Mail, href: 'mailto:dinhlinh.work24@gmail.com', label: 'Email' },
+    { icon: Github, href: `${baseInfo.socials.github}`, label: 'GitHub' },
+    { icon: Linkedin, href: `${baseInfo.socials.linkedin}`, label: 'LinkedIn' },
+    { icon: Facebook, href: `${baseInfo.socials.facebook}`, label: 'Facebook' },
+    { icon: Mail, href: `mailto:${baseInfo.email}`, label: 'Email' },
   ];
 
   return (

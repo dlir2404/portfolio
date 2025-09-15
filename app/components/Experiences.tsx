@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Building2, Calendar, Users, Code, Briefcase, Clock, Star, Section } from 'lucide-react';
-import { experiences } from '@/content/informations/experiences';
+import { experiences } from '@/content/informations/info';
 import { Experience } from '@/types';
 import SectionHeader from '@/components/ui/SectionHeader';
 

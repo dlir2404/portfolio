@@ -5,6 +5,7 @@ import { Calendar, Clock, User, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { useMDXComponents } from '@/app/mdx-component';
+import { baseInfo } from '@/content/informations/info';
 
 interface BlogPostPageProps {
   params: {
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   }
 
   return {
-    title: `${post.title} | Larry Blog`,
+    title: `${post.title} | ${baseInfo.shortName} Blog`,
     description: post.summary,
     openGraph: {
       title: post.title,
