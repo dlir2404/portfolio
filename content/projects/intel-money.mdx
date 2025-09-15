@@ -1,0 +1,140 @@
+---
+title: "Intel Money – Personal Finance Management"
+summary: "Ứng dụng quản lý tài chính cá nhân giúp người dùng theo dõi thu chi, phân tích dòng tiền, và lập kế hoạch tiết kiệm. Hệ thống được xây dựng với Flutter, NestJS, MySQL, Redis và triển khai qua Docker + CI/CD pipeline."
+image: "/images/projects/intel-money/cover.png"
+publishedAt: "2025-04-23"
+live: ""
+repo: ""
+category: "Web & Mobile"
+tags: ["Flutter", "NestJS", "MySQL", "Redis", "Docker", "CI/CD", "Finance App", "Google Play"]
+featured: true
+teamSize: 1
+---
+
+## Giới thiệu
+
+**Intel Money** là đồ án tốt nghiệp cử nhân của tôi tại Đại học Bách Khoa Hà Nội.  
+Ứng dụng được thiết kế để hỗ trợ người dùng **quản lý tài chính cá nhân**, bao gồm theo dõi thu chi, phân tích dòng tiền, thống kê chi tiêu theo danh mục, và lập kế hoạch tiết kiệm.  
+
+Hệ thống có cả **ứng dụng di động (Flutter)** và **backend API (NestJS)**, được triển khai production với Docker và CI/CD. Ứng dụng đã được **xét duyệt và phát hành thử nghiệm trên Google Play**.
+
+## Vai trò của mình
+
+- Phát triển toàn bộ hệ thống từ frontend (Flutter) đến backend (NestJS).  
+- Thiết kế database (MySQL) và cơ chế cache (Redis).  
+- Tích hợp tính năng phân tích dữ liệu và thống kê.  
+- Xây dựng pipeline CI/CD bằng **GitHub Actions + Docker Hub + VPS**.  
+- Chuẩn bị release package, gửi xét duyệt và **deploy lên Google Play Store**.  
+- Viết tài liệu kỹ thuật và báo cáo bảo vệ đồ án.  
+
+## Các chức năng chính
+
+### 1. Giao diện màn hình trang chủ
+- Tổng quan tình hình tài chính cá nhân.  
+- Tổng số dư, thống kê thu chi theo tháng
+- Cơ cấu thu chi theo từng danh mục, phân tích thu chi theo năm và theo dõi các khoản vay nợ
+
+<Image
+  src="/images/projects/intel-money/home.png"
+  alt="Home screen"
+  width={1919}
+  height={1079}
+  className="w-1/2"
+/>
+
+### 2. Màn hình tạo các loại giao dịch
+- Cho phép người dùng tạo nhiều loại giao dịch khác nhau.  
+- Bàn phím ảo tích hợp.  
+- Input danh mục và ví.  
+
+<Image
+  src="/images/projects/intel-money/create.png"
+  alt="Home screen"
+  width={1919}
+  height={1079}
+  className="w-1/2"
+/>
+
+### 3. Tạo giao dịch bằng cách chat với AI
+- Cho phép người dùng sử dụng ngôn ngữ tự nhiên để tạo giao dịch.  
+- Có thể sửa lại thông tin giao dịch nếu có sai sót.  
+
+<Image
+  src="/images/projects/intel-money/ai.png"
+  alt="Home screen"
+  width={1919}
+  height={1079}
+  className="w-1/2"
+/>
+
+### 4. Tạo giao dịch bằng cách quét hóa đơn
+- Tự động nhận diện số tiền, danh mục, thêm ghi chú phù hợp 
+
+<Image
+  src="/images/projects/intel-money/scanbill.png"
+  alt="Home screen"
+  width={1919}
+  height={1079}
+  className="w-4/5"
+/>
+
+### 5. Thống kê chi tiết
+- Theo dõi tình hình thu chi theo tháng, quý năm hoặc tùy chọn
+- Phân tích chi tiêu theo từng danh mục, ví theo thời gian
+
+<Carousel
+  images={[
+    "/images/projects/intel-money/statistics.png",
+    "/images/projects/intel-money/analysis.png",
+  ]}
+/>
+
+### 6. Theo dõi vay nợ
+- Kiểm soát tình hình các khoản nợ, cho vay
+
+<Image
+  src="/images/projects/intel-money/lend-borrow.png"
+  alt="Home screen"
+  width={1919}
+  height={1079}
+  className="w-1/2"
+/>
+
+### 7. Lịch sử giao dịch
+- Lịch sử giao dịch chi tiết, rõ ràng
+- Lọc theo từng khoảng thời gian
+
+<Image
+  src="/images/projects/intel-money/history.png"
+  alt="Home screen"
+  width={1919}
+  height={1079}
+  className="w-1/3"
+/>
+
+## Kết quả đạt được
+
+- Xây dựng thành công một ứng dụng quản lý tài chính trên thiết bị di động.  
+- **Ứng dụng đã được phát hành thử nghiệm trên Google Play** và có hơn **20 người dùng thực tế** trải nghiệm.  
+- Hệ thống hoạt động ổn định trong môi trường production.  
+- CI/CD giúp triển khai nhanh chóng, giảm thiểu sai sót thủ công.  
+- Đồ án được đánh giá cao, đáp ứng yêu cầu **thực tế + kỹ thuật hiện đại**.  
+
+## Công nghệ sử dụng
+
+- **Frontend:** Flutter (mobile + web).  
+- **Backend:** NestJS (Node.js), REST API.  
+- **Database:** MySQL, Redis cache.  
+- **Triển khai:** Docker, VPS Ubuntu Server.  
+- **CI/CD:** GitHub Actions → Docker Hub → VPS auto-deploy.  
+- **Phát hành:** Google Play Store (Android).  
+
+## Học được gì
+
+- Kỹ năng xây dựng hệ thống **full-stack** từ đầu đến cuối.  
+- Trải nghiệm triển khai **CI/CD pipeline** thực tế với GitHub Actions + Docker.  
+- Hiểu rõ cách kết hợp **Flutter + NestJS + MySQL + Redis** trong một ứng dụng hoàn chỉnh.  
+- Quy trình **chuẩn bị release app lên Google Play** (signing, build, xét duyệt).  
+- Kinh nghiệm thử nghiệm với **người dùng thật (20+)**, nhận phản hồi và cải thiện sản phẩm.  
+- Cải thiện kỹ năng phân tích yêu cầu, thiết kế cơ sở dữ liệu, và tối ưu hiệu năng.  
+- Kinh nghiệm viết báo cáo khoa học & bảo vệ đồ án.
