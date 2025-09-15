@@ -99,9 +99,7 @@ export default function About() {
                 whileInView={{ opacity: [0.8, 1, 0.8] }}
                 transition={{ duration: 3, repeat: Infinity }}
               >
-                I'm a passionate full-stack developer with over 2.5 years of experience building modern web applications. 
-                My journey started with curiosity about how things work on the internet, and it has evolved into a 
-                deep love for creating digital experiences that solve real problems.
+                Passionate Full-Stack Developer with 2.5+ years of experience delivering production-ready web and mobile applications. Strong background in backend systems, distributed computing, and cloud-native development with a focus on performance, scalability, and security.
               </motion.p>
               
               <motion.p
