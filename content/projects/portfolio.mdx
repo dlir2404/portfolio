@@ -1,14 +1,83 @@
 ---
-title: "Portfolio"
-summary: ""
+title: "Personal Portfolio – larry.is-a.dev"
+summary: "Trang portfolio cá nhân được xây dựng bằng Next.js, TailwindCSS và MDX, giới thiệu bản thân, kinh nghiệm, dự án và bài viết blog."
 image: "/images/projects/portfolio/cover.png"
-publishedAt: "2025-09-15"
-live: ""
-repo: ""
-category: ""
-tags: []
+publishedAt: "2025-04-22"
+live: "https://larry.is-a.dev/"
+repo: "https://github.com/dlir2404/portfolio"
+category: "Web"
+tags: ["Next.js", "TailwindCSS", "MDX", "Portfolio", "Blog", "Open Source"]
 featured: false
 teamSize: 1
 ---
 
-## Overview
+## Giới thiệu
+
+Đây là **trang portfolio cá nhân** của tôi, được thiết kế và phát triển để giới thiệu bản thân, kinh nghiệm, dự án, blog và thông tin liên hệ.  
+Website giúp tôi trình bày các dự án nổi bật (case study chi tiết), chia sẻ bài viết và đóng vai trò là **hub cá nhân** để kết nối với cộng đồng.
+
+## Các section chính
+
+### 1. Hero
+- Phần mở đầu với **ảnh đại diện, giới thiệu ngắn và CTA**.  
+- Tích hợp link đến các kênh mạng xã hội và CV.
+
+### 2. About
+- Thông tin cá nhân: nền tảng học tập, kỹ năng chính, lĩnh vực quan tâm.  
+- Giới thiệu ngắn gọn về hành trình học tập & sự nghiệp.
+
+### 3. Experiences
+- Danh sách kinh nghiệm học tập, làm việc, internship.  
+- Hiển thị theo dạng **timeline**.  
+- Dữ liệu được viết dưới dạng **schema JSON/TS** để dễ quản lý.
+
+### 4. Projects
+- Showcase các dự án nổi bật (Socials, Intel Money, Photo Editor, Bookmarks App, Shopee Clone, …).  
+- Mỗi project có một **trang riêng**, nội dung viết bằng **MDX**: dễ dàng tùy biến, chèn component (Image, Carousel, …).  
+- Hỗ trợ lọc và tìm theo tag.
+
+### 5. Blogs
+- Blog cá nhân chia sẻ kiến thức và kinh nghiệm.  
+- Nội dung viết bằng **MDX**, dễ dàng mở rộng và nhúng component.  
+- Tích hợp SEO-friendly structure.
+
+### 6. Contact
+- Form liên hệ + link mạng xã hội.  
+- Email gửi trực tiếp qua form (API endpoint trong Next.js).  
+
+## Trang chi tiết dự án & blog
+
+- Mỗi dự án / blog đều là một **MDX file** trong thư mục `content`.  
+- Tận dụng khả năng **MDX** để chèn React components (Image, Carousel, code block, …).  
+- Layout đồng nhất với toàn site (navigation, sidebar, footer).
+
+## Open Source
+
+- Toàn bộ source code của website này được **công khai trên GitHub**: [dlir2404/portfolio](https://github.com/dlir2404/portfolio).  
+- Người dùng có thể fork, clone hoặc tùy chỉnh để làm portfolio của riêng mình.  
+- Đây cũng là ví dụ tốt cho việc **kết hợp Next.js + TailwindCSS + MDX** để xây dựng một site cá nhân hiện đại.  
+- Tôi thường xuyên cập nhật repo để bổ sung tính năng mới và sửa lỗi, khuyến khích đóng góp từ cộng đồng qua **pull request**.
+
+## Công nghệ sử dụng
+
+- **Framework:** Next.js (App Router).  
+- **UI:** TailwindCSS + shadcn/ui.  
+- **Content:** MDX để quản lý project/blog.  
+- **Hosting:** Vercel (free tier).  
+- **SEO:** Metadata API của Next.js, Open Graph tags.  
+- **Open Source:** GitHub public repository.  
+
+## Kết quả đạt được
+
+- Trang portfolio cá nhân hiện đang **live tại [larry.is-a.dev](https://larry.is-a.dev/)**.  
+- Giúp showcase dự án, blog, và kỹ năng cá nhân một cách chuyên nghiệp.  
+- Được cộng đồng tham khảo như một **open source starter portfolio**.  
+- Codebase rõ ràng, dễ mở rộng khi thêm project hoặc blog mới.  
+
+## Học được gì
+
+- Xây dựng hệ thống portfolio có cấu trúc tốt với **Next.js + MDX**.  
+- Quản lý content linh hoạt, dễ mở rộng mà không phụ thuộc CMS.  
+- Tích hợp UI library (shadcn/ui) và tối ưu trải nghiệm responsive.  
+- Triển khai production qua **Vercel** với build pipeline tự động.  
+- Hiểu rõ cách phát triển và duy trì một dự án **open source** trên GitHub.  
