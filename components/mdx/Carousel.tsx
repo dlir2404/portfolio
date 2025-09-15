@@ -14,8 +14,7 @@ export function Carousel({ images }: CarouselProps) {
                         <div className="p-1">
                             <Image src={src}
                                 alt={`Slide ${index + 1}`}
-                                width={1800}
-                                height={1600}
+                                fill
                                 className="object-contain rounded-lg"
                             />
                         </div>
