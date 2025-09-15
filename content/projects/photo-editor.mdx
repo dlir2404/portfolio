@@ -1,0 +1,127 @@
+---
+title: "Lightweight Photo Editor"
+summary: "Ứng dụng web chỉnh sửa ảnh cơ bản, gọn nhẹ, xây dựng bằng nội bộ framework PHP + JS/jQuery, tận dụng Fabric.js cho canvas."
+image: "/images/projects/photo-editor/cover-photoeditor.jpg"
+publishedAt: "2024-08-15"
+live: ""  
+repo: ""  
+category: "Web App"
+tags: ["Photo Editor", "Canvas", "Fabric.js"]
+featured: false
+teamSize: 1
+---
+
+## Giới thiệu
+
+Lightweight Photo Editor là một ứng dụng chỉnh sửa ảnh trực tuyến, cung cấp các công cụ chỉnh sửa cơ bản nhưng hiệu quả, phục vụ nhu cầu xử lý ảnh nhanh chóng, gọn nhẹ mà không cần cài đặt phần mềm phức tạp.  
+Đây là **starter project khi tôi bắt đầu làm việc tại True Platform**, được thiết kế để thử nghiệm cách tích hợp `Fabric.js` vào hệ thống front-end sử dụng **framework nội bộ** của công ty.
+
+## Vai trò của mình
+
+- Xây dựng toàn bộ core logic và giao diện chỉnh sửa ảnh.  
+- Nghiên cứu và tích hợp Fabric.js với HTML5 canvas.  
+- Tối ưu thao tác người dùng (undo/redo, object layer, thao tác nhanh).  
+- Thiết kế giao diện **thuần HTML + JS/jQuery** mà không dùng UI lib ngoài.
+
+## Các chức năng chính
+
+### 1. Crop
+- Cắt ảnh theo template có sẵn (vuông, tròn, banner, avatar, …) hoặc tùy chỉnh.  
+
+<Image
+  src="/images/projects/photo-editor/feature-crop.png"
+  alt="Ảnh minh họa tính năng crop"
+  width={1919}
+  height={908}
+  className="w-full h-auto"
+/>
+
+### 2. Draw
+- Vẽ tự do với brush size và màu sắc tùy chọn.  
+
+<Carousel
+  images={[
+    "/images/projects/photo-editor/feature-draw.png",
+    "/images/projects/photo-editor/feature-draw2.png",
+  ]}
+/>
+
+### 3. Text & Shape
+- Thêm chữ vào hình với tùy chọn font, size, màu sắc, căn chỉnh.  
+- Chèn các hình cơ bản (tròn, vuông, tam giác) với chế độ fill hoặc stroke.  
+
+<Carousel
+  images={[
+    "/images/projects/photo-editor/feature-text.png",
+    "/images/projects/photo-editor/feature-shape.png",
+  ]}
+/>
+
+### 4. Transform
+- Xoay ảnh, lật ngang/dọc.  
+
+<Image
+  src="/images/projects/photo-editor/feature-transform.png"
+  alt="Ảnh minh họa tính năng transform"
+  width={1919}
+  height={908}
+  className="w-full h-auto"
+/>
+
+### 5. Mosaic
+- Tạo hiệu ứng mosaic cho vùng chọn.  
+
+<Carousel
+  images={[
+    "/images/projects/photo-editor/feature-mosaic.png",
+    "/images/projects/photo-editor/feature-mosaic2.png",
+  ]}
+/>
+
+### 6. Arrow Tool
+- Công cụ thêm mũi tên nhanh, hỗ trợ highlight đối tượng trong ảnh.  
+
+### 7. History (Undo & Redo)
+- Lưu snapshot sau mỗi action bằng **2 stack** (undo/redo).  
+- Giới hạn 20 bước gần nhất để tránh memory leak.  
+- Hỗ trợ **jump** tới snapshot bất kỳ.  
+
+<Image
+  src="/images/projects/photo-editor/feature-history.png"
+  alt="Ảnh minh họa tính năng history"
+  width={1919}
+  height={908}
+  className="w-full h-auto"
+/>
+
+### 8. Object Layer
+- Hiển thị danh sách tất cả các object trong ảnh.  
+- Cho phép **lock/unlock**, chọn nhanh để chỉnh sửa.  
+
+<Image
+  src="/images/projects/photo-editor/feature-object-layer.png"
+  alt="Ảnh minh họa object layer"
+  width={1919}
+  height={908}
+  className="w-full h-auto"
+/>
+
+## Kết quả đạt được
+
+- Hoàn thành một trình chỉnh sửa ảnh gọn nhẹ, hoạt động ổn định trên web.  
+- Giúp đội ngũ **có công cụ nền tảng** để mở rộng sang các tính năng nâng cao (template, sticker, filter).  
+- Được sử dụng như **proof-of-concept** trong các dự án nội bộ tại True Platform.  
+
+## Công nghệ sử dụng
+
+- **Framework nội bộ công ty** (PHP, JS/jQuery).  
+- **Fabric.js** để xử lý canvas.  
+- HTML, CSS thuần cho UI.  
+
+## Học được gì
+
+- Kinh nghiệm tích hợp **Fabric.js** với custom UI.  
+- Thiết kế và quản lý **undo/redo stack** hiệu quả.  
+- Kỹ năng xây dựng **layer management** cho object.  
+- Tư duy tối ưu bộ nhớ (snapshot giới hạn).  
+- Cách tổ chức code frontend **thuần HTML + jQuery**, không phụ thuộc lib ngoài.
