@@ -56,10 +56,24 @@ To use this template for your own portfolio:
 
 1. Replace content in `content/` directory:
    - Update `content/informations/info.ts` with your personal information
-   - Add your own blog posts in `content/blogs/`
+   - Add your own blog posts in `content/blogs/` (use helper script below)
    - Add your projects in `content/projects/`
 
-2. Customize the theme:
+2. Create a new blog post using the helper script:
+```bash
+npm run new-blog "Your Blog Title" "A brief summary of your blog" "tag1,tag2,tag3" [featured] [author]
+```
+For example:
+```bash
+npm run new-blog "Getting Started with Next.js" "Learn the basics of Next.js and build your first app" "next.js,react,tutorial" true "Your Name"
+```
+This will:
+- Create a new MDX file in `content/blogs/`
+- Set up the blog metadata
+- Create an images directory for your blog
+- Generate a starter template
+
+3. Customize the theme:
    - Modify colors in `tailwind.config.ts`
    - Update themes in `utils/themes/`
    - Customize components in `components/ui/`

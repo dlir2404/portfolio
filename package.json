@@ -18,6 +18,7 @@
     "start": "next start",
     "lint": "next lint",
     "generate-search": "npx tsx scripts/generate-blog-data.ts",
+    "new-blog": "npx tsx scripts/create-blog.ts",
     "new-project": "ts-node scripts/create-project.ts"
   },
   "dependencies": {
