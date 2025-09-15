@@ -1,7 +1,17 @@
 {
-  "name": "larry-portfolio",
+  "name": "portfolio",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "author": "dlir2404",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dlir2404/portfolio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dlir2404/portfolio/issues"
+  },
+  "homepage": "https://github.com/dlir2404/portfolio#readme",
   "scripts": {
     "dev": "next dev",
     "build": "npm run generate-search && next build",
