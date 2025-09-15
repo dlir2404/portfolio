@@ -191,7 +191,7 @@ export default function Projects({
           viewport={{ once: true }}
         >
           <motion.a
-            href="https://github.com"
+            href="https://github.com/dlir2404"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 border border-white/20 rounded-full text-white font-medium transition-all duration-300 group"
