@@ -1,0 +1,101 @@
+---
+title: "Bookmarks App"
+summary: "Ứng dụng quản lý bookmarks đa dạng: từ link ngoài đến resource nội bộ, kèm AI hỗ trợ extract & summary."
+image: "/images/projects/bookmarks/cover.png"
+publishedAt: "2025-01-08"
+live: ""  
+repo: ""  
+category: "Web"
+tags: ["Bookmark", "AI", "Collaboration"]
+featured: false
+teamSize: 2
+---
+
+## Giới thiệu
+
+**Bookmarks App** là ứng dụng quản lý và lưu trữ thông tin đa dạng, cho phép người dùng lưu link bên ngoài hoặc resource nội bộ của hệ thống.  
+Ứng dụng không chỉ đơn giản là lưu trữ, mà còn hỗ trợ tính năng cộng tác (share, comment, activity log) và tích hợp AI để phân tích nội dung link.
+
+## Vai trò của mình
+
+- Xây dựng toàn bộ module bookmark từ backend đến frontend.  
+- Tích hợp crawl link (og/meta tags) để hiển thị preview.  
+- Xây dựng hệ thống phân loại bookmark theo **list và tag**.  
+- Tích hợp AI để xử lý và phân tích nội dung link.  
+
+## Các chức năng chính
+
+### 1. Bookmark Link
+- Lưu lại bất kỳ link nào.  
+- Tự động crawl **thẻ og/meta** để hiển thị preview (title, description, thumbnail).  
+- AI hỗ trợ:  
+  - **Extract content**: lấy nội dung chính của link.  
+  - **Summary**: tóm tắt nội dung.  
+  - **Auto-tag**: gợi ý tag phù hợp để phân loại.  
+
+<Carousel
+  images={[
+    "/images/projects/bookmarks/feature-bookmark-link.png",
+    "/images/projects/bookmarks/feature-bookmark-link2.png",
+    "/images/projects/bookmarks/feature-bookmark-link3.png",
+  ]}
+/>
+
+### 2. Bookmark Resource
+- Lưu và quản lý resource nội bộ như: **Account, Contact, Deal, Lead, Task,…**  
+- Cho phép truy cập nhanh đến resource mà không cần tìm kiếm thủ công.  
+
+<Carousel
+  images={[
+    "/images/projects/bookmarks/feature-bookmark-resource.png",
+    "/images/projects/bookmarks/feature-bookmark-resource2.png",
+    "/images/projects/bookmarks/feature-bookmark-resource3.png",
+  ]}
+/>
+
+### 3. Tương tác trong Bookmark
+Mỗi bookmark (link hoặc resource) đều hỗ trợ:  
+- **Share**: chia sẻ cho user khác trong hệ thống.  
+- **Comment**: bình luận, trao đổi trực tiếp.  
+- **Note**: sử dụng built-in notes có sẵn trong platform.  
+- **Activity Logs**: lưu lại lịch sử tương tác.  
+
+<Carousel
+  images={[
+    "/images/projects/bookmarks/feature-bookmark-interaction.png",
+    "/images/projects/bookmarks/feature-bookmark-interaction2.png",
+  ]}
+/>
+
+### 4. List & Tag
+- Người dùng có thể tạo **list riêng** để nhóm các bookmark theo nhu cầu.  
+- Gắn **tag** để dễ dàng tìm kiếm và quản lý.  
+
+<Carousel
+  images={[
+    "/images/projects/bookmarks/feature-bookmark-list-tag.png",
+    "/images/projects/bookmarks/feature-bookmark-list-tag2.png",
+    "/images/projects/bookmarks/feature-bookmark-list-tag3.png",
+    "/images/projects/bookmarks/feature-bookmark-list-tag4.png",
+  ]}
+/>
+
+## Kết quả đạt được
+
+- Hệ thống bookmarks **đa năng**, kết hợp cả external links và internal resources.  
+- Tích hợp AI giúp tiết kiệm thời gian đọc và phân loại link.  
+- Tạo ra không gian cộng tác hiệu quả (share, comment, activity logs).  
+
+## Công nghệ sử dụng
+
+- **Framework nội bộ** (PHP, JS/jQuery).  
+- **Crawler** để lấy og/meta tags.  
+- **AI services** cho extract/summary/auto-tag.  
+- Tích hợp với module **Notes** & **Activity Logs** có sẵn trong platform.  
+
+## Học được gì
+
+- Kinh nghiệm crawl dữ liệu web và xử lý metadata.  
+- Tích hợp AI để **tự động hóa phân loại & tóm tắt nội dung**.  
+- Thiết kế hệ thống bookmark **mở rộng được cho cả external và internal objects**.  
+- Cải thiện kỹ năng xây dựng **tính năng cộng tác trong ứng dụng**.
