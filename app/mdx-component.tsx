@@ -1,6 +1,7 @@
 import CodeSnippet from "@/components/mdx/CodeSnippet";
 import type { MDXComponents } from "mdx/types";
-import Image, { ImageProps } from "next/image";
+import { ImageProps } from "next/image";
+import MDXImage from "@/components/mdx/Image";
 import LinkHeading from "@/components/mdx/LinkHeading";
 import { Carousel, CarouselProps } from "@/components/mdx/Carousel";
 
@@ -41,16 +42,7 @@ const components = {
     p: ({ children }) => (<p className="mt-2 mb-3 leading-[175%]">{children}</p>),
     ul: ({ children }) => (<ul className="list-disc m-0 pl-5">{children}</ul>),
     li: ({ children }) => (<li className="p-0 pl-2 mb-3 marker:text-blue-400">{children}</li>),
-    Image: ({ src, alt, ...props }: ImageProps) => (
-        <div className="pt-2 pb-3 flex justify-center items-center">
-            <Image
-                src={src}
-                alt={alt}
-                className="rounded-2xl"
-                {...props}
-            />
-        </div>
-    ),
+    Image: ({ src, alt, ...props }: ImageProps) => (<MDXImage src={src} alt={alt} {...props} />),
     Carousel: ({ images, ...props }: CarouselProps) => (
         <Carousel images={images} {...props} />
     ),
