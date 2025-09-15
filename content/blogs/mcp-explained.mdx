@@ -22,6 +22,7 @@ Rồi **Model Context Protocol (MCP)** xuất hiện như một "siêu anh hùng
   alt="MCP Architecture Overview"
   width={1536}
   height={1024}
+  className="w-1/2"
 />
 
 ## MCP = Tool Calling "ăn steroid"
@@ -52,6 +53,7 @@ const availableTools = await discoverAllTools(); // ← Dynamic!
   alt="MCP Architecture Flow"
   width={1536}
   height={1024}
+  className="w-1/2"
 />
 
 **MCP Host**: AI application (như Claude, VS Code)
@@ -142,6 +144,7 @@ Remember to explain each algebraic manipulation clearly.
   alt="MCP Prompts Flow"
   width={512}
   height={768}
+  className="w-1/2"
 />
 
 ## 🚀 MCP hoạt động như thế nào?
@@ -227,7 +230,13 @@ const codeReview = await client.getPrompt('code-review', {
 
 **Result**: AI có **full context** về project và có thể thực hiện complex tasks! 🚀
 
-![MCP Real World Example](/images/blogs/mcp-explained/mcp-real-world.png)
+<Image
+  src="/images/blogs/mcp-explained/mcp-real-world.png"
+  alt="MCP Prompts Flow"
+  width={512}
+  height={768}
+  className="w-3/4"
+/>
 
 ## 🆚 MCP vs REST API - Sự khác biệt
 
