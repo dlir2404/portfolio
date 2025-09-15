@@ -1,44 +1,135 @@
 ---
-title: "Streamlining Social Media Management Across Platforms"
-summary: "This project focuses on creating a comprehensive tool for managing multiple social media platforms. It includes features like a multi-platform content editor, post simulators, AI writing assistance, scheduling, queue and calendar views, full-text search, and insights management. The tool simplifies social media workflows, enhances content quality, and provides actionable insights for better engagement."
-image: "/images/projects/socials/socials.png"
+title: "Socials – Universal Social Media Manager"
+summary: "Ứng dụng web giúp marketer quản lý, lưu nháp, đăng và theo dõi bài viết trên nhiều nền tảng mạng xã hội trong một nơi duy nhất."
+image: "/images/projects/socials/cover.jpg"
 publishedAt: "2025-04-23"
+live: ""
+repo: ""
 category: "Web"
-tags: ["Socials"]
+tags: ["PHP", "JavaScript", "jQuery", "Queue", "Scheduler", "Solr", "Social Media API", "Custom Calendar"]
 featured: true
 teamSize: 1
 ---
 
-## Overview
+## Giới thiệu
 
-Managing multiple social media platforms can be a daunting task for individuals and businesses alike. This project aims to simplify the process by providing an all-in-one tool for creating, scheduling, and analyzing posts across platforms like Facebook, X, Threads, Instagram, and LinkedIn. By integrating advanced features such as AI assistance and insights management, the tool empowers users to optimize their social media strategies effectively.
+**Socials** là công cụ hỗ trợ quản lý nội dung mạng xã hội theo mô hình **“write once, publish everywhere”**.  
+Ứng dụng cho phép người dùng soạn thảo, lưu nháp, lên lịch và đồng bộ bài viết trên nhiều nền tảng: **Facebook, Instagram, Threads, X (Twitter), LinkedIn…** tất cả trong một giao diện duy nhất.  
+Hệ thống được thiết kế với **queue, schedule jobs và full-text search bằng Solr** để đảm bảo hiệu suất và độ tin cậy. Hiện tại, sản phẩm đã được triển khai và vận hành thực tế trên môi trường **production**.
 
-## Key Features
+## Vai trò của mình
 
-- **Multi-Platform Content Editor**: A user-friendly editor designed to create and edit content tailored for Facebook, X, Threads, Instagram, and LinkedIn.
-- **Post Simulators**: A preview section that allows users to see how their posts will appear on different platforms before publishing.
-- **AI Writing Assistant**: An AI-powered assistant that helps improve content quality by providing suggestions and enhancements.
-- **Scheduling Feature**: Schedule posts to be published at specific times, eliminating the need to manually post at exact moments.
-- **Queue View**: A list view that displays upcoming posts, published posts, and drafts for better organization.
-- **Calendar View**: A weekly overview of scheduled posts, providing a clear picture of the posting timeline.
-- **Full-Text Search**: Quickly search for posts using keywords to locate specific content.
-- **Insights Management**: Sync and track post metrics such as reactions, comments, shares, and more to evaluate performance.
+- Phát triển toàn bộ hệ thống với framework nội bộ (PHP + JS + jQuery).  
+- Thiết kế backend với **queue và schedule jobs** để xử lý đăng bài, lưu nháp và đồng bộ chỉ số.  
+- Tích hợp API của nhiều nền tảng (Facebook, Instagram, Threads, X, LinkedIn).  
+- Tích hợp **Apache Solr** để hỗ trợ tìm kiếm toàn văn cho bài viết và chiến dịch.  
+- Xây dựng UI/UX bằng jQuery, đảm bảo trải nghiệm trực quan và mượt mà.  
+- **Tự tay xây dựng Calendar View chỉ với HTML, CSS, JS, jQuery — hoàn toàn thủ công, không dùng thư viện ngoài.**
 
-## Challenges and Learnings
+## Các chức năng chính
 
-Developing this tool involved overcoming several challenges:
-- **Platform-Specific Requirements**: Ensuring compatibility with multiple social media APIs and adapting to their unique requirements.
-- **Real-Time Previews**: Building accurate simulators for post previews across different platforms.
-- **AI Integration**: Incorporating AI for content suggestions while maintaining relevance and tone.
-- **Data Synchronization**: Managing and syncing metrics across platforms to provide accurate insights.
+### 1. Universal Composer
+- Viết bài một lần, đăng nhiều nơi.  
+- Xem trước bài viết trên từng nền tảng (Facebook, LinkedIn, Threads, X, Instagram).  
+- Tùy chỉnh riêng từng phiên bản mà không cần rời khỏi màn hình.
 
-These challenges provided valuable lessons in API integration, user experience design, and data management.
+<Image
+  src="/images/projects/socials/feature-composer.png"
+  alt="Ảnh minh họa universal composer"
+  width={1919}
+  height={1079}
+  className="w-full h-auto"
+/>
 
-## Outcome
+### 2. Draft
+- Người dùng có thể **lưu bài viết dưới dạng draft** nếu chưa muốn lên lịch.  
+- Draft có thể được **chỉnh sửa, cập nhật nội dung hoặc xóa bất kỳ lúc nào** trước khi chuyển sang trạng thái schedule/post.  
+- Giúp marketer có không gian chuẩn bị nội dung trước khi công bố chính thức.  
 
-The result is a robust social media management tool that streamlines workflows and enhances productivity. Users can now:
-- Create and optimize content for multiple platforms with ease.
-- Schedule posts and manage their social media calendar efficiently.
-- Gain actionable insights to improve engagement and refine their strategies.
+<Carousel
+  images={[
+    "/images/projects/socials/feature-draft.png",
+    "/images/projects/socials/feature-draft2.png",
+    "/images/projects/socials/feature-draft3.png",
+  ]}
+/>
 
-This project not only simplifies social media management but also empowers users to achieve better results in their digital marketing efforts.
+### 3. Schedule Post
+- Lên lịch đăng bài trên nhiều nền tảng cùng lúc.  
+- **Queue + Schedule jobs** đảm bảo bài viết được xử lý đúng giờ, ngay cả khi hệ thống bận rộn.  
+- Các bài đã được schedule nhưng chưa đến giờ đăng vẫn có thể **chỉnh sửa hoặc xóa** linh hoạt.  
+
+<Carousel
+  images={[
+    "/images/projects/socials/feature-schedule.png",
+    "/images/projects/socials/feature-schedule2.png",
+    "/images/projects/socials/feature-schedule3.png",
+  ]}
+/>
+
+
+### 4. Direct Post & Notification-based Posting
+- Với các nền tảng hỗ trợ API (Facebook, LinkedIn, Threads, X), bài viết được đăng trực tiếp.  
+- Với các nền tảng hạn chế API (Instagram, Medium, Substack), hệ thống gửi thông báo kèm hướng dẫn đăng thủ công.  
+
+<Image
+  src="/images/projects/socials/feature-notification.png"
+  alt="Ảnh minh họa notification"
+  width={462}
+  height={1000}
+  className="w-full h-auto"
+/>
+
+### 5. Post Detail & Metrics Sync
+- Xem chi tiết bài viết: caption, media, lịch đăng, trạng thái, ID gốc, link.  
+- Đồng bộ dữ liệu và thống kê mới nhất thông qua **schedule jobs định kỳ**.  
+- Tích hợp Solr để tìm và lọc nhanh trong hàng nghìn bài viết.
+
+<Image
+  src="/images/projects/socials/post_details_and_sync_metrics.gif"
+  alt="Ảnh minh họa tính năng đồng bộ chỉ số"
+  width={1920}
+  height={1080}
+  className="w-full h-auto"
+/>
+
+### 6. Calendar View
+- Trực quan hóa toàn bộ chiến lược nội dung trong lịch.  
+- **Xây dựng hoàn toàn thủ công bằng HTML, CSS, JS, jQuery — không sử dụng thư viện ngoài.**  
+- Cho phép kéo-thả để thay đổi lịch đăng, hệ thống tự động cập nhật queue và job tương ứng.  
+- Dù thủ công nhưng đảm bảo khả năng mở rộng và tùy biến theo nhu cầu doanh nghiệp.
+
+<Image
+  src="/images/projects/socials/feature-calendar.png"
+  alt="Ảnh minh họa lịch quản lý bài viết"
+  width={1919}
+  height={1078}
+  className="w-full h-auto"
+/>
+
+## Kết quả đạt được
+
+- Kết nối thành công với nhiều mạng xã hội lớn: **Facebook, Instagram, Threads, X, LinkedIn**.  
+- Hệ thống xử lý hàng nghìn bài viết đồng thời nhờ queue và job scheduler.  
+- Tìm kiếm tức thì trong hàng chục nghìn bài viết và chiến dịch nhờ Solr.  
+- Hỗ trợ linh hoạt: từ **draft → chỉnh sửa → lên lịch → đăng bài → theo dõi kết quả**.  
+- Calendar View **được xây dựng thủ công** nhưng vẫn đáp ứng đầy đủ tính năng quản lý timeline.  
+- Giúp marketer tiết kiệm ~60% thời gian cho việc đăng và quản lý nội dung đa nền tảng.  
+- Sản phẩm đã triển khai **chính thức chạy production từ tháng 4/2025**.
+
+## Công nghệ sử dụng
+
+- **Backend:** PHP (framework nội bộ), MySQL, Queue, Schedule jobs  
+- **Frontend:** JavaScript, jQuery, HTML5, CSS3  
+- **Search Engine:** Apache Solr (full-text search)  
+- **Triển khai:** Docker (DevOps quản lý), run on production  
+- **API Integration:** Facebook Graph API, Instagram Graph API, Threads API, LinkedIn API, X API  
+
+## Học được gì
+
+- Kinh nghiệm triển khai **multi-social integration** với nhiều API khác nhau.  
+- Thiết kế hệ thống **bền vững** với queue & schedule jobs để tránh bottleneck.  
+- Xây dựng luồng làm việc hoàn chỉnh với **draft, chỉnh sửa, lên lịch, đăng bài, đồng bộ dữ liệu**.  
+- Ứng dụng **Solr** cho full-text search và tối ưu hiệu suất truy vấn.  
+- Kỹ năng xây dựng **Calendar View thủ công** chỉ với HTML, JS, jQuery — giúp hiểu sâu cách xử lý DOM, sự kiện, và logic lịch phức tạp.  
+- Quản lý workflow phức tạp cho social media marketing ở môi trường production.
