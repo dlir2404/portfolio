@@ -4,6 +4,7 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 import { Toaster } from "@/components/ui/sonner"
 import TrailingCursor from '@/components/effects/TrailingCursor';
 import { baseInfo } from '@/content/informations/info';
+import { Analytics } from '@vercel/analytics/next';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const jetBrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
@@ -44,6 +45,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${jetBrainsMono.variable} font-inter antialiased bg-black text-white overflow-x-hidden`}>
         {children}
         <TrailingCursor />
+        <Analytics />
         <Toaster position='top-center' richColors/>
       </body>
     </html>
