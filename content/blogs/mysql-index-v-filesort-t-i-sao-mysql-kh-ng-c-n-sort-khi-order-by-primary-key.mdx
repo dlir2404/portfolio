@@ -1,0 +1,196 @@
+---
+title: "MySQL Index và Filesort: Tại sao MySQL không cần sort khi ORDER BY primary key?"
+summary: "Khám phá bí mật đằng sau việc MySQL tránh filesort khi query với WHERE city='HCM' ORDER BY id LIMIT 10. Tìm hiểu về clustered index, secondary index và covering index trong InnoDB."
+publishedAt: "2025-10-10"
+readTime: "8 min read"
+tags: ["MySQL", "Database", "Performance"]
+featured: false
+image: "/images/blogs/mysql-index-filesort/cover.png"
+author: "Larry Vu"
+---
+
+## Câu hỏi đặt ra: Tại sao MySQL không dùng filesort?
+
+Hôm nay mình gặp một tình huống thú vị khi đang debug performance cho một query MySQL. Có một table `users` với cấu trúc đơn giản:
+
+```sql
+CREATE TABLE users (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    city VARCHAR(50),
+    INDEX idx_city (city)
+);
+```
+
+Khi chạy query sau:
+
+```sql
+EXPLAIN SELECT * FROM users 
+WHERE city = 'HCM' 
+ORDER BY id 
+LIMIT 10;
+```
+
+Kết quả `EXPLAIN` không có từ **"Using filesort"** trong cột `Extra`. Điều này khá lạ vì mình expect MySQL phải sort theo `id` sau khi filter theo `city`. Vậy **tại sao MySQL không cần filesort?**
+
+## Bí mật đằng sau: InnoDB Secondary Index Structure
+
+Câu trả lời nằm ở cách InnoDB tổ chức **secondary index**. Theo [MySQL Documentation](https://dev.mysql.com/doc/refman/8.4/en/innodb-index-structure.html):
+
+> **"Each secondary index entry contains the primary key columns for the row, as well as the columns specified in the index."**
+
+Điều này có nghĩa là khi chúng ta tạo index `idx_city (city)`, InnoDB **tự động** thêm primary key vào cuối:
+
+```sql
+-- Những gì chúng ta định nghĩa:
+INDEX idx_city (city)
+
+-- Những gì InnoDB thực sự lưu trữ:
+INDEX idx_city (city, id)  -- id được thêm tự động!
+```
+
+## Visualizing Index Structure
+
+Hãy tưởng tượng data trong `idx_city` được sắp xếp như thế này:
+
+<Image
+  src="/images/blogs/mysql-index-filesort/img1.png"
+  alt="index data"
+  width={1024}
+  height={1536}
+  className="w-1/2"
+/>
+
+Khi query `WHERE city = 'HCM' ORDER BY id`, MySQL:
+1. Sử dụng index `idx_city` để tìm tất cả rows có `city = 'HCM'`
+2. **Các rows này đã được sắp xếp theo `id`** trong index rồi!
+3. Chỉ cần đọc tuần tự và lấy 10 rows đầu → **Không cần filesort**
+
+## Thí nghiệm 1: ORDER BY column khác
+
+Bây giờ thử query với `ORDER BY name`:
+
+```sql
+EXPLAIN SELECT * FROM users 
+WHERE city = 'HCM' 
+ORDER BY name 
+LIMIT 10;
+```
+
+**Kết quả:** `Extra: Using filesort`
+
+**Tại sao?** Vì secondary index `idx_city` chỉ chứa `(city, id)`, không có `name`. MySQL phải:
+1. Tìm matching rows từ index
+2. **Fetch data từ clustered index** để lấy `name`
+3. **Sort theo `name`** → Filesort!
+
+## Thí nghiệm 2: Covering Index - Loại bỏ filesort
+
+Tạo **covering index** bao gồm tất cả columns cần thiết:
+
+```sql
+CREATE INDEX idx_city_name ON users (city, name);
+```
+
+Bây giờ chạy lại query:
+
+```sql
+EXPLAIN SELECT * FROM users 
+WHERE city = 'HCM' 
+ORDER BY name 
+LIMIT 10;
+```
+
+**Kết quả:** `Extra: Using index`
+
+**Magic!** 🎩✨ Index `idx_city_name` có cấu trúc thực tế là `(city, name, id)`, được sắp xếp hoàn hảo cho query này.
+
+## Double Lookup vs Covering Index
+
+### Scenario 1: Regular Secondary Index
+```sql
+-- Index: idx_city (city, id)
+SELECT * FROM users WHERE city = 'HCM' ORDER BY name;
+```
+
+**Flow:**
+1. Scan `idx_city` → Tìm được các `id` matching
+2. **Double lookup:** Truy cập clustered index để lấy full row data
+3. **Sort** các rows theo `name`
+4. Return kết quả
+
+### Scenario 2: Covering Index
+```sql
+-- Index: idx_city_name (city, name, id)
+SELECT * FROM users WHERE city = 'HCM' ORDER BY name;
+```
+
+**Flow:**
+1. Scan `idx_city_name` → Data đã sorted theo `(city, name)`
+2. **Không cần double lookup** vì tất cả data đã có trong index
+3. **Không cần sort** vì data đã sorted
+4. Return kết quả trực tiếp
+
+## Thí nghiệm 3: Khi Covering Index "bị phá"
+
+Giả sử chúng ta thêm column `age`:
+
+```sql
+ALTER TABLE users ADD COLUMN age INT;
+```
+
+Bây giờ query `SELECT *` sẽ bao gồm cả `age`:
+
+```sql
+EXPLAIN SELECT * FROM users 
+WHERE city = 'HCM' 
+ORDER BY name 
+LIMIT 10;
+```
+
+**Kết quả:** `Extra: NULL` (không có gì cả!)
+
+**So sánh với Scenario 2:** 
+- **Scenario 2:** `Extra: Using index` (covering index, không cần double lookup)
+- **Scenario 3:** `Extra: NULL` (cần double lookup nhưng không cần filesort)
+
+**Tại sao khác nhau?** 
+1. **Covering index bị mất:** Index `idx_city_name` không chứa column `age`, nên MySQL không thể return data trực tiếp từ index
+2. **Sort order được preserve:** MySQL scan index `idx_city_name` theo thứ tự `(city, name)` 
+3. **Double lookup cho missing columns:** Với mỗi row từ index, MySQL lookup vào clustered index để lấy `age`
+4. **Không cần filesort:** Vì rows đã được fetch theo đúng thứ tự sort từ index scan
+
+**Trade-off:** Mất **"Using index"** optimization nhưng vẫn giữ được **sort efficiency**!
+
+## Key Takeaways
+
+### 1. Secondary Index = Index Columns + Primary Key
+InnoDB tự động append primary key vào cuối mọi secondary index.
+
+### 2. B-Tree Sort Order
+B-trees lưu trữ data theo thứ tự **ascending** mặc định, trừ khi explicit định nghĩa `DESC`.
+
+### 3. Covering Index Magic
+Khi index chứa **tất cả** columns needed, MySQL có thể trả kết quả trực tiếp mà không cần access clustered index.
+
+### 4. Filesort Conditions
+MySQL dùng filesort khi:
+- ORDER BY column không match với index order
+- Cần fetch additional columns không có trong index
+- Index không cover đủ columns cho query
+
+## Best Practices
+
+1. **Design indexes theo query patterns:** Nếu thường query `WHERE A ORDER BY B`, tạo index `(A, B)`
+
+2. **Consider covering indexes:** Cho các queries hot, tạo index chứa tất cả columns needed
+
+3. **Monitor EXPLAIN plans:** Luôn check `Extra` column để spot filesort
+
+4. **Understand the trade-offs:** More indexes = faster reads nhưng slower writes
+
+## Kết luận
+
+MySQL InnoDB có những optimization rất thông minh ở index level. Hiểu rõ cách secondary indexes work sẽ giúp bạn design schemas và queries hiệu quả hơn. Remember: **secondary index không chỉ là những gì bạn define, mà còn bao gồm primary key!**
+
+Lần tới khi thấy query không có "Using filesort" mà bạn expect có, hãy nhớ đến bài viết này nhé! 😉
