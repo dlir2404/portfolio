@@ -37,8 +37,16 @@ export const experiences: Experience[] = [
         company: "True Platform Vietnam JSC",
         role: ["Full Stack Developer"],
         startDate: "2024-08",
-        endDate: "Present",
+        endDate: "2025-09",
         summary: "Serving as a Full Stack Developer in a 15-member engineering team. Building and maintaining enterprise-grade web applications, integrating complex business logic, and ensuring system scalability and performance.",
         techStack: ["JavaScript", "PHP", "MySQL", "In-house proprietary framework"]
+    },
+    {
+        company: "OpenCommerce Group",
+        role: ["Full Stack Developer"],
+        startDate: "2025-10",
+        endDate: "Present",
+        summary: "Currently working as a Full Stack Developer in Front team (Front here doesn's mean frontend), contributing to the development of e-commerce solutions.",
+        techStack: ["Django", "Golang", "Python", "Vue.js", "MySQL"]
     }
 ];
