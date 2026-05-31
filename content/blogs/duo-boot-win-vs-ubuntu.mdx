@@ -10,33 +10,146 @@ author: "Larry Vu"
 
 ## Why Dual Boot?
 
-Dual booting gives you the best of both worlds - you can keep your familiar Windows system while exploring the powerful features of Ubuntu Linux. It's perfect for:
-- Learning Linux without commitment
-- Development work that requires Linux
-- Running software specific to each OS
-- Maintaining Windows for gaming while using Linux for work
+Dual booting gives you the best of both worlds - you keep your familiar Windows install while exploring the power and flexibility of Ubuntu Linux. Both systems live on the same machine, and you pick which one to load every time you turn the computer on. It's a great fit if you want to:
+
+- Learn Linux without committing your whole machine to it
+- Do development work that's smoother on Linux
+- Run software that only exists on one OS
+- Keep Windows around for gaming while using Ubuntu for everyday work
+
+The best part: if you decide Ubuntu isn't for you, removing it and reclaiming the space is straightforward. We'll cover that at the end.
 
 ## Prerequisites
 
 Before we begin, make sure you have:
-- Windows 10/11 already installed
-- At least 30GB of free disk space
-- A USB drive (8GB or larger)
-- Backup of important data
-- Basic knowledge of BIOS/UEFI settings
 
-## Step-by-Step Guide
+- Windows 10/11 already installed and booting normally
+- At least 30GB of free disk space (50GB+ is more comfortable)
+- A USB drive, 8GB or larger (its contents will be wiped)
+- A backup of anything important - we're touching partitions, so play it safe
+- The willingness to poke around your BIOS/UEFI settings
 
-### 1. Create Ubuntu Installation Media
-First, we'll need to create a bootable USB drive:
-1. Download Ubuntu from ubuntu.com
-2. Download Rufus USB creator
-3. Create bootable USB using Rufus
+You'll also need two free downloads:
 
-### 2. Prepare Your Windows System
-- Backup important data
-- Create free disk space by shrinking Windows partition
-- Disable Fast Startup in Windows
-- Disable Secure Boot in BIOS
+- The **Ubuntu Desktop ISO** from [ubuntu.com/download/desktop](https://ubuntu.com/download/desktop)
+- **Rufus**, a tiny tool that turns the ISO into a bootable USB, from [rufus.ie](https://rufus.ie/en/)
 
-[Continue with remaining sections...]
+## Step 1: Create the Ubuntu Installation Media
+
+First we'll turn that USB drive into a bootable Ubuntu installer.
+
+1. Download the latest Ubuntu Desktop ISO from the link above. It's a few gigabytes, so give it a minute.
+2. Download and open Rufus. It's portable - no installation needed.
+3. Plug in your USB drive and select it under **Device** in Rufus.
+4. Click **SELECT** and choose the Ubuntu ISO you just downloaded.
+5. Leave the partition scheme as **GPT** and the target system as **UEFI** (the defaults for modern PCs).
+6. Click **START**. If Rufus asks about ISOHybrid image mode, choose **Write in ISO Image mode**.
+7. Wait for it to finish, then close Rufus. Your bootable USB is ready.
+
+Everything on the drive gets erased during this step, so double-check you picked the right device.
+
+## Step 2: Prepare Your Windows System
+
+Now we make room for Ubuntu and clear a couple of Windows settings that can get in the way.
+
+### Free up disk space
+
+Windows can shrink its own partition to carve out empty space for Ubuntu. Open the Disk Management tool:
+
+```text
+Win + X  →  Disk Management
+```
+
+Right-click your main Windows partition (usually `C:`), choose **Shrink Volume**, and enter the amount of space to free up in MB. For 30GB, enter `30000`; for 50GB, enter `50000`. Click **Shrink**.
+
+Leave the freed space as **Unallocated** - don't create a new partition from it. The Ubuntu installer will handle that for us.
+
+### Disable Fast Startup
+
+Fast Startup leaves Windows in a hibernated state, which can lock the disk and confuse the Ubuntu installer. Turn it off:
+
+```text
+Control Panel → Power Options → Choose what the power buttons do
+→ Change settings that are currently unavailable
+→ uncheck "Turn on fast startup"  →  Save changes
+```
+
+## Step 3: Disable Secure Boot
+
+Secure Boot can block the Ubuntu installer from loading on some machines. The safest approach is to disable it before installing.
+
+1. Reboot and enter your BIOS/UEFI. The key varies by manufacturer - usually **F2**, **Del**, **F10**, or **Esc** during startup. Tap it repeatedly as the PC powers on.
+2. Find the **Security** or **Boot** section and locate **Secure Boot**.
+3. Set it to **Disabled**.
+4. While you're here, confirm your boot mode is **UEFI** (not Legacy/CSM).
+5. **Save and Exit** - usually **F10**.
+
+If you can't find the option, search your laptop or motherboard model name plus "disable secure boot" - the menu layout differs between vendors.
+
+## Step 4: Install Ubuntu
+
+This is the main event. With the USB plugged in, reboot and open your one-time boot menu.
+
+### Boot from the USB
+
+As the PC restarts, tap the boot-menu key (often **F12**, **F11**, **F9**, or **Esc** - it's usually printed on the splash screen). Pick your USB drive from the list. You should land on Ubuntu's welcome screen with the option to **Try or Install Ubuntu**.
+
+### Walk through the installer
+
+1. Choose **Install Ubuntu** and pick your language and keyboard layout.
+2. Select **Normal installation** and tick **Download updates while installing** if you're online.
+3. On the **Installation type** screen, choose **Install Ubuntu alongside Windows Boot Manager**. This is the magic option - it automatically uses the unallocated space and sets up dual boot for you, leaving Windows untouched.
+4. If that option doesn't appear, you can use **Something else** and manually point Ubuntu at the unallocated space, but for most people the "alongside" option is the safe, easy path.
+5. Use the slider to decide how much space goes to Ubuntu, then click **Install Now** and confirm the changes.
+6. Pick your timezone, then create your username and password. Tip: the password you set here is also your `sudo` (admin) password, so make it memorable.
+7. Let the installer finish, then choose **Restart Now** and remove the USB when prompted.
+
+## Step 5: The Boot Menu (GRUB)
+
+After the first reboot you'll see a new dark menu called **GRUB**. This is the dual-boot chooser:
+
+- The top entry boots **Ubuntu** (it's selected by default after a few seconds).
+- An entry for **Windows Boot Manager** lets you boot back into Windows.
+
+Use the arrow keys to highlight whichever OS you want and press **Enter**. That's the whole dual-boot experience - choose your system every time you power on.
+
+If you'd rather Windows be the default, you can change that later from within Ubuntu by editing the GRUB config, but the default order works fine for most people.
+
+## Ubuntu Basics
+
+Once you're in, a few essentials to get comfortable:
+
+- **Software Updater** keeps the system patched - run it after your first login.
+- The **App Center** is Ubuntu's built-in store for installing software with a click.
+- The terminal is your friend. The single most useful command updates everything:
+
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+
+Your Windows files are still there too - Ubuntu can read your Windows partition from the **Files** app, so nothing is lost.
+
+## Removing Ubuntu (If You Change Your Mind)
+
+One of the nicest things about this setup is how reversible it is. To go back to a Windows-only machine:
+
+1. Boot into **Windows**.
+2. Open **Disk Management** (`Win + X → Disk Management`).
+3. Delete the Ubuntu partitions - they'll show up as Linux/EFI partitions without a drive letter. Right-click each and choose **Delete Volume**.
+4. Right-click your `C:` partition and **Extend Volume** to reclaim the freed space.
+
+The last piece is the boot menu. Since GRUB is gone, restore the Windows boot loader from an elevated Command Prompt or Windows Recovery:
+
+```text
+bootrec /fixmbr
+bootrec /fixboot
+bootrec /rebuildbcd
+```
+
+After that, your PC boots straight into Windows as if Ubuntu was never there.
+
+## Wrapping Up
+
+That's it - you now have Windows and Ubuntu living side by side, with a clean menu to pick between them at startup. The whole process boils down to: make a bootable USB, free up some disk space, disable Secure Boot, and let Ubuntu's "install alongside" option do the heavy lifting.
+
+Give Linux a real spin for a couple of weeks. And if it's not for you, removing it is just a few clicks away. Happy dual booting!
