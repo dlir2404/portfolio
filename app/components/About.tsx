@@ -2,82 +2,7 @@
 
 import SectionHeader from '@/components/ui/SectionHeader';
 import { motion } from 'framer-motion';
-import { Code, Database, Globe, Smartphone, Zap, Cloud, Server, Section } from 'lucide-react';
-
-const skills = [
-  { 
-    name: 'Frontend', 
-    icon: Globe, 
-    color: 'from-blue-500 to-cyan-500', 
-    skills: [
-      'React',
-      'Next.js', 
-      'Redux',
-      'Tailwind CSS',
-      'HTML/CSS',
-      'jQuery',
-      'HTML Canvas',
-    ]
-  },
-  { 
-    name: 'Backend', 
-    icon: Server, 
-    color: 'from-violet-500 to-purple-500', 
-    skills: [
-      'Nest.js',
-      'Express',
-      'MCP',
-      'Spring Boot',
-      'Socket.io',
-      'AI Agents',
-      'RabbitMQ',
-      'Redis',
-    ]
-  },
-  { 
-    name: 'Database', 
-    icon: Database, 
-    color: 'from-emerald-500 to-green-500', 
-    skills: [
-      'PostgreSQL',
-      'MongoDB', 
-      'MySQL',
-      'Clickhouse',
-      'Elasticsearch',
-      'Solr'
-    ]
-  },
-  { 
-    name: 'DevOps & Cloud', 
-    icon: Cloud, 
-    color: 'from-orange-500 to-red-500', 
-    skills: [
-      'Docker',
-      'Kubernetes',
-      'CI/CD',
-      'Git',
-      'Linux',
-      'Automation'
-    ]
-  },
-  { 
-    name: 'Mobile', 
-    icon: Smartphone, 
-    color: 'from-pink-500 to-rose-500', 
-    skills: [
-      'Flutter',
-      'Android (Kotlin)',
-      'React Native'
-    ]
-  }
-];
-
-const stats = [
-  { number: '2.5+', label: 'Years Experience' },
-  { number: '20+', label: 'Projects Completed' },
-  { number: '15+', label: 'Technologies Mastered' },
-  { number: '24/7', label: 'Development Passion' }, 
-];
+import { aboutDescription, traits, skillGroups, stats } from '@/content/informations/info';
 
 export default function About() {
   return (
@@ -94,23 +19,16 @@ export default function About() {
             viewport={{ once: true }}
           >
             <div className="space-y-6">
-              <motion.p
-                className="text-lg text-gray-300 leading-relaxed"
-                whileInView={{ opacity: [0.8, 1, 0.8] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
-                Passionate Full-Stack Developer with 2.5+ years of experience delivering production-ready web and mobile applications. Strong background in backend systems, distributed computing, and cloud-native development with a focus on performance, scalability, and security.
-              </motion.p>
-              
-              <motion.p
-                className="text-lg text-gray-300 leading-relaxed"
-                whileInView={{ opacity: [0.8, 1, 0.8] }}
-                transition={{ duration: 3, repeat: Infinity, delay: 1 }}
-              >
-                I specialize in Nest.js and Next.js, but I'm always excited to learn new technologies 
-                and tackle challenging problems. When I'm not coding, you'll find me working on personal projects, 
-                exploring the latest tech trends, or learning from tech blogs and documentation.
-              </motion.p>
+              {aboutDescription.map((paragraph, index) => (
+                <motion.p
+                  key={index}
+                  className="text-lg text-gray-300 leading-relaxed"
+                  whileInView={{ opacity: [0.8, 1, 0.8] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: index }}
+                >
+                  {paragraph}
+                </motion.p>
+              ))}
 
               <motion.div
                 className="flex flex-wrap gap-3 pt-4"
@@ -118,7 +36,7 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
-                {['Problem Solver', 'Team Player', 'Continuous Learner', 'Tech Enthusiast'].map((trait, index) => (
+                {traits.map((trait, index) => (
                   <motion.span
                     key={trait}
                     className="px-4 py-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-white/10 rounded-full text-sm font-medium text-white"
@@ -142,7 +60,7 @@ export default function About() {
             viewport={{ once: true }}
             className="grid lg:grid-cols-2 gap-6"
           >
-              {skills.map((skill, index) => {
+              {skillGroups.map((skill, index) => {
                 const Icon = skill.icon;
                 return (
                   <motion.div
