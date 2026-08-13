@@ -5,5 +5,12 @@
     "description": "Edit, format, and validate JSON directly in your browser.",
     "url": "https://json-editor.onetimesms.net/",
     "tags": ["JSON", "Developer Tools", "Utility"]
+  },
+  {
+    "slug": "quick-edit",
+    "title": "Quick Edit",
+    "description": "Quickly edit text and content directly in your browser.",
+    "url": "https://quick-edit-smoky.vercel.app/",
+    "tags": ["Editor", "Developer Tools", "Utility"]
   }
 ]

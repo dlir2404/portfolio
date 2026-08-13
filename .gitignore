@@ -15,6 +15,9 @@
 # bolt
 /.bolt/
 
+# claude
+/.claude/
+
 # production
 /build
 
