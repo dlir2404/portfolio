@@ -12,5 +12,12 @@
     "description": "Quickly edit text and content directly in your browser.",
     "url": "https://quick-edit-smoky.vercel.app/",
     "tags": ["Editor", "Developer Tools", "Utility"]
+  },
+  {
+    "slug": "quiz-master",
+    "title": "Quiz Master",
+    "description": "Create and take interactive quizzes directly in your browser.",
+    "url": "https://quiz-master-ochre-xi.vercel.app/",
+    "tags": ["Quiz", "Education", "Utility"]
   }
 ]
