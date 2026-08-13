@@ -14,13 +14,13 @@ interface ProjectPageProps {
 }
 
 export async function generateStaticParams() {
-    const slugs = getAllProjectSlugs();
+    const slugs = await getAllProjectSlugs();
     return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: ProjectPageProps) {
     const { getProjectBySlug } = await import('@/lib/project');
-    const project = getProjectBySlug(params.slug);
+    const project = await getProjectBySlug(params.slug);
 
     if (!project) {
         return {
@@ -46,8 +46,8 @@ export async function generateMetadata({ params }: ProjectPageProps) {
     };
 }
 
-export default function ProjectPage({ params }: ProjectPageProps) {
-    const project = getProjectBySlug(params.slug);
+export default async function ProjectPage({ params }: ProjectPageProps) {
+    const project = await getProjectBySlug(params.slug);
 
     if (!project) {
         notFound();
@@ -103,7 +103,11 @@ export default function ProjectPage({ params }: ProjectPageProps) {
                 {/* Project Content */}
                 <article className="prose prose-invert prose-lg max-w-none">
                     <div className="text-gray-300 leading-relaxed">
-                        <MDXRemote source={project.content} components={useMDXComponents()} />
+                        <MDXRemote
+                            source={project.content}
+                            components={useMDXComponents()}
+                            options={{ blockJS: false }}
+                        />
                     </div>
                 </article>
 

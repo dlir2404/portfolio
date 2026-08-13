@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   };
 }
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const post = getBlogPostBySlug(params.slug);
 
   if (!post) {
@@ -126,7 +126,11 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Article Content */}
         <article className="prose prose-invert prose-lg max-w-none">
           <div className="text-gray-300 leading-relaxed">
-            <MDXRemote source={post.content} components={useMDXComponents()} />
+            <MDXRemote
+              source={post.content}
+              components={useMDXComponents()}
+              options={{ blockJS: false }}
+            />
           </div>
         </article>
 
