@@ -1,5 +1,12 @@
 [
   {
+    "slug": "dev-tools",
+    "title": "DevTools Suite",
+    "description": "All-in-one developer utilities suite: formatters, encoders, diffs, hash generators, and network tools.",
+    "url": "https://dev-tools-jade.vercel.app/",
+    "tags": ["Developer Tools", "Utility", "Formatters", "Next.js"]
+  },
+  {
     "slug": "json-editor",
     "title": "JSON Editor",
     "description": "Edit, format, and validate JSON directly in your browser.",
