@@ -31,6 +31,7 @@ export const baseInfo = {
     email: "dinhlinh.work24@gmail.com",
     phone: "+84 966103320",
     location: "Dong Da, Hanoi, Vietnam",
+    locationVi: "Đống Đa, Hà Nội, Việt Nam",
     socials: {
         linkedin: "https://www.linkedin.com/in/linh-%C4%91%C3%ACnh-128b7630a/",
         facebook: "https://www.facebook.com/Dlir24",
@@ -76,7 +77,7 @@ export const experiencesEn: Experience[] = [
 export const experiencesVi: Experience[] = [
     {
         company: "Freelance / Đội ngũ Outsourcing",
-        role: ["Full Stack Developer", "Business Analyst", "Tester"],
+        role: ["Lập trình viên Full Stack", "Phân tích nghiệp vụ", "Kiểm thử phần mềm"],
         startDate: "2023-03",
         endDate: "2023-08",
         summary: "Đóng vai trò Full Stack Developer, BA và Tester trong đội ngũ 5 thành viên. Trực tiếp làm rõ yêu cầu, phát triển tính năng và đảm bảo chất lượng cho các sản phẩm web khách hàng.",
@@ -84,7 +85,7 @@ export const experiencesVi: Experience[] = [
     },
     {
         company: "Tập đoàn Công nghệ VIPTAM",
-        role: ["Full Stack Developer", "Business Analyst", "Tester"],
+        role: ["Lập trình viên Full Stack", "Phân tích nghiệp vụ", "Kiểm thử phần mềm"],
         startDate: "2023-08",
         endDate: "2024-07",
         summary: "Làm việc trong đội ngũ sản phẩm 10 người với vai trò Full Stack Developer, BA và Tester. Thiết kế và phát triển các hệ thống web tối ưu, cộng tác chặt chẽ với các bên liên quan để đẩy nhanh tiến độ sản phẩm.",
@@ -92,7 +93,7 @@ export const experiencesVi: Experience[] = [
     },
     {
         company: "Công ty Cổ phần True Platform Việt Nam",
-        role: ["Full Stack Developer"],
+        role: ["Lập trình viên Full Stack"],
         startDate: "2024-08",
         endDate: "2025-09",
         summary: "Đảm nhiệm vị trí Full Stack Developer trong đội ngũ kỹ thuật 15 thành viên. Xây dựng và tối ưu các ứng dụng web cấp doanh nghiệp, tích hợp nghiệp vụ phức tạp, bảo đảm tính sẵn sàng và hiệu năng hệ thống.",
@@ -100,7 +101,7 @@ export const experiencesVi: Experience[] = [
     },
     {
         company: "OpenCommerce Group",
-        role: ["Full Stack Developer"],
+        role: ["Lập trình viên Full Stack"],
         startDate: "2025-10",
         endDate: "Present",
         summary: "Đang làm việc tại vị trí Full Stack Developer trong Front team, trực tiếp tham gia phát triển và tối ưu các giải pháp thương mại điện tử quy mô lớn.",

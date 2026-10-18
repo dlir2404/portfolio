@@ -9,7 +9,7 @@ import { getAllProjects } from '@/lib/project';
 import Experiences from './components/Experiences';
 
 export default async function Home() {
-  const projects = await getAllProjects();
+  const projects = await getAllProjects('en');
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
       <Header />

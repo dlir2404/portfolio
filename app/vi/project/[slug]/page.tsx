@@ -11,12 +11,12 @@ interface ProjectPageProps {
 }
 
 export async function generateStaticParams() {
-  const slugs = await getAllProjectSlugs();
+  const slugs = await getAllProjectSlugs('vi');
   return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
-  const project = await getProjectBySlug(params.slug);
+  const project = await getProjectBySlug(params.slug, 'vi');
 
   if (!project) {
     return {
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
 }
 
 export default async function VietnameseProjectPage({ params }: ProjectPageProps) {
-  const project = await getProjectBySlug(params.slug);
+  const project = await getProjectBySlug(params.slug, 'vi');
 
   if (!project) {
     notFound();

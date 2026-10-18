@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default async function VietnameseHome() {
-  const projects = await getAllProjects();
+  const projects = await getAllProjects('vi');
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
       <Header />

@@ -12,6 +12,9 @@ export interface Translations {
   };
   hero: {
     greeting: string;
+    welcomeBadge: string;
+    taglineLead: string;
+    taglineHighlight: string;
     roles: string[];
     ctaWork: string;
     ctaContact: string;
@@ -27,6 +30,7 @@ export interface Translations {
     title: string;
     subtitle: string;
     present: string;
+    technologiesUsed: string;
     month: string;
     months: string;
     year: string;
@@ -42,6 +46,7 @@ export interface Translations {
     sourceCode: string;
     teamSize: string;
     teamMembers: string;
+    viewAllGithub: string;
   };
   blog: {
     title: string;
@@ -116,6 +121,9 @@ export const translations: Record<Locale, Translations> = {
     },
     hero: {
       greeting: "Hello, I'm",
+      welcomeBadge: 'Welcome to my digital realm',
+      taglineLead: 'Crafting digital experiences with modern technologies.',
+      taglineHighlight: 'Passionate about creating innovative solutions that make a difference.',
       roles: [
         'Full Stack Developer',
         'Creative Technologist',
@@ -137,6 +145,7 @@ export const translations: Record<Locale, Translations> = {
       title: 'Professional Journey',
       subtitle: "A timeline of my professional growth and the impactful projects I've contributed to across different organizations.",
       present: 'Present',
+      technologiesUsed: 'Technologies Used',
       month: 'month',
       months: 'months',
       year: 'year',
@@ -157,6 +166,7 @@ export const translations: Record<Locale, Translations> = {
       sourceCode: 'Source Code',
       teamSize: 'Team Size',
       teamMembers: 'member(s)',
+      viewAllGithub: 'View All Projects on GitHub',
     },
     blog: {
       title: 'Blog & Insights',
@@ -229,6 +239,9 @@ export const translations: Record<Locale, Translations> = {
     },
     hero: {
       greeting: 'Xin chào, mình là',
+      welcomeBadge: 'Chào mừng bạn đến với thế giới số của mình',
+      taglineLead: 'Kiến tạo trải nghiệm số với các công nghệ hiện đại.',
+      taglineHighlight: 'Đam mê xây dựng các giải pháp sáng tạo tạo nên sự khác biệt.',
       roles: [
         'Lập trình viên Full Stack',
         'Kỹ sư giải pháp',
@@ -250,6 +263,7 @@ export const translations: Record<Locale, Translations> = {
       title: 'Hành trình sự nghiệp',
       subtitle: 'Dấu mốc phát triển sự nghiệp và những dự án ý nghĩa mà mình đã đóng góp qua từng tổ chức.',
       present: 'Hiện tại',
+      technologiesUsed: 'Công nghệ sử dụng',
       month: 'tháng',
       months: 'tháng',
       year: 'năm',
@@ -270,6 +284,7 @@ export const translations: Record<Locale, Translations> = {
       sourceCode: 'Mã nguồn',
       teamSize: 'Quy mô đội ngũ',
       teamMembers: 'thành viên',
+      viewAllGithub: 'Xem tất cả dự án trên GitHub',
     },
     blog: {
       title: 'Bài viết & Chia sẻ',

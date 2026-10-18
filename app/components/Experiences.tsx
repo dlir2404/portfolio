@@ -188,7 +188,7 @@ export default function Experiences() {
                     <div className="space-y-3">
                       <div className="flex items-center gap-2 text-sm font-medium text-gray-400">
                         <Code size={16} />
-                        <span>Technologies Used</span>
+                        <span>{t.experiences.technologiesUsed}</span>
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {experience.techStack.map((tech, techIndex) => (

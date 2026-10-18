@@ -1,0 +1,88 @@
+---
+title: "Bookmarks App – Smart Bookmark Management"
+summary: "A versatile bookmark management platform supporting external URLs and internal platform resources, integrated with AI for content extraction and automatic summarization."
+image: "/images/projects/bookmarks/cover.png"
+publishedAt: "2025-01-08"
+live: ""  
+repo: ""  
+category: "Web"
+tags: ["Bookmark", "AI", "Collaboration"]
+featured: false
+teamSize: 2
+---
+
+## Introduction
+
+**Bookmarks App** is a versatile information storage and organization application that allows users to save both external web links and internal system resources.  
+Beyond standard bookmarking, the platform provides rich collaboration features (sharing, commenting, activity history) and embeds AI capabilities to analyze and summarize saved content.
+
+## My Role & Responsibilities
+
+- Designed and engineered the end-to-end bookmarking module across both backend and frontend.  
+- Integrated an intelligent link crawler to scrape Open Graph / meta tags for live link previews.  
+- Architected the categorization system using flexible **lists and tags**.  
+- Integrated AI services for automatic link parsing and semantic summarization.
+
+## Key Features
+
+### 1. Web Link Bookmarks
+- Save any external web address with a single click.  
+- Automatically extracts **Open Graph & meta tags** to render rich visual previews (title, summary, thumbnail).  
+- AI-powered enhancements:  
+  - **Content Extraction**: Strips clutter to retrieve the main article body.  
+  - **Summarization**: Generates concise bulleted summaries.  
+  - **Auto-tagging**: Suggests relevant tags for effortless organization.
+
+<Carousel
+  images={[
+    "/images/projects/bookmarks/feature-bookmark-link.png",
+    "/images/projects/bookmarks/feature-bookmark-link2.png",
+    "/images/projects/bookmarks/feature-bookmark-link3.png",
+  ]}
+/>
+
+### 2. Internal Resource Bookmarks
+- Bookmark and reference internal enterprise entities: **Accounts, Contacts, Deals, Leads, Tasks, and more.**  
+- Instant one-click jump to critical records without manual searching.
+
+<Carousel
+  images={[
+    "/images/projects/bookmarks/feature-bookmark-resource.png",
+    "/images/projects/bookmarks/feature-bookmark-resource2.png",
+    "/images/projects/bookmarks/feature-bookmark-resource3.png",
+  ]}
+/>
+
+### 3. Collaboration & Interactivity
+Each bookmark (whether external URL or internal record) supports:  
+- **Sharing**: Granular permissions to share with teammates.  
+- **Comments**: Inline discussions and threaded exchanges.  
+- **Notes**: Seamless integration with the platform's native note-taking module.  
+- **Activity Logs**: Full audit trail of updates and interactions.
+
+<Carousel
+  images={[
+    "/images/projects/bookmarks/feature-bookmark-interaction.png",
+    "/images/projects/bookmarks/feature-bookmark-interaction2.png",
+  ]}
+/>
+
+### 4. Custom Lists & Tagging
+- Users can create custom collections to group bookmarks by client, topic, or priority.  
+- Multi-tag tagging for cross-cutting filtering and instant search.
+
+<Carousel
+  images={[
+    "/images/projects/bookmarks/feature-bookmark-list-tag.png",
+    "/images/projects/bookmarks/feature-bookmark-list-tag2.png",
+    "/images/projects/bookmarks/feature-bookmark-list-tag3.png",
+    "/images/projects/bookmarks/feature-bookmark-list-tag4.png",
+  ]}
+/>
+
+## Technical Stack
+
+- **Internal Framework:** PHP backend, Vanilla JS / jQuery frontend.  
+- **Crawler:** Asynchronous metadata and Open Graph scraper.  
+- **AI Engine:** Content extraction, summarization, and auto-tagging models.  
+- **Platform Modules:** Deeply integrated with internal Notes & Activity Logging services.

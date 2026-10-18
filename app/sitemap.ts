@@ -10,7 +10,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const blogSlugsEn = getAllBlogSlugs('en');
   const blogSlugsVi = getAllBlogSlugs('vi');
-  const projectSlugs = await getAllProjectSlugs();
+  const projectSlugsEn = await getAllProjectSlugs('en');
+  const projectSlugsVi = await getAllProjectSlugs('vi');
   const appSlugs = getAllAppSlugs();
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -54,14 +55,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  const projectRoutesEn: MetadataRoute.Sitemap = projectSlugs.map((slug) => ({
+  const projectRoutesEn: MetadataRoute.Sitemap = projectSlugsEn.map((slug) => ({
     url: `${baseUrl}/project/${slug}/`,
     lastModified: now,
     changeFrequency: 'monthly',
     priority: 0.7,
   }));
 
-  const projectRoutesVi: MetadataRoute.Sitemap = projectSlugs.map((slug) => ({
+  const projectRoutesVi: MetadataRoute.Sitemap = projectSlugsVi.map((slug) => ({
     url: `${baseUrl}/vi/project/${slug}/`,
     lastModified: now,
     changeFrequency: 'monthly',

@@ -1,0 +1,105 @@
+---
+title: "Socials – Universal Social Media Manager"
+summary: "An enterprise social media management web application enabling marketers to draft, schedule, publish, and track posts across multiple platforms from a unified workspace."
+image: "/images/projects/socials/cover.png"
+publishedAt: "2025-04-23"
+live: ""
+repo: ""
+category: "Web"
+tags: ["PHP", "JavaScript", "jQuery", "Queue", "Scheduler", "Solr", "Social Media API", "Custom Calendar"]
+featured: true
+teamSize: 1
+---
+
+## Introduction
+
+**Socials** is a social media publishing suite built on the **"write once, publish everywhere"** paradigm.  
+The application empowers marketers to compose, draft, schedule, and synchronize posts across major networks: **Facebook, Instagram, Threads, X (Twitter), and LinkedIn** from a single intuitive dashboard.  
+The system leverages **background queues, cron scheduler workers, and full-text search with Apache Solr** to ensure high throughput and reliability. The solution is running live in **production**.
+
+## My Role & Responsibilities
+
+- Engineered the complete system with the company's internal PHP and JS framework.  
+- Designed the backend asynchronous job processing pipeline for delayed publishing and automated metric syncing.  
+- Integrated official platform APIs (Facebook Graph API, Instagram API, Threads, X API v2, LinkedIn Marketing API).  
+- Integrated **Apache Solr** for sub-second full-text search across tens of thousands of historic posts and marketing campaigns.  
+- **Handcrafted the entire interactive drag-and-drop Calendar View from scratch using vanilla HTML, CSS, JS, and jQuery without relying on third-party calendar libraries.**
+
+## Key Capabilities
+
+### 1. Universal Composer
+- Single-input composer with real-time multi-platform preview (Facebook, LinkedIn, Threads, X, Instagram).  
+- Platform-specific overrides (hashtags, character count limits, aspect ratios) without context switching.
+
+<Image
+  src="/images/projects/socials/feature-composer.png"
+  alt="Universal Composer interface"
+  width={1919}
+  height={1079}
+/>
+
+### 2. Drafts & Collaborative Review
+- Save work-in-progress posts as drafts with media attachments.  
+- Re-edit, update, or discard anytime prior to scheduling.
+
+<Carousel
+  images={[
+    "/images/projects/socials/feature-draft.png",
+    "/images/projects/socials/feature-draft2.png",
+    "/images/projects/socials/feature-draft3.png",
+  ]}
+/>
+
+### 3. Asynchronous Post Scheduling
+- Schedule posts across multiple channels simultaneously with custom timezone offsets.  
+- Queue-backed worker pools guarantee punctual execution during peak network traffic.
+
+<Carousel
+  images={[
+    "/images/projects/socials/feature-schedule.png",
+    "/images/projects/socials/feature-schedule2.png",
+    "/images/projects/socials/feature-schedule3.png",
+  ]}
+/>
+
+### 4. Direct & Notification-Based Publishing
+- Automated direct API publishing for supported networks.  
+- Guided notification flows for platforms with API publishing constraints.
+
+<Image
+  src="/images/projects/socials/feature-notification.png"
+  alt="Notification based publishing"
+  width={462}
+  height={1000}
+  className="w-[33.33%]"
+/>
+
+### 5. Post Analytics & Solr Search
+- Track impressions, clicks, shares, and engagement rates refreshed via periodic workers.  
+- Ultra-fast faceted search and filtering across huge campaign archives via Solr.
+
+<Carousel
+  images={[
+    "/images/projects/socials/post-details.png",
+    "/images/projects/socials/post-details2.png",
+    "/images/projects/socials/sync-metrics.png",
+  ]}
+/>
+
+### 6. Custom Calendar View
+- Comprehensive monthly, weekly, and daily content calendar view.  
+- **Engineered completely from scratch using HTML, CSS, and jQuery with zero external library overhead.**  
+- Drag-and-drop date rescheduling with automatic background queue re-alignment.
+
+<Image
+  src="/images/projects/socials/feature-calendar.png"
+  alt="Interactive Calendar View"
+  width={1919}
+  height={1078}
+/>
+
+## Technical Implementation
+
+- **Backend:** PHP (proprietary framework), MySQL, Redis Queue, Cron Scheduler.  
+- **Search Engine:** Apache Solr for distributed full-text indexing.  
+- **Frontend:** Vanilla JS, jQuery, custom CSS architecture.

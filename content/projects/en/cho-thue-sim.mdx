@@ -1,0 +1,49 @@
+---
+title: "Multi-Provider Virtual SIM Rental Platform"
+summary: "An automated virtual SIM rental platform integrating 7 global telecom providers, offering SMS verification services with automated payments and an intuitive interface."
+image: "/images/projects/cho-thue-sim/cover.png"
+publishedAt: "2023-09-15"
+live: "https://chothuesimcode.net/vi"
+repo: ""
+category: "Web"
+tags: ["Next.js", "NestJS", "Redis", "MongoDB", "API Integration"]
+featured: true
+teamSize: 1
+---
+
+## Overview
+
+A middleware hub connecting to 7 of the world's leading virtual SIM providers, aggregating and automating on-demand phone number rentals for receiving SMS verification codes. The platform fully automates the rental lifecycle, SMS polling, online wallet top-ups, and user account management.
+
+## Key Features
+
+### For End Users
+- **Multi-Source Inventory**: Unified access to 7 global SIM networks:
+  - SMS-Man
+  - 5sim.net
+  - VIOTP
+  - United SMS
+  - TextVerified
+  - PhoneBlur
+  - 2ndline.io
+- **Flexible Payments**:
+  - Instant wallet top-ups via banking and e-wallets.
+  - Promotional discount coupon engine.
+  - Automatic balance refund when a number fails to receive SMS within the timeout.
+- **Rental Capabilities**:
+  - Filter by country, carrier, and target service (Telegram, Google, WhatsApp, etc.).
+  - Real-time SMS status tracking over WebSockets.
+  - Comprehensive transaction and rental history.
+  - Option to extend timeout intervals.
+
+### For Administrators
+- **User & Balance Management**: Detailed customer transaction logs, access control, account freezing, and wallet adjustments.
+- **Financial Analytics**: Real-time revenue telemetry, historical growth charts, and one-click Excel/PDF report export.
+- **System Configuration**: Dynamic markup percentages, provider prioritization, API key management, and automated alert webhooks.
+
+## Technical Implementation
+
+- **Frontend**: Next.js with TypeScript, Tailwind CSS, WebSockets for live status updates, SEO-optimized landing architecture.
+- **Backend**: NestJS modular REST API, PostgreSQL relational database, Redis for session caching and rate limits, BullMQ for distributed background workers.
+- **Integration Layer**: Custom adapter pattern for each upstream provider, exponential backoff retries, fault tolerance, and load balancing.
+- **Observability**: Winston logging, Sentry error monitoring, and Prometheus/Grafana operational dashboards.

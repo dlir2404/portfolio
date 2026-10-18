@@ -45,12 +45,13 @@ teamSize: ${template.teamSize}
 `;
 };
 
-const createProject = (filename: string): void => {
+const createProject = (filename: string, localeArg: string = 'en'): void => {
   try {
     if (!filename) {
       throw new Error('Filename is required');
     }
 
+    const locale = localeArg === 'vi' ? 'vi' : 'en';
     const cleanFilename = filename.endsWith('.mdx') ? filename : `${filename}.mdx`;
     const title = filename
       .replace(/-/g, ' ')
@@ -59,10 +60,15 @@ const createProject = (filename: string): void => {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
 
-    const filePath = path.join(process.cwd(), 'content', 'projects', cleanFilename);
+    const projectDir = path.join(process.cwd(), 'content', 'projects', locale);
+    if (!fs.existsSync(projectDir)) {
+      fs.mkdirSync(projectDir, { recursive: true });
+    }
+
+    const filePath = path.join(projectDir, cleanFilename);
 
     if (fs.existsSync(filePath)) {
-      throw new Error('File already exists');
+      throw new Error(`File already exists at: ${filePath}`);
     }
 
     fs.writeFileSync(filePath, createProjectTemplate(title));
@@ -74,6 +80,7 @@ const createProject = (filename: string): void => {
   }
 };
 
-// Get filename from command line argument
+// Get filename and locale from command line argument
 const filename = process.argv[2];
-createProject(filename);
+const locale = process.argv[3] || 'en';
+createProject(filename, locale);

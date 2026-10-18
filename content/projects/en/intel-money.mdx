@@ -1,0 +1,107 @@
+---
+title: "Intel Money – Personal Finance Management"
+summary: "A comprehensive personal finance application designed to help users track cashflow, analyze spending categories, and plan savings, built with Flutter, NestJS, MySQL, and automated CI/CD."
+image: "/images/projects/intel-money/cover.png"
+publishedAt: "2025-01-07"
+live: ""
+repo: ""
+category: "Web & Mobile"
+tags: ["Flutter", "NestJS", "MySQL", "Redis", "Docker", "CI/CD", "Finance App", "Google Play"]
+featured: true
+teamSize: 1
+---
+
+## Introduction
+
+**Intel Money** is my Bachelor's Capstone Graduation Project at Hanoi University of Science and Technology (HUST).  
+The solution empowers everyday individuals to take control of their **personal finances**, enabling income and expense tracking, recurring budget planning, category breakdowns, and loan/debt monitoring.
+
+The system encompasses a **cross-platform mobile app (Flutter)** and a **backend API (NestJS)**, containerized with Docker and continuously deployed via CI/CD. The application was approved and published for beta testing on the **Google Play Store**.
+
+## My Role & Responsibilities
+
+- Sole developer handling end-to-end architecture: mobile app (Flutter) and backend services (NestJS).  
+- Database schema design (MySQL) and caching layer (Redis).  
+- Built automated AI natural-language transaction parsing and receipt optical character recognition (OCR).  
+- Configured automated CI/CD pipeline using **GitHub Actions, Docker Hub, and cloud VPS**.  
+- Prepared release artifacts, managed keystores, and handled the **Google Play Store submission process**.
+
+## Core Capabilities
+
+### 1. Financial Dashboard
+- Real-time snapshot of overall personal financial health.  
+- Net balance calculation, monthly income vs. expense trends.  
+- Expense breakdown charts by category and periodic cashflow forecasting.
+
+<Image
+  src="/images/projects/intel-money/home.png"
+  alt="Home screen"
+  width={1919}
+  height={1079}
+  className="w-1/2"
+/>
+
+### 2. Multi-Mode Transaction Creation
+- Custom virtual in-app numeric keypad for rapid entry.  
+- Multi-currency wallet selection and granular transaction tagging.
+
+<Image
+  src="/images/projects/intel-money/create.png"
+  alt="Create transaction screen"
+  width={1919}
+  height={1079}
+  className="w-1/2"
+/>
+
+### 3. Natural Language Transaction Logging via AI
+- Log complex transactions by typing or speaking natural sentences (e.g., *"Spent $15 on Starbucks with friends"*).  
+- Real-time confirmation and parameter fine-tuning before committing to the database.
+
+<Image
+  src="/images/projects/intel-money/ai.png"
+  alt="AI Chat logging screen"
+  width={1919}
+  height={1079}
+  className="w-1/2"
+/>
+
+### 4. Receipt Scanner (OCR)
+- Upload or snap photos of store receipts.  
+- Automatically extracts the total amount, purchase date, merchant name, and suggests matching categories.
+
+<Image
+  src="/images/projects/intel-money/scanbill.png"
+  alt="Scan receipt screen"
+  width={1919}
+  height={1079}
+  className="w-4/5"
+/>
+
+### 5. In-Depth Analytics & Budget Tracking
+- Multi-timeframe reporting (monthly, quarterly, yearly, or custom date ranges).  
+- Wallet allocation analysis and category spending limits.
+
+<Carousel
+  images={[
+    "/images/projects/intel-money/statistics.png",
+    "/images/projects/intel-money/analysis.png",
+  ]}
+/>
+
+### 6. Debt & Loan Tracking
+- Manage borrowed and lent amounts with due dates and settlement reminders.
+
+<Image
+  src="/images/projects/intel-money/lend-borrow.png"
+  alt="Lend and borrow screen"
+  width={1919}
+  height={1079}
+  className="w-1/2"
+/>
+
+## Technical Highlights
+
+- **Mobile Client:** Flutter, Provider/Riverpod state management, responsive UI.  
+- **Backend Architecture:** NestJS, TypeScript, JWT auth, Swagger documentation.  
+- **Database & Cache:** MySQL 8 with relational integrity, Redis caching for fast lookup.  
+- **DevOps & Infrastructure:** Docker containerization, GitHub Actions CI/CD to remote VPS.

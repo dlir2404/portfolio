@@ -1,0 +1,42 @@
+---
+title: "Trình phát nhạc Web (Music Player)"
+summary: "Ứng dụng nghe nhạc trực tuyến gọn nhẹ xây dựng bằng Vanilla JavaScript thuần, tích hợp đầy đủ điều khiển âm thanh, quản lý danh sách phát và giao diện tương thích đa thiết bị."
+image: "/images/projects/music-player/cover.png"
+publishedAt: "2023-08-22"
+live: "https://dlir2404.github.io/MusicPlayer/"
+repo: "https://github.com/dlir2404/MusicPlayer"
+category: "Web"
+tags: ["HTML", "CSS", "JavaScript", "Audio API"]
+featured: false
+teamSize: 1
+---
+
+## Tổng quan
+
+Ứng dụng web phát nhạc tối giản được xây dựng hoàn toàn bằng HTML5, CSS3 và JavaScript thuần. Dự án thể hiện nền tảng vững chắc về DOM manipulation, xử lý sự kiện trong JavaScript và tương tác với Web Audio API mà không cần phụ thuộc vào bất kỳ framework bên ngoài nào.
+
+## Các chức năng chính
+
+### Điều khiển âm thanh
+- Phát / Tạm dừng (Play / Pause).
+- Chuyển bài kế tiếp / Quay lại bài trước (Next / Previous track).
+- Thanh tiến trình tương tác: kéo hoặc nhấp để tua nhanh bài hát (seeking).
+- Chế độ lặp lại một bài / Lặp toàn bộ / Phát ngẫu nhiên (Repeat / Shuffle).
+
+### Quản lý danh sách bài hát (Playlist)
+- Danh sách phát tích hợp sẵn các bài hát mẫu.
+- Tự động highlight bài hát đang phát.
+- Hiển thị thời lượng và tiến trình thời gian thực.
+- Hiển thị tên bài hát, nghệ sĩ và ảnh bìa album xoay vòng khi phát.
+
+### Giao diện người dùng
+- Thiết kế hiện đại theo phong cách Dark Mode.
+- Responsive mượt mà trên cả desktop lẫn điện thoại di động.
+- Hiệu ứng chuyển động vinyl đĩa nhạc quay mượt mà bằng CSS keyframes.
+- Hỗ trợ đầy đủ thao tác cảm ứng trên thiết bị di động.
+
+## Triển khai kỹ thuật
+
+- **HTML5:** Cấu trúc ngữ nghĩa (semantic HTML), thẻ `<audio>` đa phương tiện.
+- **CSS3:** Flexbox layout, hiệu ứng chuyển cảnh CSS transitions, media queries responsive.
+- **JavaScript:** Thao tác DOM, xử lý chuỗi sự kiện âm thanh (`timeupdate`, `ended`, `loadedmetadata`), lưu trữ trạng thái người dùng vào LocalStorage.

@@ -1,0 +1,96 @@
+---
+title: "SEO Content Optimizer – AI-Powered Copywriting Suite"
+summary: "An intelligent web application that analyzes on-page SEO signals, audits competitor search rankings, and generates optimized copy using AI and real-time search engine data."
+image: "/images/projects/writers/cover.jpg"
+publishedAt: "2024-10-31"
+live: ""  
+repo: ""  
+category: "Web App"
+tags: ["SEO", "PHP", "JavaScript", "jQuery", "Internal Framework", "AI Integration"]
+featured: true
+teamSize: 1
+---
+
+## Introduction
+
+During my engineering internship at **True Platform**, I designed and developed an intelligent **SEO Content Optimization Suite**.  
+The application tackles common daily pain points faced by digital marketers, content strategists, and copywriters:
+
+- Uncertainty about whether a written article adheres to the latest search engine ranking guidelines.  
+- Tedious hours spent manually auditing competitor search results and mapping keywords.  
+- The need to rapidly draft and iterate on SEO-friendly prose without sacrificing tone or originality.
+
+The product was engineered atop an **in-house PHP framework**, with a **Vanilla JavaScript + jQuery** frontend, seamlessly integrating specialized SEO data APIs and generative AI models.
+
+## My Role & Responsibilities
+
+- Gathered domain requirements and mapped the entire product lifecycle from ideation to release.  
+- Developed the **frontend**: rich text editor, real-time SEO scoring panel, keyword density heatmaps, and competitor comparison matrices.  
+- Engineered the **backend**: integrated OpenAI API, DataForSEO, Google Search Console API, and asynchronous web scrapers.  
+- Optimized performance through intelligent API response caching and message queues for asynchronous bulk copy generation.
+
+## Key Capabilities
+
+### 1. Real-Time SEO Scoring
+- Live evaluation of title length, meta description, heading structure (H1-H4), keyword density, and article depth.  
+- Displays an **aggregate SEO Health Score** alongside actionable improvement suggestions directly within the editor.
+
+<Carousel
+  images={[
+    "/images/projects/writers/seo-score.jpg",
+    "/images/projects/writers/seo-score2.png",
+    "/images/projects/writers/seo-score3.png",
+  ]}
+/>
+
+### 2. Semantic Keyword Recommendations
+- Generates contextual LSI (Latent Semantic Indexing) keywords and related queries derived from primary search intent.  
+- Guides authors on optimal placement within headings, introductory paragraphs, and image alt attributes.
+
+<Carousel
+  images={[
+    "/images/projects/writers/keyword-suggestion.jpg",
+    "/images/projects/writers/keyword-suggestion2.png",
+  ]}
+/>
+
+### 3. AI Content Assistance
+- One-click generative drafting based on selected keywords and target voice tone.  
+- Insert snippets directly into the canvas or refine tone and reading level interactively.
+
+<Image
+  src="/images/projects/writers/content-suggestion.jpg"
+  alt="AI Content suggestions"
+  width={1919}
+  height={908}
+/>
+
+### 4. Competitor SERP Analysis
+- Automatically crawls and parses the **top 10 Google search results** for the target query.  
+- Audits competitor heading layouts, word counts, and keyword distribution with side-by-side comparison charts.
+
+<Carousel
+  images={[
+    "/images/projects/writers/competitor-analysis.png",
+    "/images/projects/writers/competitor-analysis2.png",
+    "/images/projects/writers/competitor-analysis3.png",
+    "/images/projects/writers/competitor-analysis4.png",
+  ]}
+/>
+
+### 5. Multi-Variant Bulk Generation
+- Generate varied article angles and headlines from a single brief for A/B testing or multi-domain deployment.  
+- Queue-backed background jobs guarantee smooth UI performance during large-batch generations.
+
+<Carousel
+  images={[
+    "/images/projects/writers/bulk-generate.png",
+    "/images/projects/writers/bulk-generate2.png",
+  ]}
+/>
+
+## Technical Implementation
+
+- **Backend:** Proprietary PHP framework, MySQL, Redis Queue.  
+- **Frontend:** Vanilla JavaScript, jQuery, custom responsive CSS.  
+- **API Integrations:** OpenAI GPT models, DataForSEO SERP & Keyword API, Google Search Console API.

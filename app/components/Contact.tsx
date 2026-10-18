@@ -51,7 +51,7 @@ export default function Contact() {
     {
       icon: MapPin,
       label: t.contact.infoLabels.location,
-      value: baseInfo.location,
+      value: locale === 'vi' ? (baseInfo.locationVi || baseInfo.location) : baseInfo.location,
       href: '#contact'
     }
   ];

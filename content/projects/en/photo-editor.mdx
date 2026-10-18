@@ -1,0 +1,111 @@
+---
+title: "Lightweight Web Photo Editor"
+summary: "A snappy browser-based image editor built with PHP and Vanilla JS/jQuery, leveraging Fabric.js for HTML5 canvas manipulations and layer control."
+image: "/images/projects/photo-editor/cover.png"
+publishedAt: "2024-08-15"
+live: ""  
+repo: ""  
+category: "Web App"
+tags: ["Photo Editor", "Canvas", "Fabric.js"]
+featured: false
+teamSize: 1
+---
+
+## Introduction
+
+Lightweight Photo Editor is an online image editing utility providing practical, rapid editing tools directly inside the web browser without demanding heavy desktop software.  
+This served as my **onboarding starter project at True Platform**, designed to evaluate and integrate `Fabric.js` into the company's proprietary front-end web framework.
+
+## My Role & Responsibilities
+
+- Designed the core state management and canvas interaction architecture.  
+- Integrated Fabric.js with native HTML5 Canvas for fast rendering performance.  
+- Engineered user experience features: 20-step undo/redo stack, object layer locking, and custom transforms.  
+- Authored the user interface strictly using **HTML, CSS, and Vanilla JS/jQuery** without relying on third-party UI component libraries.
+
+## Key Capabilities
+
+### 1. Crop
+- Crop with predefined aspect ratios (square, circular, horizontal banner, avatar) or freeform manual drag.
+
+<Image
+  src="/images/projects/photo-editor/feature-crop.png"
+  alt="Crop feature demo"
+  width={1919}
+  height={908}
+  className="w-full h-auto"
+/>
+
+### 2. Freehand Drawing
+- Smooth freehand sketching with customizable brush widths, opacity, and color palettes.
+
+<Carousel
+  images={[
+    "/images/projects/photo-editor/feature-draw.png",
+    "/images/projects/photo-editor/feature-draw2.png",
+  ]}
+/>
+
+### 3. Typography & Vector Shapes
+- Add text overlays with font choices, sizing, alignment, and styling.  
+- Insert vector shapes (rectangles, ellipses, triangles) with stroke or solid fill.
+
+<Carousel
+  images={[
+    "/images/projects/photo-editor/feature-text.png",
+    "/images/projects/photo-editor/feature-shape.png",
+  ]}
+/>
+
+### 4. Image Transformations
+- Arbitrary degree rotation, horizontal flip, and vertical reflection.
+
+<Image
+  src="/images/projects/photo-editor/feature-transform.png"
+  alt="Transform feature demo"
+  width={1919}
+  height={908}
+  className="w-full h-auto"
+/>
+
+### 5. Pixelated Mosaic (Blur)
+- Apply pixelation mosaic masks to censor sensitive regions or personal identifiable information.
+
+<Carousel
+  images={[
+    "/images/projects/photo-editor/feature-mosaic.png",
+    "/images/projects/photo-editor/feature-mosaic2.png",
+  ]}
+/>
+
+### 6. Arrow Callouts
+- Quick arrow callout tool for annotating screenshots and highlighting workflow steps.
+
+### 7. Dual-Stack History (Undo & Redo)
+- Snapshot state tracking using dedicated undo and redo memory stacks.  
+- Capped at 20 historical states to avoid memory leaks on large high-resolution images.
+
+<Image
+  src="/images/projects/photo-editor/feature-history.png"
+  alt="History feature demo"
+  width={1919}
+  height={908}
+  className="w-full h-auto"
+/>
+
+### 8. Layer Inspector
+- Tree view of all objects rendered on canvas with one-click selection, z-ordering, and locking.
+
+<Image
+  src="/images/projects/photo-editor/feature-object-layer.png"
+  alt="Object layer demo"
+  width={1919}
+  height={908}
+  className="w-full h-auto"
+/>
+
+## Technical Implementation
+
+- **Framework:** In-house proprietary PHP framework, Vanilla JavaScript, jQuery.  
+- **Canvas Rendering Engine:** Fabric.js on top of HTML5 Canvas.  
+- **Styling:** Custom CSS without heavy external CSS frameworks.

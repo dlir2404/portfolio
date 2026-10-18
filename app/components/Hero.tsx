@@ -237,7 +237,7 @@ export default function Hero() {
             >
               👋
             </motion.span>
-            Welcome to my digital realm
+            {t.hero.welcomeBadge}
           </motion.span>
         </motion.div>
 
@@ -316,7 +316,7 @@ export default function Hero() {
             }}
             transition={{ duration: 4, repeat: Infinity }}
           >
-            Crafting digital experiences with modern technologies.
+            {t.hero.taglineLead}
           </motion.span>
           {' '}
           <motion.span
@@ -327,7 +327,7 @@ export default function Hero() {
             transition={{ duration: 3, repeat: Infinity, delay: 1 }}
             className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent font-medium"
           >
-            Passionate about creating innovative solutions that make a difference.
+            {t.hero.taglineHighlight}
           </motion.span>
         </motion.p>
 

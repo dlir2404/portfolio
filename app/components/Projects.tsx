@@ -214,7 +214,7 @@ export default function Projects({
             whileTap={{ scale: 0.95 }}
           >
             <Github size={20} />
-            <span>View All Projects on GitHub</span>
+            <span>{t.projects.viewAllGithub}</span>
             <motion.div
               className="group-hover:translate-x-1 transition-transform duration-300"
             >
