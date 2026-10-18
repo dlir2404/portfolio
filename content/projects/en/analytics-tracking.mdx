@@ -1,6 +1,6 @@
 ---
 title: "Real-Time E-Commerce Analytics & Conversion Tracking Platform"
-summary: "An intuitive real-time tracking and financial analytics solution for online merchants, delivering instant clarity on net profits, customer acquisition funnels, and marketing attribution."
+summary: "An intuitive real-time tracking and financial analytics solution for online merchants: retains the familiar ShopBase reporting experience while completely redesigning the event pipeline via Backend Hooks and Edge instead of client-side JS SDKs."
 image: "/images/projects/analytics-tracking/cover.png"
 publishedAt: "2025-12-01"
 live: ""
@@ -13,40 +13,77 @@ teamSize: 1
 
 ## Introduction
 
-In modern high-velocity e-commerce, real-time data accuracy is the heartbeat of merchant success. Sellers scaling five-figure daily advertising budgets cannot afford to wait until midnight to determine whether an ad campaign is profitable or bleeding money. They need immediate answers:
-- Exactly how much gross revenue was generated in the last hour?
-- After deducting product manufacturing costs, shipping, payment processing fees, and currency conversions, what is the exact **Net Profit** remaining?
-- At which specific step in the checkout flow are prospective buyers dropping off?
+In modern high-velocity e-commerce, real-time data accuracy is the heartbeat of merchant success. Sellers scaling five-figure daily advertising budgets cannot afford to wait until midnight to determine whether an ad campaign is profitable or bleeding money. They need immediate answers: Exactly how much gross revenue was generated in the last hour? After deducting product costs, shipping, and payment gateway fees, what is the exact **Net Profit** remaining? At which step in the checkout flow are prospective buyers dropping off?
 
-Historically, reporting across distributed storefronts suffered from latency lags and metric discrepancies between different reporting screens, undermining merchant confidence.
+From a merchant-facing perspective, the product experience builds upon the familiar, proven reporting workflow of the earlier ShopBase analytics ecosystem (Profit Dashboards, Funnels, Sales Reports, Live View, and Traffic Sources).
 
-The **Analytics & Tracking** initiative was created to deliver an uncompromised, transparent, and instantaneous financial telemetry dashboard empowering tens of thousands of online entrepreneurs.
+However, transition to the new platform generation required a **complete architectural redesign of the event capture and processing engine**: Instead of relying on traditional client-side JavaScript SDKs (which are prone to browser ad-blockers, tracking prevention, and page-load overhead), the system shifted to direct telemetry capture via **Backend Hooks and Edge infrastructure**. This redesign ensures bulletproof event delivery, zero data loss, and pristine data accuracy while preserving a clean, familiar reporting interface for merchants.
+
+<Image
+  src="/images/projects/analytics-tracking/cover.png"
+  alt="Analytics Overview Dashboard displaying Net Profits and Conversion Funnel"
+  width={1920}
+  height={1080}
+  className="w-full h-auto rounded-xl"
+/>
 
 ## Core Product Capabilities
 
-### 1. Real-Time Net Profit & Revenue Dashboard
-- Instant metric refresh the second an order is verified.
+### 1. Real-Time Net Profit & Performance Dashboard
+- Instant metric refresh the second an order is confirmed.
 - Automatically factors in all variable costs: Cost of Goods Sold (COGS), warehouse fulfillment, dynamic international currency conversions, and merchant gateway transaction surcharges.
-- Delivers a single source of truth for financial health in an uncluttered, executive summary interface.
+- In-depth operational KPIs: Total Orders, Average Order Profit (AOP), Average Order Items (AOI), and Customer Retention Rates.
 
-### 2. Comprehensive Conversion Funnel Tracking
+<Carousel
+  images={[
+    "/images/projects/analytics-tracking/analytics-overview-profit-funnel.png",
+    "/images/projects/analytics-tracking/analytics-orders-aop.png",
+    "/images/projects/analytics-tracking/analytics-customers-retention.png",
+  ]}
+/>
+
+### 2. Comprehensive 7-Step Conversion Funnel Tracking
 - Visually maps the shopper journey through each critical conversion milestone:  
-  `Storefront Visits ➔ Product Detail View ➔ Add to Cart ➔ Checkout Initiation ➔ Purchase Completed`.
-- Identifies exact step-by-step drop-off rates, highlighting immediately whether high shipping rates or checkout friction are deterring buyers.
+  `View product (VP) ➔ Add to cart (AC) ➔ Reach checkout (RC) ➔ Fill email (FE) ➔ Fill shipping address (FS) ➔ Fill phone (FP) ➔ Purchase (PU)`.
+- Pinpoints exact step-by-step drop-off rates with granular daily and country breakdowns.
+- Tracks daily conversion rate fluctuations over time (`Conversion rate over time`).
 
-### 3. Multi-Touch Traffic & Marketing Attribution
-- Accurately attributes orders to their originating promotional channels: Facebook Ads, Google Shopping, TikTok, email marketing, or direct organic visits.
+<Carousel
+  images={[
+    "/images/projects/analytics-tracking/analytics-7step-funnel.png",
+    "/images/projects/analytics-tracking/analytics-conversion-rate-time.png",
+  ]}
+/>
+
+### 3. Traffic Sources & Multi-Touch Attribution
+- Accurately attributes orders to their originating promotional channels: Direct, Referral, Search (Google), or specific paid campaigns.
+- Flexible deep-dive dimensions: group by Channel, UTM Source, UTM Medium, Source / Medium, UTM Campaign, or UTM Term.
 - Empowers merchants to double down on winning campaigns and trim underperforming ad spend with total confidence.
 
-### 4. Granular Segmentation & Device Breakdown
-- Filter performance across customizable time horizons, individual hours, days, or seasonal campaigns.
-- Segment metrics between mobile and desktop shoppers to tailor checkout experiences.
+<Image
+  src="/images/projects/analytics-tracking/analytics-traffic-sources.png"
+  alt="Traffic Sources and Attribution Reports grouped by Channel and UTM"
+  width={1920}
+  height={1080}
+  className="w-full h-auto rounded-xl"
+/>
+
+### 4. Product Sales Reports & Real-Time Live View
+- **Sales Reports by Product:** Itemized sales table tracking product views, add-to-cart volumes, cart conversion rates (`%ATC / View product`), and completed checkouts.
+- **Real-Time Live View:** Dashboard auto-refreshing every 10 seconds, displaying active visitors right now, current sessions, real-time revenue, and a global interactive live transactions map.
+
+<Carousel
+  images={[
+    "/images/projects/analytics-tracking/analytics-sales-reports.png",
+    "/images/projects/analytics-tracking/analytics-live-view.png",
+  ]}
+/>
 
 ## My Role & Ownership
 
-Serving as the **Development Owner** for the Analytics & Tracking domain:
+Serving as the **Sole Development Owner** for the Analytics & Tracking domain:
 
-- **End-to-End Tracking Architecture:** Designed the storefront telemetry ingestion pipeline to ensure comprehensive event capture without adding any perceptible latency to buyer page-load speeds.
+- **Redesigning the Event Model & Pipeline:** Spearheaded the transition from client-side JS SDK tracking to robust server-side capture using **Backend Hooks and Edge processing**, guaranteeing zero event drops from browser ad-blockers and eliminating tracking script overhead on shopper storefronts.
 - **Resolving Metric Discrepancies:** Headed the forensic investigation into historic reporting discrepancies (such as cross-border timezone skews, duplicate webhook deliveries, and session attribution loss during checkout redirects). Successfully realigned reporting metrics to match real-world bank balances with 100% precision.
 - **High-Traffic Reliability:** Ensured dashboard uptime and sub-second query responsiveness during major global flash sales (Black Friday, Cyber Monday) under tens of millions of concurrent requests.
 - **Quality Engineering & Verification:** Partnered closely with the QE team to author exhaustive test suites, certifying that every financial calculation displayed to merchants is battle-tested against edge cases.
