@@ -66,11 +66,11 @@ export const experiencesEn: Experience[] = [
     },
     {
         company: "OpenCommerce Group",
-        role: ["Full Stack Developer"],
+        role: ["Full Stack Developer", "Domain Owner"],
         startDate: "2025-10",
         endDate: "Present",
-        summary: "Currently working as a Full Stack Developer in Front team (Front here doesn't mean frontend), contributing to the development of e-commerce solutions.",
-        techStack: ["Django", "Golang", "Python", "Vue.js", "MySQL"]
+        summary: "Serving as Development Owner for Analytics & Tracking and CR-Agent (ConvertCore / sbase-ai). Architecting high-throughput real-time event streaming pipelines with Kafka and ClickHouse, engineering AI-powered Conversion Rate Optimization (CRO) agents with Model Context Protocol (MCP), and scaling automated POD AI rendering workflows.",
+        techStack: ["Python", "Kafka", "ClickHouse", "Celery", "FastAPI", "Vue.js", "Golang", "Django", "MCP"]
     }
 ];
 
@@ -101,11 +101,11 @@ export const experiencesVi: Experience[] = [
     },
     {
         company: "OpenCommerce Group",
-        role: ["Lập trình viên Full Stack"],
+        role: ["Lập trình viên Full Stack", "Chủ trì kỹ thuật (Domain Owner)"],
         startDate: "2025-10",
         endDate: "Present",
-        summary: "Đang làm việc tại vị trí Full Stack Developer trong Front team, trực tiếp tham gia phát triển và tối ưu các giải pháp thương mại điện tử quy mô lớn.",
-        techStack: ["Django", "Golang", "Python", "Vue.js", "MySQL"]
+        summary: "Đảm nhiệm vai trò Chủ trì kỹ thuật (Development Owner) cho mảng Analytics & Tracking và CR-Agent (ConvertCore / sbase-ai). Trực tiếp xây dựng hệ thống streaming sự kiện thời gian thực thông lượng cao với Kafka & ClickHouse, kiến trúc trợ lý AI tối ưu tỷ lệ chuyển đổi (CRO) qua giao thức MCP, và phát triển pipeline render tự động cho sản phẩm POD AI.",
+        techStack: ["Python", "Kafka", "ClickHouse", "Celery", "FastAPI", "Vue.js", "Golang", "Django", "MCP"]
     }
 ];
 

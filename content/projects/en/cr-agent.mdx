@@ -1,0 +1,67 @@
+---
+title: "CR Agent – AI-Powered Product Page Conversion Rate Optimizer"
+summary: "An autonomous AI agent integrated into an e-commerce page builder that audits product pages, suggests high-impact psychological levers across 9 archetypes, and streams voice narrations."
+image: "/images/projects/cr-agent/cover.png"
+publishedAt: "2026-01-10"
+live: ""
+repo: ""
+category: "Web"
+tags: ["AI Agent", "MCP", "Python", "Vue.js", "E-Commerce", "Conversion Rate Optimization", "FastAPI"]
+featured: true
+teamSize: 2
+---
+
+## Overview
+
+In direct-to-consumer e-commerce, the Product Detail Page (PDP) is the ultimate decision gate where buyers either convert or bounce. Even minor friction—unclear delivery estimates, lack of stock transparency, or weak social proof—causes cart abandonment.
+
+As the **Development Owner** for **CR-Agent** (ConvertCore / sbase-ai), I architected an intelligent optimization agent embedded natively into the merchant's visual web page builder (`web-builder`). The agent analyzes product listings, identifies conversion bottlenecks, and offers actionable optimization levers that sellers can review and apply with a single click.
+
+## The 3-Phase Optimization Engine
+
+To balance AI autonomy with merchant control, CR-Agent operates in three distinct, strictly enforced phases:
+
+```text
+[ 1. ANALYZE PHASE ]
+  - Deep audit: stock availability, real delivery ETA, social proof density
+  - Zero side effects: Read-only diagnostics, zero unauthorized mutations
+           │
+           ▼
+[ 2. SUGGEST PHASE ]
+  - Dynamic lever recommendation cards categorized across 9 Archetypes (A to I)
+  - Policy enforcement: Complies with e-commerce ad policies & truth-in-advertising
+  - Synchronous 1st-person voice narration stream (25-40s concise coaching)
+           │
+           ▼
+[ 3. APPLY PHASE ]
+  - Explicit merchant review & approval trigger
+  - Idempotent JSON callback execution to update live page layout
+  - Automated retry mechanisms guaranteeing atomic mutations
+```
+
+### 1. Diagnostic Audit (Analyze Phase)
+- Connects to store APIs via **Model Context Protocol (MCP)** tools (`mcp/tools/ai_cr/` and `web_ai_agent/tools/cr/`).
+- Inspects pricing structure, inventory thresholds, regional shipping logistics, and review distributions without writing any data to the database.
+
+### 2. Psychological Lever Architecture (Suggest Phase)
+- Classifies recommended changes across **9 psychological buyer archetypes (A through I)**, including urgency cues, social trust badges, delivery clarity, and benefit-driven headlines.
+- Safety Guardrails: Enforces strict truthfulness checks to prevent manipulative dark patterns or false-scarcity violations.
+
+### 3. Voice Narration Audio Streaming
+- Generates a natural, first-person voice narration for each recommended lever (tailored to 60–100 words per lever, 25–40s duration).
+- Streams synthesized speech directly to the merchant's browser alongside visual cards, acting as an interactive CRO consultant.
+
+### 4. Interactive Web Builder Panel
+- Implemented the merchant-facing UI within the platform's visual builder (`WbAIPanel.vue`).
+- Features interactive preview toggles, before-and-after visual diffs, and instant rollbacks.
+
+## Technical Implementation Highlights
+
+- **AI & Agent Architecture:** Python, FastAPI, Model Context Protocol (MCP) server endpoints, LangChain / LangGraph orchestration.
+- **Frontend Integration:** Vue.js, Pinia state management, Web Audio API streaming player in `WbAIPanel.vue`.
+- **Reliability:** Idempotent JSON-RPC callbacks with retry backoff to ensure that applied page changes never create malformed HTML or broken checkout paths.
+
+## Business Impact
+
+- **Merchant Adoption:** Enabled non-technical sellers to perform professional-grade CRO audits in under 30 seconds.
+- **Conversion Uplift:** Beta merchant cohorts experienced an average **+12% to +18% increase in PDP add-to-cart conversion rates** after adopting recommended levers.

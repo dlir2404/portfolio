@@ -1,0 +1,66 @@
+---
+title: "CR Agent – Trợ lý AI tối ưu hóa tỷ lệ chuyển đổi trang sản phẩm (PDP)"
+summary: "Trợ lý AI tự động tích hợp trong trình dựng trang thương mại điện tử, giúp phân tích trang sản phẩm, đề xuất các đòn bẩy tâm lý theo 9 nhóm hình mẫu (Archetypes) và stream thuyết minh tư vấn tương tác."
+image: "/images/projects/cr-agent/cover.png"
+publishedAt: "2026-01-10"
+live: ""
+repo: ""
+category: "Web"
+tags: ["AI Agent", "MCP", "Python", "Vue.js", "E-Commerce", "Conversion Rate Optimization", "FastAPI"]
+featured: true
+teamSize: 2
+---
+
+## Tổng quan
+
+Trong ngành bán lẻ thương mại điện tử trực tiếp (DTC), Trang chi tiết sản phẩm (PDP) là điểm chạm quyết định việc khách hàng bấm "Thêm vào giỏ" hay rời bỏ website. Bất kỳ rào cản nhỏ nào—thông tin giao hàng mập mờ, thiếu minh bạch tồn kho hay thiếu bằng chứng xã hội (social proof)—đều dẫn đến sụt giảm doanh số.
+
+Với vai trò **Development Owner** của dự án **CR-Agent** (ConvertCore / sbase-ai), tôi trực tiếp xây dựng kiến trúc và phát triển trợ lý AI tối ưu tỷ lệ chuyển đổi (CRO) tích hợp trực tiếp vào trình dựng trang web trực quan (`web-builder`). Agent tự động rà soát trang sản phẩm, phát hiện điểm nghẽn chuyển đổi và đưa ra các đề xuất tối ưu chính xác mà người bán có thể áp dụng chỉ với 1 cú click.
+
+## Quy trình tối ưu 3 giai đoạn (3-Phase Engine)
+
+Để đảm bảo sự cân bằng giữa tính tự động của AI và quyền kiểm soát của người bán, CR-Agent tuân thủ nghiêm ngặt 3 giai đoạn:
+
+```text
+[ 1. GIAI ĐOẠN PHÂN TÍCH (ANALYZE) ]
+  - Rà soát sâu: tình trạng kho hàng, thời gian giao hàng thực tế, chất lượng đánh giá
+  - An toàn tuyệt đối: Kiểm tra ở chế độ Read-only, không tự ý sửa đổi dữ liệu
+                  │
+                  ▼
+[ 2. GIAI ĐOẠN ĐỀ XUẤT (SUGGEST) ]
+  - Xuất các thẻ đòn bẩy động phân loại theo 9 nhóm tâm lý (Archetypes A đến I)
+  - Tuân thủ chính sách: Đảm bảo trung thực, loại bỏ hoàn toàn các dark pattern gây hiểu lầm
+  - Stream giọng nói thuyết minh tương tác (ngôi thứ nhất, cô đọng 25-40 giây, 60-100 từ/lever)
+                  │
+                  ▼
+[ 3. GIAI ĐOẠN ÁP DỤNG (APPLY) ]
+  - Yêu cầu người bán xác nhận trước khi thay đổi giao diện
+  - Thực thi callback JSON có cơ chế thử lại (retry), đảm bảo tính nguyên tử (idempotent)
+```
+
+### 1. Rà soát chuyên sâu (Analyze Phase)
+- Kết nối tới hệ sinh thái API của cửa hàng thông qua giao thức **Model Context Protocol (MCP)** (`mcp/tools/ai_cr/` và `web_ai_agent/tools/cr/`).
+- Thu thập và phân tích cấu trúc định giá, giới hạn tồn kho, chính sách vận chuyển từng khu vực mà không ghi bất kỳ dữ liệu nào vào cơ sở dữ liệu.
+
+### 2. Kiến trúc 9 nhóm đòn bẩy tâm lý (Suggest Phase)
+- Phân loại các đề xuất cải thiện theo **9 nhóm hình mẫu người mua (Archetypes A – I)**: từ tăng cường niềm tin xã hội (social proof), làm rõ mốc thời gian giao hàng, nhấn mạnh lợi ích cốt lõi cho đến tạo động lực ra quyết định nhanh.
+- Thiết lập bộ lọc an toàn (Safety Filter) bảo đảm các đề xuất không vi phạm chính sách quảng cáo của Google/Facebook/TikTok và luật bảo vệ người tiêu dùng.
+
+### 3. Stream thuyết minh bằng giọng nói (Voice Narration Stream)
+- Tự động sinh nội dung thuyết minh trực quan dưới ngôi thứ nhất đóng vai trò chuyên gia tư vấn CRO (độ dài 60–100 từ mỗi đòn bẩy, thời lượng 25–40 giây).
+- Stream âm thanh trực tiếp về trình duyệt song song với việc hiển thị thẻ đề xuất, giúp seller nắm bắt nhanh lý do tại sao nên thay đổi.
+
+### 4. Giao diện tích hợp Web Builder
+- Phát triển giao diện người dùng trực tiếp trong visual builder (`web-builder/src/components/WbAIPanel.vue`).
+- Hỗ trợ chế độ xem trước (preview) tức thì, so sánh trực quan Before / After và hoàn tác nhanh nếu seller muốn quay lại bản cũ.
+
+## Điểm nhấn kỹ thuật
+
+- **Kiến trúc AI & Agent:** Python, FastAPI, Model Context Protocol (MCP) server, tích hợp LLM với prompt template tối ưu.
+- **Frontend & Giao diện:** Vue.js, Pinia state management, Web Audio API streaming player trong `WbAIPanel.vue`.
+- **Độ tin cậy hệ thống:** Cơ chế callback JSON bất đồng bộ idempotent với logic retry tự động, bảo đảm không bao giờ làm lỗi layout hay hỏng luồng thanh toán của cửa hàng.
+
+## Kết quả & Giá trị kinh doanh
+
+- **Tiết kiệm thời gian:** Giúp merchant thực hiện quy trình audit CRO chuyên nghiệp chỉ trong chưa đầy 30 giây thay vì phải thuê chuyên gia tư vấn bên ngoài.
+- **Tăng trưởng chuyển đổi:** Nhóm merchant thử nghiệm ban đầu ghi nhận mức **tăng trung bình từ +12% đến +18% tỷ lệ thêm vào giỏ hàng (Add to Cart)** sau khi áp dụng các đề xuất của CR-Agent.

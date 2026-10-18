@@ -1,0 +1,66 @@
+---
+title: "E-Commerce Real-Time Analytics & Tracking Pipeline"
+summary: "High-throughput real-time event streaming and financial analytics engine processing millions of storefront interactions via Kafka, ClickHouse, and distributed Celery workers."
+image: "/images/projects/analytics-tracking/cover.png"
+publishedAt: "2025-12-01"
+live: ""
+repo: ""
+category: "Web"
+tags: ["Kafka", "ClickHouse", "Python", "Celery", "Distributed Systems", "Data Engineering", "E-Commerce"]
+featured: true
+teamSize: 2
+---
+
+## Overview
+
+In global e-commerce platforms, merchants require instant, precise visibility into traffic sources, add-to-cart conversions, net profit, and advertising attribution. Traditional relational databases fail under the massive write volumes of holiday traffic spikes and complex aggregation queries.
+
+As the **Development Owner** for the Analytics & Tracking domain, I designed and stabilized a real-time data ingestion and analytical processing pipeline capable of ingesting millions of storefront tracking events and aggregating revenue and profit metrics with sub-second dashboard query latency.
+
+## Architecture & Data Flow
+
+The system employs a decoupled, streaming-first architecture:
+
+```text
+[ Global Shopper Browser ]
+           │
+           ▼
+ [Edge Tracking Gateway (:8080)] ──► Ultra-low latency payload validation & geo-enrichment
+           │
+           ▼
+   [Storefront Service (:3006)] ──► Session resolution (sb_ctx with 'u:' user prefix)
+           │
+           ▼
+     [Apache Kafka Bus] ──► Partitioned topic streaming & backpressure buffer
+           │
+           ▼
+[ClickHouse Columnar Storage] ──► events_1h_all_columns (Vectorized parallel aggregations)
+           │
+           ▲
+[Distributed Celery Workers] ──► Asynchronous profit, COGS & order attribution engine
+```
+
+### 1. Ingestion at the Edge
+- **Edge Gateway (:8080):** High-concurrency reverse proxy terminating tracking beacons with negligible impact on buyer page-load performance.
+- **Storefront Context (:3006):** Preserves cross-domain session cookies and injects deterministic session tokens (`sb_ctx` with `u:` user prefix) to unify anonymous browsing with authenticated checkouts.
+
+### 2. High-Throughput Streaming & Columnar Storage
+- **Apache Kafka:** Serves as a fault-tolerant buffer decoupling traffic surges from downstream analytical ingestion.
+- **ClickHouse Cluster (`events_1h_all_columns`):** Stores append-only raw events with aggressive compression. Columnar partitioning enables parallel aggregations across hundreds of millions of rows in milliseconds.
+
+### 3. Distributed Profit & Metric Aggregations
+- Configured specialized **Celery task pools** to continuously compute complex profit formulas (gross revenue minus cost of goods sold, shipping fees, dynamic currency conversions, and gateway charges).
+- Real-time event streaming reconciles abandoned checkouts and completed orders into merchant dashboard cards.
+
+## Key Engineering Achievements
+
+### Resolving Data Skew & Tracking Discrepancies
+- Prior to stabilization, tracking reports suffered from subtle metric discrepancies between raw gateway logs and dashboard summaries.
+- Conducted deep forensic analysis across the entire ingestion pipeline:
+  - Isolated and resolved **7 core root-cause data skew clusters** (time-zone offsets, duplicate webhook delivery, session token stripping).
+  - Fixed **11 critical tracking and aggregation bugs**.
+  - Verified stability through end-to-end QE regression suites and live production audit runs.
+
+### Performance & Scalability Gains
+- Achieved **99.99% event ingestion reliability** during peak sales periods.
+- Reduced analytical query latency from 8+ seconds down to under **350ms**, enabling real-time live dashboard updates for merchants.

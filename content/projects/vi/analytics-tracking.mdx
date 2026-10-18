@@ -1,0 +1,66 @@
+---
+title: "Hệ thống Analytics & Tracking thời gian thực cho nền tảng E-Commerce"
+summary: "Pipeline xử lý dữ liệu và phân tích tài chính thời gian thực với thông lượng cao, tiếp nhận hàng triệu sự kiện tracking từ storefront qua Kafka, ClickHouse và cụm worker Celery phân tán."
+image: "/images/projects/analytics-tracking/cover.png"
+publishedAt: "2025-12-01"
+live: ""
+repo: ""
+category: "Web"
+tags: ["Kafka", "ClickHouse", "Python", "Celery", "Distributed Systems", "Data Engineering", "E-Commerce"]
+featured: true
+teamSize: 2
+---
+
+## Tổng quan
+
+Trong các nền tảng thương mại điện tử quy mô lớn, người bán (merchant) đòi hỏi dữ liệu tức thời và chính xác tuyệt đối về nguồn truy cập, tỷ lệ bỏ giỏ hàng, lợi nhuận ròng và hiệu quả quảng cáo. Cơ sở dữ liệu quan hệ truyền thống thường sụp đổ trước lưu lượng ghi khổng lồ trong các đợt sale lớn và không thể đáp ứng các câu truy vấn tổng hợp phức tạp.
+
+Với vai trò **Development Owner** của mảng Analytics & Tracking, tôi trực tiếp thiết kế, tối ưu và ổn định hóa toàn bộ pipeline xử lý dữ liệu thời gian thực: tiếp nhận hàng triệu sự kiện tracking, xử lý hàng đợi và tổng hợp số liệu doanh thu / lợi nhuận với tốc độ phản hồi sub-second trên dashboard.
+
+## Kiến trúc hệ thống & Luồng dữ liệu
+
+Hệ thống được thiết kế theo kiến trúc streaming phân tán:
+
+```text
+[ Trình duyệt người mua toàn cầu ]
+                  │
+                  ▼
+   [Edge Tracking Gateway (:8080)] ──► Tiếp nhận beacon với độ trễ cực thấp, enrich geo IP
+                  │
+                  ▼
+     [Storefront Service (:3006)] ──► Phân giải phiên người dùng (sb_ctx với prefix 'u:')
+                  │
+                  ▼
+        [Apache Kafka Bus] ──► Phân vùng topic, đệm chống nghẽn lưu lượng (backpressure)
+                  │
+                  ▼
+   [ClickHouse Columnar Storage] ──► Bảng events_1h_all_columns (Tính toán song song siêu tốc)
+                  │
+                  ▲
+   [Cụm Celery Workers phân tán] ──► Tính toán bất đồng bộ lợi nhuận, giá vốn & attribution
+```
+
+### 1. Tầng tiếp nhận dữ liệu (Ingestion at Edge)
+- **Edge Gateway (:8080):** Reverse proxy hiệu năng cao tiếp nhận các pixel beacon mà không làm ảnh hưởng đến tốc độ tải trang của người mua hàng.
+- **Storefront Context (:3006):** Bảo lưu session cookie xuyên domain và inject token định danh (`sb_ctx` với tiền tố `u:`) giúp nối liền hành trình từ khách vãng lai đến đơn hàng hoàn tất.
+
+### 2. Streaming thông lượng cao & Lưu trữ dạng cột
+- **Apache Kafka:** Đóng vai trò vùng đệm chịu tải, tách biệt hoàn toàn áp lực truy cập storefront khỏi hệ thống cơ sở dữ liệu phân tích phía sau.
+- **ClickHouse Cluster (`events_1h_all_columns`):** Cơ sở dữ liệu dạng cột tối ưu cho phép nén dữ liệu mạnh mẽ và thực thi các phép tính tổng hợp (aggregation) trên hàng trăm triệu bản ghi chỉ trong vài trăm mili-giây.
+
+### 3. Cụm Worker tính toán lợi nhuận & chỉ số tài chính
+- Xây dựng các pool **Celery worker chuyên trách** để liên tục giải quyết các công thức tài chính phức tạp: Doanh thu thực tế trừ giá vốn hàng bán (COGS), phí vận chuyển, biến động tỷ giá và phí cổng thanh toán.
+- Khớp nối dữ liệu sự kiện thời gian thực để cập nhật các biểu đồ phễu chuyển đổi và báo cáo kinh doanh cho merchant.
+
+## Thành tựu kỹ thuật nổi bật
+
+### Xử lý triệt để lệch số liệu & Lỗi Tracking
+- Trước khi tối ưu, hệ thống từng gặp hiện tượng chênh lệch số liệu giữa log tiếp nhận thô tại gateway và báo cáo tổng hợp cuối cùng trên dashboard.
+- Thực hiện rà soát chuyên sâu toàn bộ pipeline từ Edge đến ClickHouse:
+  - Định vị và giải quyết dứt điểm **7 cụm lỗi gốc (root-cause clusters)** gây sai lệch dữ liệu (lệch timezone, webhook gửi trùng lặp, mất session token khi redirect).
+  - Khắc phục **11 lỗi nghiêm trọng** trong khâu tracking và tính toán tổng hợp.
+  - Kiểm thử hồi quy tự động cùng đội ngũ QE và bàn giao hệ thống đạt chuẩn tin cậy 100%.
+
+### Hiệu năng & Quy mô đạt được
+- Đạt độ tin cậy tiếp nhận sự kiện **99.99%** trong suốt các đợt cao điểm mua sắm.
+- Cắt giảm thời gian phản hồi câu truy vấn báo cáo từ hơn 8 giây xuống **dưới 350ms**, mang đến trải nghiệm realtime mượt mà cho merchant.
