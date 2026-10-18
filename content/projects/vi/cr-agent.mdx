@@ -1,14 +1,14 @@
 ---
 title: "CR Agent – Trợ lý AI tối ưu hóa tỷ lệ chuyển đổi trang sản phẩm (PDP)"
-summary: "Trợ lý AI chuyên biệt cho nhà bán hàng: tự động rà soát điểm yếu trên trang sản phẩm, đề xuất các đòn bẩy tâm lý gia tăng tỷ lệ chốt đơn và hỗ trợ thuyết minh tư vấn âm thanh trước khi áp dụng vào giao diện."
+summary: "Trợ lý AI chuyên biệt cho nhà bán hàng: tự động rà soát điểm yếu trên trang sản phẩm, phân tích chuỗi suy luận có căn cứ và đề xuất các đòn bẩy tâm lý gia tăng tỷ lệ chốt đơn trước khi áp dụng vào giao diện."
 image: "/images/projects/cr-agent/cover.png"
 publishedAt: "2026-01-10"
 live: ""
 repo: ""
 category: "Web"
-tags: ["AI Assistant", "Conversion Optimization", "E-Commerce", "Web Builder", "Voice AI"]
+tags: ["AI Assistant", "Conversion Optimization", "E-Commerce", "Web Builder", "MCP"]
 featured: true
-teamSize: 2
+teamSize: 1
 ---
 
 ## Giới thiệu
@@ -19,35 +19,74 @@ Hầu hết các nhà bán lẻ độc lập không có ngân sách thuê chuyê
 
 **CR-Agent** được ra đời như một **chuyên gia CRO ảo đồng hành cùng người bán**, được tích hợp sẵn ngay bên trong trình dựng trang web (Web Builder) để tự động phân tích và đưa ra giải pháp giúp tăng tỷ lệ chốt đơn.
 
+<Image
+  src="/images/projects/cr-agent/cover.png"
+  alt="Giao diện Web Builder tích hợp trợ lý CR Agent"
+  width={1920}
+  height={1080}
+  className="w-full h-auto rounded-xl"
+/>
+
 ## Các tính năng sản phẩm nổi bật
 
 ### 1. Tự động kiểm tra & Chẩn đoán trang sản phẩm (Smart PDP Audit)
-- Chỉ với 1 cú click, AI sẽ quét toàn bộ nội dung trang sản phẩm: từ tiêu đề, hình ảnh, bảng giá, tình trạng tồn kho, chính sách giao hàng cho đến phần đánh giá của khách hàng cũ.
-- Chỉ rõ những điểm khách hàng thường băn khoăn khiến họ chưa dám bấm "Mua ngay".
-- Quá trình chẩn đoán hoàn toàn an toàn, chỉ phân tích nội dung sẵn có và tuyệt đối không tự ý thay đổi dữ liệu của cửa hàng.
+- Chỉ với một câu lệnh đơn giản như *"I want this product to sell better"*, AI sẽ rà soát toàn bộ trang sản phẩm: từ tiêu đề, hình ảnh, bảng giá, tình trạng tồn kho, chính sách giao hàng cho đến đánh giá của khách hàng.
+- **Phân loại độ ưu tiên rõ ràng:** Đưa ra các cảnh báo mức độ **Cao (High)** hoặc **Trung bình (Medium)** đối với những yếu tố gây mất niềm tin (ví dụ: đếm ngược ảo gây khó chịu, giá so sánh không có căn cứ, thiếu mốc thời gian giao hàng cụ thể).
 
-### 2. Đề xuất các đòn bẩy tâm lý thực chiến (Actionable Levers)
-- Thay vì những lời khuyên chung chung, CR-Agent đưa ra các thẻ đề xuất trực quan, phân loại khoa học theo tâm lý người mua hàng:
-  - **Tạo sự an tâm:** Bổ sung mốc thời gian giao hàng dự kiến rõ ràng, huy hiệu cam kết đổi trả miễn phí.
-  - **Tăng uy tín (Social Proof):** Làm nổi bật các đánh giá 5 sao từ khách hàng thực tế và số lượng sản phẩm đã bán.
-  - **Thúc đẩy quyết định:** Nhấn mạnh ưu đãi có giới hạn và lợi ích độc quyền của sản phẩm.
-- Tuân thủ chặt chẽ nguyên tắc bán hàng trung thực: Chỉ dựa trên dữ liệu thật của cửa hàng, tuyệt đối không tạo các thông báo giả mạo gây khó chịu cho người mua.
+<Image
+  src="/images/projects/cr-agent/pdp-audit-priorities.png"
+  alt="Báo cáo chẩn đoán và phân loại độ ưu tiên của CR Agent"
+  width={1920}
+  height={1080}
+  className="w-full h-auto rounded-xl"
+/>
 
-### 3. Thuyết minh tư vấn bằng giọng nói AI (Voice Narration Coaching)
-- Điểm độc đáo nhất của CR-Agent là tính năng thuyết minh âm thanh: Người bán có thể vừa xem thẻ đề xuất, vừa nghe giọng nói AI giải thích ngắn gọn, súc tích trong 30 giây lý do tại sao thay đổi này lại giúp tăng đơn hàng.
-- Mang lại cảm giác như đang được một chuyên gia tư vấn trực tiếp 1-1 ngay trên màn hình làm việc.
+### 2. Quy trình suy luận AI 10 bước & Đề xuất đòn bẩy tâm lý
+- Agent thực thi chuỗi suy luận 10 bước có căn cứ: từ đọc dữ liệu, tổng hợp tiếng nói khách hàng (reviews), phân tích lý do rời trang đến lựa chọn bố cục tối ưu.
+- Thay vì những lời khuyên chung chung, CR-Agent đưa ra các thẻ đòn bẩy thực chiến:
+  - **Tạo sự an tâm:** Bổ sung mốc thời gian giao hàng dự kiến rõ ràng, hướng dẫn chọn size chi tiết.
+  - **Tăng uy tín (Social Proof):** Làm nổi bật đánh giá thực tế và cam kết chất lượng.
+  - **Kích thích hành động:** Gợi ý các bộ sưu tập mua kèm (Frequently bought together) và sản phẩm liên quan (You may also like).
+
+<Image
+  src="/images/projects/cr-agent/ai-reasoning-steps.png"
+  alt="Chuỗi suy luận 10 bước của CR Agent và nút tạo preview"
+  width={1920}
+  height={1080}
+  className="w-full h-auto rounded-xl"
+/>
+
+### 3. So sánh trực quan (Visual Diff Preview) & Luồng phân tích lập luận (Narration Stream)
+- **Xem trước nội dung cải thiện (Side-by-Side Diff):** So sánh trực tiếp giữa nội dung hiện tại (`Current`) và nội dung đề xuất của AI (`Suggest`) cho từng trường dữ liệu (Tiêu đề, Mô tả HTML, v.v.).
+- **Luồng lập luận thuyết phục (Narration Stream):** Với mỗi đòn bẩy đề xuất, AI tự động sinh lời giải thích ngắn gọn, súc tích (60–100 từ) dưới góc nhìn thứ nhất, phân tích rõ lý do tại sao thay đổi này lại thuyết phục tâm lý người mua, giúp người bán hoàn toàn yên tâm khi quyết định áp dụng.
+
+<Image
+  src="/images/projects/cr-agent/content-diff-preview.png"
+  alt="Giao diện so sánh trực quan Diff giữa nội dung hiện tại và gợi ý của AI"
+  width={1920}
+  height={1080}
+  className="w-full h-auto rounded-xl"
+/>
 
 ### 4. Áp dụng 1-Click vào trình dựng trang (One-Click Apply)
 - Người bán không cần biết viết code hay chỉnh sửa CSS phức tạp.
-- Sau khi duyệt qua các đề xuất ưng ý, seller chỉ cần bấm **"Áp dụng"**, giao diện trang sản phẩm sẽ tự động cập nhật ngay lập tức.
-- Có tính năng xem trước trực quan (Preview) và cho phép hoàn tác về trạng thái cũ bất cứ lúc nào nếu muốn.
+- Sau khi tích chọn các mục ưng ý, seller chỉ cần bấm **"Áp dụng"**, giao diện trang sản phẩm trên canvas (Mobile/Desktop) sẽ tự động được cập nhật ngay lập tức.
+- Trợ lý thông báo rõ ràng các mục đã xử lý xong và nhắc nhở seller bấm **Save** để xuất bản. Có thể hoàn tác về trạng thái cũ bất cứ lúc nào.
+
+<Image
+  src="/images/projects/cr-agent/applied-changes-canvas.png"
+  alt="Trạng thái hoàn thành áp dụng thay đổi lên trang sản phẩm"
+  width={1920}
+  height={1080}
+  className="w-full h-auto rounded-xl"
+/>
 
 ## Vai trò của mình trong dự án
 
-Với vai trò **Chủ trì kỹ thuật (Development Owner)** cho tính năng CR-Agent:
+Với vai trò **Chủ trì kỹ thuật duy nhất (Sole Owner)** cho tính năng CR-Agent:
 
-- **Thiết kế quy trình 3 giai đoạn chặt chẽ:** Xây dựng luồng khép kín `Phân tích (Analyze) ➔ Đề xuất & Thuyết minh (Suggest) ➔ Áp dụng (Apply)`, đảm bảo người bán luôn nắm toàn quyền kiểm soát mọi thay đổi trên trang của mình.
-- **Xây dựng bảng điều khiển AI thân thiện trong Web Builder:** Trực tiếp phát triển giao diện AI Panel bên trong trình dựng trang, tối ưu trải nghiệm kéo thả, xem trước Before / After và phát âm thanh thuyết minh mượt mà.
+- **Thiết kế quy trình 3 giai đoạn chặt chẽ:** Xây dựng luồng khép kín `Phân tích (Analyze) ➔ Đề xuất & Lập luận (Suggest) ➔ Áp dụng (Apply)`, đảm bảo người bán luôn nắm toàn quyền kiểm soát mọi thay đổi trên trang của mình.
+- **Xây dựng bảng điều khiển AI thân thiện trong Web Builder:** Trực tiếp phát triển giao diện AI Panel bên trong trình dựng trang, tối ưu trải nghiệm tương tác trực quan, xem trước Before / After và theo dõi tiến trình thực thi.
 - **Tối ưu hóa các kịch bản đòn bẩy tâm lý:** Phối hợp tinh chỉnh các prompt AI để các đề xuất đưa ra luôn ngắn gọn, thiết thực, đi thẳng vào tâm lý mua sắm của khách hàng thay vì lý thuyết suông.
 - **Đảm bảo tính an toàn và ổn định khi cập nhật giao diện:** Xử lý cơ chế cập nhật trang an toàn, đảm bảo mọi thay đổi được áp dụng chính xác vào layout sản phẩm mà không làm ảnh hưởng đến các thành phần khác hay luồng thanh toán của website.
 
