@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, ChevronRight, Section } from 'lucide-react';
+import { ExternalLink, Github, ChevronRight, Sparkles } from 'lucide-react';
 import { Project } from '@/types';
 import Link from 'next/link';
 import SectionHeader from '@/components/ui/SectionHeader';
@@ -72,128 +72,127 @@ export default function Projects({
         <AnimatePresence mode="wait">
           <motion.div
             key={activeFilter}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 [grid-auto-flow:dense]"
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
           >
-            {filteredProjects.map((project, index) => (
-              <motion.article
-                key={index}
-                className={`group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-500 ${project.featured ? 'md:col-span-2 lg:col-span-2' : ''
+            {filteredProjects.map((project, index) => {
+              const isFeatured = !!project.featured;
+
+              return (
+                <motion.article
+                  key={project.slug || index}
+                  className={`group relative rounded-2xl overflow-hidden transition-all duration-500 flex flex-col justify-between backdrop-blur-sm ${
+                    isFeatured
+                      ? 'border border-amber-500/35 hover:border-amber-400/70 bg-gradient-to-b from-amber-500/[0.06] via-white/[0.05] to-white/[0.03] shadow-[0_4px_20px_-4px_rgba(245,158,11,0.15)] hover:shadow-[0_8px_30px_-4px_rgba(245,158,11,0.25)]'
+                      : 'border border-white/10 hover:border-white/20 bg-white/5 hover:bg-white/10'
                   }`}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{ y: -10, scale: 1.02 }}
-              >
-                {/* Featured Badge */}
-                {project.featured && (
-                  <motion.div
-                    className="absolute top-4 right-4 z-20 px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full text-xs font-bold text-black"
-                    initial={{ scale: 0, rotate: -180 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                  >
-                    {t.projects.featuredBadge}
-                  </motion.div>
-                )}
+                  initial={{ opacity: 0, y: 25 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                  whileHover={{ y: -6 }}
+                >
+                  {/* Top Accent Line for Featured */}
+                  {isFeatured && (
+                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-400 to-transparent z-20 pointer-events-none" />
+                  )}
 
-                {/* Project Image */}
-                <div className="relative overflow-hidden">
-                  <motion.img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-48 md:h-64 object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  />
+                  {/* Featured Badge */}
+                  {isFeatured && (
+                    <div className="absolute top-3 right-3 z-20 flex items-center gap-1 px-2.5 py-0.5 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full text-[11px] font-bold text-black shadow-lg">
+                      <Sparkles size={11} className="text-black" />
+                      <span>{t.projects.featuredBadge}</span>
+                    </div>
+                  )}
 
-                  {/* Overlay Links */}
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    initial={{ scale: 0.8 }}
-                    whileHover={{ scale: 1 }}
-                  >
-                    {project.live && <motion.a
-                      href={project.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-3 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors duration-300"
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <ExternalLink size={20} />
-                    </motion.a>}
-                    {project.repo && <motion.a
-                      href={project.repo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-3 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors duration-300"
-                      whileHover={{ scale: 1.1, rotate: -5 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <Github size={20} />
-                    </motion.a>}
-                  </motion.div>
-                </div>
+                  {/* Project Image */}
+                  <div className="relative w-full h-44 shrink-0 overflow-hidden">
+                    <motion.img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                {/* Project Content */}
-                <div className="p-6">
-                  <Link href={getProjectUrl(project.slug)}>
-                    <motion.h3
-                      className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors duration-300"
-                      whileHover={{ x: 5 }}
-                    >
-                      {project.title}
-                    </motion.h3>
-                  </Link>
-
-                  <motion.p
-                    className="text-gray-400 mb-4 leading-relaxed"
-                    animate={{ opacity: [0.8, 1, 0.8] }}
-                    transition={{ duration: 3, repeat: Infinity, delay: index * 0.2 }}
-                  >
-                    {project.summary}
-                  </motion.p>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags?.map((tag, tagIndex) => (
-                      <motion.span
-                        key={tag}
-                        className="px-3 py-1 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-white/10 rounded-full text-xs font-medium text-white"
-                        whileHover={{ scale: 1.05, borderColor: 'rgba(255,255,255,0.2)' }}
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3, delay: (index * 0.1) + (tagIndex * 0.05) }}
-                      >
-                        {tag}
-                      </motion.span>
-                    ))}
+                    {/* Overlay Links */}
+                    <div className="absolute inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {project.live && (
+                        <motion.a
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2.5 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors duration-300"
+                          whileHover={{ scale: 1.1, rotate: 5 }}
+                          whileTap={{ scale: 0.9 }}
+                          aria-label="Live Demo"
+                        >
+                          <ExternalLink size={18} />
+                        </motion.a>
+                      )}
+                      {project.repo && (
+                        <motion.a
+                          href={project.repo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2.5 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-colors duration-300"
+                          whileHover={{ scale: 1.1, rotate: -5 }}
+                          whileTap={{ scale: 0.9 }}
+                          aria-label="Source Code"
+                        >
+                          <Github size={18} />
+                        </motion.a>
+                      )}
+                    </div>
                   </div>
 
-                  {/* Learn More Link */}
-                  <Link href={getProjectUrl(project.slug)}>
-                    <motion.div
-                      className="flex items-center text-blue-400 hover:text-blue-300 font-medium text-sm cursor-pointer group/link"
-                      whileHover={{ x: 5 }}
-                    >
-                      <span>{t.projects.viewProject}</span>
-                      <motion.div
-                        className="ml-2"
-                        animate={{ x: [0, 5, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                      >
-                        <ChevronRight size={16} />
-                      </motion.div>
-                    </motion.div>
-                  </Link>
-                </div>
-              </motion.article>
-            ))}
+                  {/* Project Content */}
+                  <div className="p-5 flex flex-col justify-between flex-1">
+                    <div>
+                      <Link href={getProjectUrl(project.slug)}>
+                        <h3 className="font-bold text-base md:text-lg text-white mb-2 group-hover:text-blue-400 transition-colors duration-300 line-clamp-1">
+                          {project.title}
+                        </h3>
+                      </Link>
+
+                      <p className="text-gray-400 mb-3 text-xs md:text-sm leading-relaxed line-clamp-2">
+                        {project.summary}
+                      </p>
+                    </div>
+
+                    <div>
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-1.5 mb-3">
+                        {project.tags?.slice(0, 3).map((tag) => (
+                          <span
+                            key={tag}
+                            className={`px-2.5 py-0.5 border rounded-full text-[11px] font-medium ${
+                              isFeatured
+                                ? 'bg-amber-500/10 border-amber-500/20 text-amber-200/90'
+                                : 'bg-blue-500/10 border-white/10 text-gray-300'
+                            }`}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Learn More Link */}
+                      <Link href={getProjectUrl(project.slug)}>
+                        <div className="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium text-xs md:text-sm cursor-pointer group/link">
+                          <span>{t.projects.viewProject}</span>
+                          <ChevronRight
+                            size={15}
+                            className="ml-1 group-hover/link:translate-x-1 transition-transform duration-300"
+                          />
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
+                </motion.article>
+              );
+            })}
           </motion.div>
         </AnimatePresence>
 
