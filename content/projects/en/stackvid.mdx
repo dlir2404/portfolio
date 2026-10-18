@@ -1,0 +1,103 @@
+---
+title: "StackVid – AI Video Generation & Automated TikTok Shop Distribution"
+summary: "Next-gen AI video platform: scrapes top-converting competitor videos with attached TikTok Shop carts, repurposes them via the T2T AI pipeline (replacing actors and studios while strictly preserving the sold garment to eliminate duplicate content strikes), and auto-publishes with shopping cart anchors."
+image: "/images/projects/stackvid/cover.png"
+publishedAt: "2026-03-01"
+live: ""
+repo: ""
+category: "AI"
+tags: ["AI Video", "TikTok Pipeline", "T2T", "E-Commerce", "NestJS", "gRPC"]
+featured: true
+teamSize: 1
+---
+
+## Introduction
+
+In modern short-form video commerce (TikTok Shop, Affiliate Marketing), high-converting video creative is the lifeblood of revenue. Content creators and e-commerce sellers face a persistent dilemma:
+- Producing fresh videos from scratch is slow, labor-intensive, and requires expensive models and studio spaces.
+- Finding a competitor's winning video and re-uploading it directly triggers TikTok's aggressive **Duplicate Content Algorithms**, immediately suppressing distribution to 0 views or causing channel suspension.
+
+**StackVid** solves this friction through an autonomous end-to-end pipeline: scraping competitor videos that have verified shopping cart attachments, processing them through the **T2T (TikTok-to-TikTok / Video-to-Video) AI Engine** to transform the actor, background, and lip-synced script while **strictly preserving 100% of the apparel/product being sold**, and automatically scheduling publishing with attached TikTok Shop product showcase anchors.
+
+<Image
+  src="/images/projects/stackvid/cover.png"
+  alt="StackVid Central Dashboard Overview"
+  width={1920}
+  height={1080}
+  className="w-full h-auto rounded-xl"
+/>
+
+## Core Focus: T2T AI Video Engine & TikTok Shop Automation
+
+### 1. Competitor Channel Scraping & Shopping Cart Telemetry
+- **Showcase E-Commerce Mining:** Automatically tracks target competitor accounts (e.g. `@sieu.tichcuc`), continuously indexing their video catalog.
+- **Cart Attachment Classification:** Accurately distinguishes videos that feature e-commerce product links (e.g. `Anchor Product #867635`) versus generic organic posts without carts.
+- **Source Telemetry Extraction:** Downloads original clean HD MP4 files without watermarks, analyzes engagement metrics (views, likes), and extracts native audio transcripts (WebVTT) to serve as source prompts.
+
+<Image
+  src="/images/projects/stackvid/t2t-crawl-showcase-queue.png"
+  alt="Competitor video queue classified by TikTok Shop cart attachment"
+  width={1920}
+  height={1080}
+  className="w-full h-auto rounded-xl"
+/>
+
+### 2. Master Anchor Architecture & Garment Preservation
+To eliminate 100% of TikTok's duplicate content penalties, the pipeline enforces a dual-anchor strategy:
+- **Actor & Environment Swapping:** Replaces the competitor's presenter and messy real-world background with an assigned digital persona (e.g., persona `Dũng`) within a pristine, minimalist studio setting.
+- **Strict Garment Constraint:** AI identifies the commercial apparel item and locks down product geometry and details (`washed blue denim jacket, regular fit, metal buttons, chest flap pockets... - Keep product unchanged`). From fabric texture, wash tone, to pocket flaps and buttons, the garment remains authentic to what buyers actually receive.
+
+<Image
+  src="/images/projects/stackvid/t2t-master-anchor-pipeline.png"
+  alt="Master Anchor setup interface: Original competitor frame vs Persona Dũng with product preservation prompt"
+  width={1920}
+  height={1080}
+  className="w-full h-auto rounded-xl"
+/>
+
+### 3. AI Script Restructuring & Lip-Sync Rhythm Engine
+- **5-Segment Direct Response Formula:** Slices source videos into semantic chunks (`#0 HOOK ➔ #1 FEATURE ➔ #2 FEATURE ➔ #3 BENEFIT ➔ #4 CTA`), generating a refreshed, copyright-free sales script highlighting key product benefits.
+- **Pacing Normalization:** Constrains script density to **25–36 words per chunk**, precisely matching the visual duration of each 10-second segment (240 frames at 24 fps) so that synthesized voiceover naturally aligns with the character's lip movements.
+
+<Image
+  src="/images/projects/stackvid/t2t-script-slices-consistency.png"
+  alt="Dialogue comparison: Original transcript vs AI adapted script and chunk consistency table"
+  width={1920}
+  height={1080}
+  className="w-full h-auto rounded-xl"
+/>
+
+### 4. Quality Consistency Scoring & Real Finished Video Output
+- **Automated QA Metrics:** Evaluates every rendered chunk against AI consistency thresholds: Facial consistency (`Face: 78%`) and Garment consistency (`Clothing: 80%`).
+- **Autonomous Stitching & Audio Remix:** Seamlessly concatenates all 5 completed segments into a unified 9:16 vertical video and remixes the audio track with native Vietnamese vocal cadences.
+
+<Video
+  src="/images/projects/stackvid/final_1e50c513-f93e-4bf2-bf8e-a132fb5a1dfe.mp4"
+  caption="Real output video generated by the T2T pipeline: swapped actor Dũng, studio background, and fresh voiceover while preserving the competitor's denim jacket product."
+/>
+
+### 5. Automated Scheduling & TikTok Shop Cart Attachment
+- **Autonomous Factory Watch Mode:** Toggling `Watch: ON` automatically pulls new uploads from monitored channels into the processing queue without manual supervision.
+- **Auto-Publishing with E-Commerce Anchors:** Deploys rendered videos during optimal engagement windows (`08:00 - 22:30`) to the destination storefront channel (e.g., `Thời trang Kudo`), automatically binding the designated TikTok Shop showcase product link for seamless affiliate monetization.
+
+<Carousel
+  images={[
+    "/images/projects/stackvid/t2t-channel-automation-factory.png",
+    "/images/projects/stackvid/t2t-job-queue-progress.png",
+    "/images/projects/stackvid/t2t-finished-video-modal.png",
+  ]}
+/>
+
+## Supporting Infrastructure & Features
+
+In addition to the core T2T engine, StackVid incorporates essential utilities for multi-account operational safety:
+
+- **TikTok Streak Keeper:** Automates daily direct messaging to preserve account engagement streaks (`🔥`). Employs a smart "End-of-Day Rescue" mode (22:30) that skips execution if accounts already interacted, alongside a 0–15 minute randomized delay (jitter) to prevent anti-bot heuristics from flagging accounts.
+- **Instant VietQR Top-Up:** Reconciles banking transfers via automated QR codes (SePay), updating credit wallets in 5–15 seconds without administrative intervention.
+- **NestJS Monorepo & gRPC Microservices:** Decouples public API gateways from heavy compute workers via binary gRPC for minimal inter-service latency.
+- **Atomic Two-Phase Credits Engine:** Employs atomic SQL deductions and an interceptor pattern to hold funds in escrow and automatically refund 100% if third-party APIs fail.
+- **Dedicated Sticky Proxies:** Binds each connected social account to an isolated residential proxy IP and sandboxed cookie vault.
+
+## Project Ownership
+
+- **Sole Creator & Architecture Owner:** Conceived and engineered the entire solution—from market research, the T2T video transformation pipeline, Master Anchor garment preservation algorithms, TikTok Shop cart binding automation, to the full frontend console.

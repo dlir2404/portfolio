@@ -48,6 +48,20 @@ const components = {
     Carousel: ({ images, ...props }: CarouselProps) => (
         <Carousel images={images} {...props} />
     ),
+    Video: ({ src, caption, ...props }: { src: string; caption?: string } & React.VideoHTMLAttributes<HTMLVideoElement>) => (
+        <div className="my-8 flex flex-col items-center">
+            <video
+                src={src}
+                controls
+                playsInline
+                className="rounded-2xl max-h-[580px] w-auto shadow-2xl border border-white/10 bg-black"
+                {...props}
+            />
+            {caption && (
+                <p className="text-xs text-gray-400 mt-2 text-center italic">{caption}</p>
+            )}
+        </div>
+    ),
     pre: createCodeBlock as any,
 
 } satisfies MDXComponents;
