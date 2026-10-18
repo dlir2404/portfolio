@@ -21,11 +21,74 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
+
+    try {
+      const web3FormsKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+
+      let response: Response;
+      if (web3FormsKey) {
+        response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({
+            access_key: web3FormsKey,
+            name: formData.name,
+            email: formData.email,
+            subject: formData.subject || `Tin nhắn từ ${formData.name}`,
+            message: formData.message,
+            from_name: 'Portfolio Contact Form',
+          }),
+        });
+      } else {
+        response = await fetch(`https://formsubmit.co/ajax/${baseInfo.email}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            _replyto: formData.email,
+            subject: formData.subject || `Tin nhắn từ ${formData.name}`,
+            _subject: `[Portfolio Contact] ${formData.subject || 'Tin nhắn mới từ website'}`,
+            message: formData.message,
+            _template: 'box',
+            _captcha: 'false',
+          }),
+        });
+      }
+
+      const data = await response.json();
+      if (response.ok && (data.success === true || data.success === 'true')) {
+        toast.success(t.contact.form.success);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        if (data.message && typeof data.message === 'string' && data.message.includes('Activation')) {
+          toast.info(
+            locale === 'vi'
+              ? 'Form đã gửi yêu cầu kích hoạt vào email dinhlinh.work24@gmail.com, vui lòng bấm link kích hoạt.'
+              : 'Form activation link sent to your email. Please click it to start receiving messages.'
+          );
+        } else {
+          toast.error(
+            data.message ||
+              (locale === 'vi' ? 'Có lỗi xảy ra khi gửi tin nhắn.' : 'Failed to send message.')
+          );
+        }
+      }
+    } catch (error) {
+      toast.error(
+        locale === 'vi'
+          ? 'Lỗi kết nối. Vui lòng liên hệ trực tiếp qua email.'
+          : 'Connection error. Please contact directly via email.'
+      );
+    } finally {
       setIsSubmitting(false);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      toast.success(t.contact.form.success);
-    }, 1500);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
