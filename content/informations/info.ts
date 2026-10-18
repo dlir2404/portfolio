@@ -4,7 +4,6 @@ import {
     Server,
     Database,
     Cloud,
-    Smartphone,
     type LucideIcon,
 } from "lucide-react";
 import { Locale } from "@/lib/i18n";
@@ -70,7 +69,7 @@ export const experiencesEn: Experience[] = [
         startDate: "2025-10",
         endDate: "Present",
         summary: "Serving as Development Owner for Analytics & Tracking and CR-Agent (ConvertCore / sbase-ai). Architecting high-throughput real-time event streaming pipelines with Kafka and ClickHouse, engineering AI-powered Conversion Rate Optimization (CRO) agents with Model Context Protocol (MCP), and scaling automated POD AI rendering workflows.",
-        techStack: ["Python", "Kafka", "ClickHouse", "Celery", "FastAPI", "Vue.js", "Golang", "Django", "MCP"]
+        techStack: ["Python", "Kafka", "ClickHouse", "Celery", "FastAPI", "Vue.js", "Django", "MCP"]
     }
 ];
 
@@ -105,7 +104,7 @@ export const experiencesVi: Experience[] = [
         startDate: "2025-10",
         endDate: "Present",
         summary: "Đảm nhiệm vai trò Chủ trì kỹ thuật (Development Owner) cho mảng Analytics & Tracking và CR-Agent (ConvertCore / sbase-ai). Trực tiếp xây dựng hệ thống streaming sự kiện thời gian thực thông lượng cao với Kafka & ClickHouse, kiến trúc trợ lý AI tối ưu tỷ lệ chuyển đổi (CRO) qua giao thức MCP, và phát triển pipeline render tự động cho sản phẩm POD AI.",
-        techStack: ["Python", "Kafka", "ClickHouse", "Celery", "FastAPI", "Vue.js", "Golang", "Django", "MCP"]
+        techStack: ["Python", "Kafka", "ClickHouse", "Celery", "FastAPI", "Vue.js", "Django", "MCP"]
     }
 ];
 
@@ -130,13 +129,13 @@ export function getAboutDescription(locale: Locale = 'en'): string[] {
     const years = getYearsOfExperience();
     if (locale === 'vi') {
         return [
-            `Lập trình viên Full-Stack với hơn ${years} năm kinh nghiệm kiến tạo các ứng dụng web và di động thực tế. Nền tảng vững vàng về hệ thống backend, kiến trúc phân tán và phát triển cloud-native với ưu tiên hàng đầu về hiệu năng, độ chịu tải và bảo mật.`,
-            "Mình chuyên sâu về Nest.js và Next.js, nhưng luôn sẵn sàng tiếp cận các công nghệ mới để giải quyết những thử thách thú vị. Ngoài thời gian lập trình, mình thường phát triển các dự án cá nhân, đón đầu các xu hướng công nghệ mới và học hỏi từ các bài viết kỹ thuật.",
+            `Lập trình viên Full-Stack với hơn ${years} năm kinh nghiệm kiến tạo các ứng dụng web thực tế. Nền tảng vững vàng về hệ thống backend, kiến trúc phân tán và phát triển cloud-native với ưu tiên hàng đầu về hiệu năng, độ chịu tải và bảo mật.`,
+            "Mình chuyên sâu về hệ sinh thái Next.js/React, NestJS và Python (FastAPI/Django), đồng thời có kinh nghiệm thực chiến phát triển các pipeline dữ liệu lớn (Kafka, ClickHouse) và các giải pháp AI Agents/MCP. Ngoài thời gian lập trình, mình thường phát triển các sản phẩm SaaS cá nhân, nghiên cứu các mô hình AI mới và học hỏi từ các bài viết kỹ thuật chuyên sâu.",
         ];
     }
     return [
-        `Passionate Full-Stack Developer with ${years}+ years of experience delivering production-ready web and mobile applications. Strong background in backend systems, distributed computing, and cloud-native development with a focus on performance, scalability, and security.`,
-        "I specialize in Nest.js and Next.js, but I'm always excited to learn new technologies and tackle challenging problems. When I'm not coding, you'll find me working on personal projects, exploring the latest tech trends, or learning from tech blogs and documentation.",
+        `Passionate Full-Stack Developer with ${years}+ years of experience delivering production-ready web applications. Strong background in backend systems, distributed computing, and cloud-native development with a focus on performance, scalability, and security.`,
+        "I specialize in Next.js/React, NestJS, and Python (FastAPI/Django), with production experience architecting high-throughput data streaming pipelines (Kafka, ClickHouse) and AI Agents/MCP solutions. When not coding, you'll find me building personal SaaS products, exploring emerging AI models, and diving deep into technical systems design.",
     ];
 }
 
@@ -167,31 +166,25 @@ export function getSkillGroups(locale: Locale = 'en'): SkillGroup[] {
             name: locale === 'vi' ? "Giao diện (Frontend)" : "Frontend",
             icon: Globe,
             color: "from-blue-500 to-cyan-500",
-            skills: ["React", "Next.js", "Redux", "Tailwind CSS", "HTML/CSS", "jQuery", "HTML Canvas"],
+            skills: ["Next.js", "React", "Vue.js", "TypeScript", "Vite", "Tailwind CSS", "HTML5 / Canvas", "Redux"],
         },
         {
             name: locale === 'vi' ? "Hệ thống (Backend)" : "Backend",
             icon: Server,
             color: "from-violet-500 to-purple-500",
-            skills: ["Nest.js", "Express", "MCP", "Spring Boot", "Socket.io", "AI Agents", "RabbitMQ", "Redis"],
+            skills: ["NestJS", "Python (FastAPI, Django)", "gRPC", "Kafka", "Redis", "Spring Boot", "MCP / AI Agents", "Golang", "PHP"],
         },
         {
             name: locale === 'vi' ? "Cơ sở dữ liệu" : "Database",
             icon: Database,
             color: "from-emerald-500 to-green-500",
-            skills: ["PostgreSQL", "MongoDB", "MySQL", "Clickhouse", "Elasticsearch", "Solr"],
+            skills: ["PostgreSQL", "ClickHouse", "MySQL", "MongoDB", "Elasticsearch", "Redis"],
         },
         {
             name: locale === 'vi' ? "DevOps & Đám mây" : "DevOps & Cloud",
             icon: Cloud,
             color: "from-orange-500 to-red-500",
-            skills: ["Docker", "Kubernetes", "CI/CD", "Git", "Linux", "Automation"],
-        },
-        {
-            name: locale === 'vi' ? "Ứng dụng Di động" : "Mobile",
-            icon: Smartphone,
-            color: "from-pink-500 to-rose-500",
-            skills: ["Flutter", "Android (Kotlin)", "React Native"],
+            skills: ["Docker", "Kubernetes", "CI/CD", "Linux", "Git", "Cloudflare / Edge"],
         },
     ];
 }

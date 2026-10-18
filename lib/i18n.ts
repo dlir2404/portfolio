@@ -153,7 +153,7 @@ export const translations: Record<Locale, Translations> = {
     },
     projects: {
       title: 'Featured Projects',
-      subtitle: 'A showcase of my recent work, spanning web applications, mobile apps, and open source contributions.',
+      subtitle: 'A showcase of my recent work, spanning web applications, AI solutions, and open source contributions.',
       filters: {
         all: 'All',
         web: 'Web',
@@ -271,7 +271,7 @@ export const translations: Record<Locale, Translations> = {
     },
     projects: {
       title: 'Dự án nổi bật',
-      subtitle: 'Tổng hợp các dự án tiêu biểu gần đây của mình, từ ứng dụng web, di động cho đến các giải pháp mã nguồn mở.',
+      subtitle: 'Tổng hợp các dự án tiêu biểu gần đây của mình, từ ứng dụng web, giải pháp AI cho đến các tiện ích mã nguồn mở.',
       filters: {
         all: 'Tất cả',
         web: 'Web',
