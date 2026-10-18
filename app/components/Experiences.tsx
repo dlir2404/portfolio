@@ -2,19 +2,23 @@
 
 import { motion } from 'framer-motion';
 import { Building2, Calendar, Users, Code, Briefcase, Clock, Star, Section } from 'lucide-react';
-import { experiences } from '@/content/informations/info';
+import { getExperiences } from '@/content/informations/info';
 import { Experience } from '@/types';
 import SectionHeader from '@/components/ui/SectionHeader';
+import { useLocale } from '@/components/i18n/LocaleContext';
 
-const formatDate = (dateString: string) => {
-  if (dateString === 'Present') return 'Present';
+const formatDate = (dateString: string, presentText: string, isVi: boolean) => {
+  if (dateString === 'Present') return presentText;
   const [year, month] = dateString.split('-');
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  return `${monthNames[parseInt(month) - 1]} ${year}`;
+  const monthNamesEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const monthIndex = parseInt(month, 10) - 1;
+  if (isVi) {
+    return `Thg ${monthIndex + 1} ${year}`;
+  }
+  return `${monthNamesEn[monthIndex]} ${year}`;
 };
 
-const getExperienceDuration = (startDate: string, endDate: string) => {
+const getExperienceDuration = (startDate: string, endDate: string, t: any) => {
   if (endDate === 'Present') {
     const start = new Date(startDate + '-01');
     const now = new Date();
@@ -22,9 +26,9 @@ const getExperienceDuration = (startDate: string, endDate: string) => {
     const years = Math.floor(diffMonths / 12);
     const months = diffMonths % 12;
 
-    if (years === 0) return `${months} month${months !== 1 ? 's' : ''}`;
-    if (months === 0) return `${years} year${years !== 1 ? 's' : ''}`;
-    return `${years} year${years !== 1 ? 's' : ''} ${months} month${months !== 1 ? 's' : ''}`;
+    if (years === 0) return `${months} ${months !== 1 ? t.experiences.months : t.experiences.month}`;
+    if (months === 0) return `${years} ${years !== 1 ? t.experiences.years : t.experiences.year}`;
+    return `${years} ${years !== 1 ? t.experiences.years : t.experiences.year} ${months} ${months !== 1 ? t.experiences.months : t.experiences.month}`;
   }
 
   const start = new Date(startDate + '-01');
@@ -33,12 +37,15 @@ const getExperienceDuration = (startDate: string, endDate: string) => {
   const years = Math.floor(diffMonths / 12);
   const months = diffMonths % 12;
 
-  if (years === 0) return `${months} month${months !== 1 ? 's' : ''}`;
-  if (months === 0) return `${years} year${years !== 1 ? 's' : ''}`;
-  return `${years} year${years !== 1 ? 's' : ''} ${months} month${months !== 1 ? 's' : ''}`;
+  if (years === 0) return `${months} ${months !== 1 ? t.experiences.months : t.experiences.month}`;
+  if (months === 0) return `${years} ${years !== 1 ? t.experiences.years : t.experiences.year}`;
+  return `${years} ${years !== 1 ? t.experiences.years : t.experiences.year} ${months} ${months !== 1 ? t.experiences.months : t.experiences.month}`;
 };
 
 export default function Experiences() {
+  const { t, locale } = useLocale();
+  const experiences = getExperiences(locale);
+
   // Sort experiences by start date (oldest first for bottom to top timeline)
   const sortedExperiences = [...experiences].sort((a, b) => {
     const dateA = new Date(a.startDate + '-01');
@@ -49,7 +56,7 @@ export default function Experiences() {
   return (
     <section id="experiences" className="py-20 px-4 relative">
       <div className="container mx-auto max-w-7xl">
-        <SectionHeader title="Professional Journey" subtitle="A timeline of my professional growth and the impactful projects I've contributed to across different organizations." />
+        <SectionHeader title={t.experiences.title} subtitle={t.experiences.subtitle} />
 
         {/* Timeline */}
         <div className="relative max-w-6xl mx-auto">
@@ -68,7 +75,7 @@ export default function Experiences() {
           <div className="space-y-16">
             {sortedExperiences.map((experience, index) => {
               const isEven = index % 2 === 0;
-              const duration = getExperienceDuration(experience.startDate, experience.endDate);
+              const duration = getExperienceDuration(experience.startDate, experience.endDate, t);
               const isCurrentJob = experience.endDate === 'Present';
 
               return (
@@ -164,7 +171,7 @@ export default function Experiences() {
                     <div className="flex items-center gap-4 mb-6 text-sm text-gray-400">
                       <span className="flex items-center gap-1">
                         <Calendar size={14} />
-                        {formatDate(experience.startDate)} - {formatDate(experience.endDate)}
+                        {formatDate(experience.startDate, t.experiences.present, locale === 'vi')} - {formatDate(experience.endDate, t.experiences.present, locale === 'vi')}
                       </span>
                       <span className="flex items-center gap-1">
                         <Clock size={14} />

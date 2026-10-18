@@ -3,20 +3,23 @@
 import { motion } from 'framer-motion';
 import { Heart, Github, Linkedin, Facebook, Mail, ArrowUp } from 'lucide-react';
 import { baseInfo } from '@/content/informations/info';
+import { useLocale } from '@/components/i18n/LocaleContext';
 
 export default function Footer() {
+  const { t, locale } = useLocale();
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const currentYear = new Date().getFullYear();
+  const homeHref = locale === 'vi' ? '/vi/' : '/';
 
   const quickLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Blog', href: '#blog' },
-    { name: 'Contact', href: '#contact' },
+    { name: t.nav.home, href: `${homeHref}#home` },
+    { name: t.nav.about, href: `${homeHref}#about` },
+    { name: t.nav.projects, href: `${homeHref}#projects` },
+    { name: t.nav.blog, href: `${homeHref}#blog` },
+    { name: t.nav.contact, href: `${homeHref}#contact` },
   ];
 
   const socialLinks = [
@@ -69,8 +72,7 @@ export default function Footer() {
               animate={{ opacity: [0.8, 1, 0.8] }}
               transition={{ duration: 3, repeat: Infinity }}
             >
-              Full Stack Developer passionate about creating digital experiences that make a difference. 
-              Always exploring new technologies and pushing the boundaries of what's possible.
+              {t.footer.tagline}
             </motion.p>
 
             <motion.div
@@ -112,7 +114,7 @@ export default function Footer() {
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-lg font-semibold text-white mb-6">Quick Links</h3>
+            <h3 className="text-lg font-semibold text-white mb-6">{t.footer.quickLinksTitle}</h3>
             <ul className="space-y-3">
               {quickLinks.map((link, index) => (
                 <motion.li
@@ -140,7 +142,7 @@ export default function Footer() {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-lg font-semibold text-white mb-6">Get in Touch</h3>
+            <h3 className="text-lg font-semibold text-white mb-6">{t.footer.connectTitle}</h3>
             <div className="space-y-4 text-gray-400">
               <motion.p
                 whileHover={{ scale: 1.02, color: '#fff' }}

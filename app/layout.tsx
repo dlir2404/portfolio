@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/sonner"
 import TrailingCursor from '@/components/effects/TrailingCursor';
 import { baseInfo } from '@/content/informations/info';
 import { Analytics } from '@vercel/analytics/next';
+import { LocaleProvider } from '@/components/i18n/LocaleContext';
+import LanguageSwitcher from '@/components/i18n/LanguageSwitcher';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const jetBrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
@@ -43,7 +45,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth dark">
       <body className={`${inter.variable} ${jetBrainsMono.variable} font-inter antialiased bg-black text-white overflow-x-hidden`}>
-        {children}
+        <LocaleProvider>
+          {children}
+          <LanguageSwitcher />
+        </LocaleProvider>
         <TrailingCursor />
         <Analytics />
         <Toaster position='top-center' richColors/>

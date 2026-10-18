@@ -5,8 +5,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function slugify(str: string): string {
-    return str
+export function slugify(str: any): string {
+    const text = typeof str === 'string' ? str : String(str || '');
+    return text
         .toLowerCase()
         .replace(/\s+/g, "-") // Replace spaces with -
         .replace(/&/g, "-and-") // Replace & with 'and'

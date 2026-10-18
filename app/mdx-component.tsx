@@ -27,13 +27,15 @@ function createCodeBlock(props: any) {
 }
 
 function createHeading(as: 'h2' | 'h3' | 'h4' | 'h5' | 'h6') {
-    return ({ children, ...props }: React.PropsWithChildren) => {
+    const HeadingComponent = ({ children, ...props }: React.PropsWithChildren) => {
         return (
             <LinkHeading as={as} {...props}>
                 {children}
             </LinkHeading>
         );
-    }
+    };
+    HeadingComponent.displayName = `MDX${as.toUpperCase()}`;
+    return HeadingComponent;
 }
 
 const components = {

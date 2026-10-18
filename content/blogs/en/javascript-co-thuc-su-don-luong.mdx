@@ -1,0 +1,95 @@
+---
+title: "Is JavaScript Truly Single-Threaded?"
+publishedAt: "2025-07-14"
+image: "/images/blogs/js-co-thuc-su-don-luong/cover.png"
+summary: "JavaScript has only one main thread of execution, yet with the event loop and runtime environment APIs, it handles asynchronous tasks effortlessly without freezing. Here is how it really works under the hood."
+tags: ["Q&A", "JavaScript"]
+featured: true
+readTime: "15 min read"
+author: "Larry Vu"
+---
+
+A fascinating and recurring question in JavaScript is: *"Is JavaScript really single-threaded? If it has only one thread, how can it handle asynchronous operations like `setTimeout`, `fetch`, or Promises without freezing the UI?"*
+
+It sounds paradoxical at first glance. Let's unpack what is actually going on beneath the hood!
+
+## What Does "Single-Threaded" Actually Mean?
+
+When people say JavaScript is single-threaded, they mean the JavaScript engine has only **one Call Stack**—meaning only one snippet of JavaScript code executes at any given millisecond. This predictability prevents race conditions where two threads scramble to modify the same memory or variables simultaneously.
+
+So why don't operations like `setTimeout`, `fetch`, or file I/O lock up the browser? The answer lies in the **runtime environment** and the **Event Loop**.
+
+## The Event Loop: The Magician Behind the Curtain
+
+First, let's establish two foundational concepts:
+- **Call Stack:** A LIFO (Last In, First Out) stack that keeps track of the currently executing functions.
+- **Callback Queue (Task Queue):** A FIFO (First In, First Out) queue holding callbacks waiting to be pushed onto the stack.
+
+Now imagine JavaScript as a chef with only one arm (the Call Stack). The chef executes kitchen orders sequentially from top to bottom.
+
+However, this chef is surrounded by several capable kitchen assistants (Web APIs in the browser, or the `libuv` thread pool in Node.js). When you call `setTimeout` or `fetch`, the chef delegates that task to an assistant and immediately continues preparing the next dish on the counter.
+
+The actual waiting, network polling, or timer countdown is not performed by JavaScript itself—it is executed by the runtime assistants running on separate background threads!
+
+Once an assistant finishes their task, they place the corresponding callback into the Callback Queue. The **Event Loop** constantly inspects both the Call Stack and the Queue. As soon as the Call Stack is completely clear, the Event Loop pulls the first callback from the queue and hands it back to the chef.
+
+Because callbacks must wait for the main thread to finish its active duties, long-running computational loops on the Call Stack will delay queued timer callbacks.
+
+## Testing the Accuracy of `setTimeout`
+
+Let's test this in practice. What happens if we schedule a `setTimeout` with a delay of `0ms`, but immediately follow it with a massive loop of 1 billion iterations?
+
+```javascript
+const start = Date.now();
+
+setTimeout(() => {
+  console.log('Delay:', Date.now() - start, 'ms');
+}, 0);
+
+for (let i = 0; i < 1_000_000_000; i++) {}
+```
+
+In this scenario, the chef handed a zero-second timer to the assistant, but then proceeded to chop vegetables 1,000,000,000 times on the main stack.
+
+Even though the timer elapsed almost instantly in the background, the callback had to wait for the synchronous loop to finish before the event loop could push it onto the call stack:
+
+<Image
+  src="/images/blogs/js-co-thuc-su-don-luong/test.png"
+  alt="Test result with 1 billion iterations"
+  width={358}
+  height={169}
+  className="w-1/2"
+/>
+
+A delay of ~300ms! What if we bump the counter up to 10 billion iterations?
+
+<Image
+  src="/images/blogs/js-co-thuc-su-don-luong/test2.png"
+  alt="Test result with 10 billion iterations"
+  width={358}
+  height={169}
+  className="w-1/2"
+/>
+
+As you can see, `console.log('Delay:', Date.now() - start, 'ms')` was blocked until all 10 billion synchronous iterations completed.
+
+## So, Is JavaScript Truly Single-Threaded?
+
+The nuanced answer is: **Yes, and no!**
+
+- **At the engine level (V8, SpiderMonkey, JavaScriptCore):** Yes, JavaScript executes code on a single Call Stack.
+- **At the runtime platform level (Browser / Node.js runtime):** No! Browsers and Node.js are inherently multi-threaded platforms powered by background worker threads (C++ / libuv / OS kernel threads) that handle timers, network requests, disk I/O, and DOM rendering in parallel.
+
+## Summary
+
+JavaScript engine code runs on a single thread, but the surrounding runtime provides asynchronous background workers coordinated seamlessly by the Event Loop. Understanding this interaction helps you write high-performance applications that never block the main thread.
+
+Here is an architectural diagram illustrating the complete workflow inside Node.js:
+
+<Image
+  src="/images/blogs/js-co-thuc-su-don-luong/chart.png"
+  alt="Node.js Event Loop Flow Chart"
+  width={605}
+  height={855}
+  className="w-3/4"
+/>

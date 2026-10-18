@@ -1,0 +1,250 @@
+---
+title: "Hướng dẫn Dual Boot Windows & Ubuntu chi tiết: Chạy song song 2 hệ điều hành cực mượt"
+publishedAt: "2025-03-30"
+image: "/images/blogs/duo-boot-win-vs-ubuntu/thumbnails.png"
+summary: "Muốn trải nghiệm Linux nhưng không nỡ bỏ Windows? Hướng dẫn từng bước cài đặt Dual Boot Windows và Ubuntu chi tiết từ A-Z, kèm mẹo khắc phục lỗi thường gặp cực kỳ dễ hiểu."
+tags: ["Tutorial", "Linux", "Windows"]
+readTime: "15 min read"
+author: "Larry Vu"
+---
+
+Có bao giờ bạn muốn bước chân vào thế giới Linux để khám phá sức mạnh của dòng lệnh Terminal, phục vụ học tập, lập trình hay đơn giản là đổi gió với một hệ điều hành nhẹ mượt, nhưng trong lòng vẫn đầy âu lo: *"Liệu cài xong thì đống dữ liệu, phần mềm và mấy tựa game quen thuộc trên Windows có bay màu không?"*
+
+Câu trả lời là hoàn toàn không, nếu bạn chọn giải pháp **Dual Boot** (cài song song hai hệ điều hành). Trong bài viết này, mình sẽ hướng dẫn bạn chi tiết từng bước thiết lập một cỗ máy chạy song song cả Windows (10/11) và Ubuntu Linux, kèm theo những mẹo cực hay giúp bạn thao tác nhẹ nhàng mà không sợ gõ nhầm hay lỗi hệ thống.
+
+---
+
+## Tại sao lại là Dual Boot? ("The Best of Both Worlds")
+
+Khi muốn dùng Linux trên máy tính chạy Windows, chúng ta thường có 3 lựa chọn: dùng WSL (Windows Subsystem for Linux), cài máy ảo (VirtualBox/VMware), hoặc **Dual Boot**.
+
+Máy ảo hay WSL rất tiện lợi cho những tác vụ nhanh, nhưng chúng luôn có những giới hạn cố hữu: ngốn RAM kinh khủng, hiệu năng đồ họa và I/O đĩa bị bóp nghẹt, đôi khi không tận dụng được hết sức mạnh của card màn hình (GPU) rời.
+
+Trong khi đó, **Dual Boot** cho phép cả Windows và Ubuntu cùng chung sống trên một ổ cứng nhưng hoạt động độc lập và chạy trực tiếp trên phần cứng thật (bare-metal):
+
+- **Linux (Ubuntu):** Hoàn toàn miễn phí, siêu nhẹ, cực kỳ bảo mật, tài nguyên máy tính được giải phóng tối đa cho công việc lập trình, chạy server hay các tác vụ kỹ thuật.
+- **Windows:** Vẫn ở đó nguyên vẹn, sẵn sàng mỗi khi bạn cần dùng bộ phần mềm văn phòng Microsoft Office, đồ hoạ Adobe, hay chiến các tựa game yêu thích có hệ thống anti-cheat nghiêm ngặt.
+
+Mỗi lần bấm nút nguồn khởi động máy tính, bạn sẽ có một menu đẹp đẽ để chọn: hôm nay muốn cày cuốc học tập với Ubuntu hay giải trí nhẹ nhàng bên Windows. Quá tiện lợi đúng không?
+
+---
+
+## Chuẩn bị những gì trước khi bắt đầu?
+
+Để quá trình cài đặt diễn ra suôn sẻ và an toàn nhất, bạn hãy chuẩn bị sẵn một số thứ sau:
+
+1. **Một chiếc máy tính** đang chạy Windows 10 hoặc Windows 11 ổn định (PC để bàn hay Laptop đều được).
+2. **Dung lượng ổ cứng trống:** Ubuntu khuyến nghị tối thiểu 25GB, nhưng để thoải mái cài đặt phần mềm và làm việc lâu dài, bạn nên dành ra khoảng **50GB đến 100GB** (hoặc nửa ổ cứng nếu dung lượng dư dả).
+3. **Một chiếc USB có dung lượng từ 8GB trở lên:** Lưu ý rằng toàn bộ dữ liệu trong chiếc USB này sẽ bị format sạch sẽ trong quá trình tạo bộ cài, vì vậy hãy sao lưu các file quan trọng trong USB ra chỗ khác trước nhé.
+4. **Sao lưu dữ liệu quan trọng trên Windows:** Mặc dù các bước hướng dẫn dưới đây rất an toàn, nhưng nguyên tắc vàng khi đụng tới phân vùng ổ cứng (partition) là luôn cẩn tắc vô áy náy. Hãy upload các file tài liệu quan trọng lên Google Drive hoặc copy sang ổ cứng ngoài trước.
+
+Tiếp theo, hãy tải về máy tính 2 công cụ hoàn toàn miễn phí:
+
+- **Ubuntu Desktop ISO:** Tải bản mới nhất (ưu tiên bản **LTS - Long Term Support** để có độ ổn định lâu dài) tại [trang chủ Ubuntu Desktop](https://ubuntu.com/download/desktop). File này có dung lượng tầm 5GB - 6GB.
+- **Rufus:** Phần mềm nhỏ gọn, thần thánh giúp biến file ISO thành chiếc USB có khả năng boot, tải bản Portable tại [rufus.ie](https://rufus.ie).
+
+---
+
+## Bước 1: Tạo USB cài đặt Ubuntu bằng Rufus
+
+Bây giờ chúng ta sẽ biến chiếc USB thành "chìa khóa" khởi động bộ cài đặt Ubuntu.
+
+Đầu tiên, bạn cắm USB vào máy tính và mở phần mềm **Rufus** lên (bản portable click là chạy luôn, không cần cài đặt rườm rà).
+
+Trên giao diện của Rufus, hãy chú ý các mục sau:
+
+- **Device:** Hãy nhìn thật kỹ tên và dung lượng để chắc chắn bạn đang chọn đúng chiếc USB của mình. Nếu trên máy bạn đang cắm nhiều ổ cứng di động, việc chọn nhầm có thể làm mất dữ liệu của ổ đó!
+- **Boot selection:** Bấm vào nút **SELECT** màu xanh bên cạnh, rồi duyệt tới file ISO Ubuntu bạn vừa tải về ở phần chuẩn bị.
+- **Partition scheme:** Giữ nguyên mặc định là **GPT**.
+- **Target system:** Giữ nguyên mặc định là **UEFI (non CSM)**. Hầu hết máy tính sản xuất trong khoảng 10 năm trở lại đây đều dùng chuẩn UEFI hiện đại này.
+
+Sau khi kiểm tra mọi thứ, bạn chỉ cần bấm nút **START** ở dưới cùng.
+
+> **Lưu ý nhỏ:** Nếu Rufus hiện ra thông báo hỏi về chế độ ghi hình ảnh (*ISOHybrid image detected*), bạn cứ để mặc định chọn **Write in ISO Image mode (Recommended)** và bấm OK. Nếu có thêm cảnh báo toàn bộ dữ liệu trên USB sẽ bị xoá, bấm OK để đồng ý.
+
+Quá trình ghi dữ liệu sẽ mất khoảng 3 đến 5 phút tuỳ tốc độ của USB. Khi thanh tiến trình báo trạng thái xanh lá **READY**, bạn có thể đóng Rufus lại. Chiếc USB cài đặt đã sẵn sàng!
+
+---
+
+## Bước 2: "Cắt bánh" - Tạo phân vùng trống cho Ubuntu trong Windows
+
+Hiện tại, Windows đang chiếm dụng trọn vẹn không gian ổ đĩa chính của bạn (thường là ổ `C:`). Để Ubuntu có một "ngôi nhà" mới, chúng ta cần thu nhỏ phân vùng của Windows lại một chút để chừa ra một khoảng trống chưa được định dạng (gọi là *Unallocated space*).
+
+Đừng lo, thao tác này được thực hiện trực tiếp bằng công cụ chính chủ của Windows mà không cần cài thêm phần mềm ngoài nào cả:
+
+1. Nhấp chuột phải vào nút Start (hoặc bấm tổ hợp phím `Win + X`) và chọn **Disk Management** (Quản lý đĩa).
+2. Bạn sẽ thấy danh sách các ổ đĩa và phân vùng. Hãy tìm đúng phân vùng ổ đĩa Windows chính (có ký hiệu chữ cái `C:`, có logo Windows nhỏ trên ổ).
+3. Nhấp chuột phải vào phân vùng `C:` và chọn **Shrink Volume...** (Thu nhỏ phân vùng).
+4. Windows sẽ tính toán một lúc rồi hiển thị một hộp thoại. Tại dòng **"Enter the amount of space to shrink in MB"**, bạn nhập vào dung lượng mà bạn muốn chia cho Ubuntu.
+
+Công thức tính dung lượng chuẩn xác:
+```text
+Số GB bạn muốn cắt  x  1024  =  Số MB cần nhập vào
+```
+
+*Ví dụ:*
+- Dành 30GB cho Ubuntu: nhập `30720`
+- Dành 50GB cho Ubuntu: nhập `51200`
+- Dành 100GB cho Ubuntu: nhập `102400`
+
+Sau khi nhập con số mong muốn, bạn nhấn nút **Shrink**.
+
+Chờ vài giây, bạn sẽ thấy ngay bên cạnh ổ `C:` xuất hiện một phân vùng màu đen có nhãn **Unallocated** với đúng dung lượng bạn vừa cắt ra.
+
+> **Điểm mấu chốt cần nhớ:** Hãy để nguyên vùng unallocated đó! **Tuyệt đối không** nhấp chuột phải để tạo phân vùng mới (New Simple Volume) hay định dạng NTFS. Trình cài đặt Ubuntu rất thông minh, nó sẽ tự động tìm thấy vùng trống chưa định dạng này và tự tạo cấu trúc phân vùng Linux cho bạn.
+
+---
+
+## Bước 3: Tắt Fast Startup và kiểm tra Secure Boot
+
+Trước khi tiến hành cài đặt, có 2 tính năng của Windows và BIOS mà chúng ta cần lưu ý để tránh gặp xung đột.
+
+### 1. Tắt tính năng Fast Startup trên Windows
+Fast Startup (Khởi động nhanh) là cơ chế của Windows giúp máy bật nhanh hơn bằng cách đưa kernel vào trạng thái "ngủ đông" (hibernation) thay vì tắt hoàn toàn. Tuy nhiên, điều này sẽ "khoá" (lock) ổ cứng lại, khiến Ubuntu không thể đọc/ghi dữ liệu hoặc thậm chí không nhận diện được ổ đĩa.
+
+Để tắt nó:
+- Mở menu Start, tìm và mở **Control Panel**.
+- Vào mục **Hardware and Sound** → **Power Options** → bấm vào dòng **Choose what the power buttons do** ở cột bên trái.
+- Nhấp vào dòng chữ xanh có biểu tượng khiên admin: **Change settings that are currently unavailable**.
+- Kéo xuống dưới, bỏ tích ở ô **Turn on fast startup (recommended)**.
+- Bấm **Save changes** để lưu lại.
+
+### 2. Kiểm tra và tắt Secure Boot (Áp dụng mẹo Shift + Restart)
+Secure Boot là tính năng bảo mật của bo mạch chủ nhằm ngăn chặn các phần mềm khởi động trái phép. Đôi khi nó sẽ chặn cả bộ nạp khởi động (bootloader) của Linux hoặc các driver bên thứ ba.
+
+Trước tiên, hãy kiểm tra xem máy bạn có đang bật Secure Boot không:
+- Bấm phím `Win`, gõ tìm kiếm `System Information` và mở nó lên.
+- Ngay tại trang tóm tắt đầu tiên, tìm dòng **Secure Boot State**.
+- Nếu trạng thái ghi là **Off**, bạn có thể thở phào và bỏ qua bước này.
+- Nếu trạng thái ghi là **On**, chúng ta cần vào BIOS/UEFI để tắt nó đi.
+
+> **Mẹo hay không cần bấm loạn xạ F2/F12:** Thay vì phải khởi động lại máy rồi ngồi "canh me" bấm lia lịa các phím F2, F10, F12 hay Del tuỳ theo hãng máy rất mệt mỏi, bạn có thể vào BIOS thẳng từ Windows cực kỳ nhẹ nhàng:
+> 
+> 1. Bấm nút **Start** → chọn biểu tượng **Power**.
+> 2. **Giữ phím SHIFT trên bàn phím**, đồng thời nhấp chuột vào nút **Restart**.
+> 3. Máy tính sẽ chuyển sang màn hình tuỳ chọn màu xanh (Choose an option).
+> 4. Chọn **Troubleshoot** → **Advanced options** → **UEFI Firmware Settings** → Bấm **Restart**.
+> 
+> Máy tính của bạn sẽ tự động khởi động thẳng vào màn hình cài đặt BIOS/UEFI!
+
+Khi đã vào giao diện BIOS:
+- Dùng các phím mũi tên điều hướng sang tab **Security** hoặc **Boot** (tuỳ vào hãng bo mạch chủ như ASUS, Dell, HP, Lenovo...).
+- Tìm đến mục **Secure Boot** và đổi giá trị thành **Disabled**.
+- Nhấn phím **F10** (hoặc chọn Save & Exit) để lưu lại thay đổi và khởi động lại máy.
+
+---
+
+## Bước 4: Khởi động vào USB và cài đặt Ubuntu
+
+Bây giờ đến phần hấp dẫn nhất: tiến hành cài đặt Ubuntu lên cỗ máy của bạn.
+
+Cắm chiếc USB bạn đã tạo ở Bước 1 vào máy tính. Một lần nữa, chúng ta lại sử dụng "chiêu" giữ phím Shift quen thuộc:
+
+1. Trong Windows, bấm nút **Start** → biểu tượng **Power** → **Giữ phím SHIFT và click Restart**.
+2. Khi màn hình màu xanh xuất hiện, bạn bấm chọn **Use a device**.
+3. Danh sách các thiết bị khởi động sẽ hiện ra, bạn chọn chiếc USB cài đặt của mình (thường có chữ *UEFI: USB...* hoặc tên nhãn hiệu USB).
+
+*(Nếu máy của bạn không hiển thị mục Use a device, hãy khởi động lại máy và nhấn phím tắt Boot Menu của dòng máy bạn dùng, ví dụ F12 với Dell/Lenovo, F9 với HP, F11/F8 với Asus/MSI).*
+
+Máy tính sẽ nạp dữ liệu từ USB và hiển thị màn hình khởi động của Ubuntu. Bạn bấm Enter tại dòng **Try or Install Ubuntu**.
+
+### Các bước trong trình cài đặt Ubuntu:
+Khi giao diện Ubuntu hiện lên:
+- Chọn ngôn ngữ (khuyên bạn nên chọn **English**) rồi bấm nút **Install Ubuntu**.
+- **Keyboard layout:** Chọn **English (US)** → Continue.
+- **Kết nối mạng (Wi-Fi/Ethernet):** Bạn có thể kết nối Wi-Fi ngay lúc này để hệ thống tải thêm driver cần thiết, hoặc chọn kết nối sau cũng không sao.
+- **Updates and other software:** Chọn **Normal installation** (cài đặt đầy đủ các ứng dụng văn phòng, trình duyệt) và tích vào ô **Install third-party software for graphics and Wi-Fi hardware** (rất quan trọng để Ubuntu tự nhận driver card đồ hoạ và card mạng Wi-Fi của bạn).
+
+### Bước "ăn tiền" nhất: Chọn loại cài đặt (Installation Type)
+Đây là bước mà nhiều bạn lo lắng nhất vì sợ xoá nhầm ổ Windows. Nhưng bạn hoàn toàn yên tâm, màn hình cài đặt sẽ hiện lên tuỳ chọn:
+
+👉 **"Install Ubuntu alongside Windows Boot Manager"** (Cài đặt Ubuntu song song với Windows Boot Manager).
+
+Trình cài đặt của Ubuntu đã tự động phát hiện ra phân vùng Windows và vùng đĩa trống *Unallocated* mà bạn đã "cắt bánh" ở Bước 2. Chọn dòng này sẽ đảm bảo hệ thống chỉ sử dụng vùng trống đó mà không đụng chạm hay format bất kỳ dữ liệu nào của Windows cả!
+
+Tiếp theo:
+- Chọn múi giờ của bạn (ví dụ: `Vietnam Time / Ho Chi Minh`).
+- **Tạo tài khoản người dùng:** Nhập tên của bạn, tên máy tính (computer's name), username và mật khẩu đăng nhập.
+  > **Lưu ý quan trọng:** Hãy ghi nhớ thật kỹ mật khẩu này! Trên Linux, mỗi khi bạn muốn cài phần mềm hoặc chạy các lệnh quản trị cao cấp thông qua quyền `sudo`, hệ thống sẽ luôn yêu cầu nhập mật khẩu này.
+
+Bấm **Install Now** và xác nhận. Bây giờ bạn chỉ việc ngồi thảnh thơi nhâm nhi tách cà phê trong khoảng 5 - 10 phút để hệ thống tự động copy file và thiết lập môi trường.
+
+Khi quá trình cài đặt hoàn tất, màn hình sẽ hiện thông báo yêu cầu khởi động lại:
+- Bấm nút **Restart Now**.
+- Khi màn hình hiển thị dòng chữ *"Please remove the installation medium, then press ENTER"*, hãy rút chiếc USB ra khỏi máy tính rồi nhấn phím **Enter**.
+
+---
+
+## Bước 5: Khắc phục lỗi phổ biến - Máy vẫn nhảy thẳng vào Windows sau khi cài?
+
+Sau khi khởi động lại, nếu màn hình hiện ra menu nền đen có chữ **GNU GRUB** với các lựa chọn:
+- `Ubuntu`
+- `Windows Boot Manager`
+
+Thì xin chúc mừng, bạn đã cài đặt thành công 100%! Bạn chỉ việc dùng phím mũi tên lên/xuống để chọn hệ điều hành mình muốn và nhấn Enter.
+
+**Tuy nhiên, có một trường hợp rất thường gặp (được nhắc đến trong clip):**
+Nhiều bạn cài xong khởi động lại thì máy... chạy vèo một mạch thẳng vào Windows 11 như thể chưa từng có Ubuntu tồn tại! Đừng hoảng sợ, không có gì bị mất hay bị hỏng cả.
+
+### Nguyên nhân là gì?
+Bo mạch chủ (UEFI) của máy tính có một danh sách gọi là **Boot Order (Thứ tự khởi động ưu tiên)**. Khi máy bật lên, nó sẽ quét từ vị trí số 1 trở xuống. Hiện tại, vị trí số 1 vẫn đang là "Windows Boot Manager", nên máy bỏ qua Ubuntu và vào thẳng Windows luôn.
+
+### Cách xử lý cực kỳ đơn giản:
+1. Từ Windows, tiếp tục dùng chiêu: Bấm **Start** → **Giữ Shift + click Restart**.
+2. Chọn **Troubleshoot** → **Advanced options** → **UEFI Firmware Settings** → Bấm **Restart**.
+3. Trong giao diện BIOS/UEFI, tìm đến mục **Boot** hoặc **Boot Option Priorities** (thường có danh sách `Boot Option #1`, `Boot Option #2`...).
+4. Bạn sẽ thấy hai mục có tên là **Windows Boot Manager** và **ubuntu**.
+5. Nhấp chọn hoặc dùng các phím điều hướng (thường là phím `+`/`-` hoặc `F5`/`F6` tuỳ mainboard) để **chuyển "ubuntu" lên vị trí số 1 (ưu tiên cao nhất)**, đưa Windows Boot Manager xuống vị trí thứ 2.
+6. Nhấn phím **F10** để Save & Exit.
+
+Ngay sau khi máy tính khởi động lại, menu GRUB bootloader sẽ xuất hiện đường hoàng. Từ nay về sau, mỗi lần bật máy, bạn sẽ luôn có quyền lựa chọn hệ điều hành mình mong muốn!
+
+---
+
+## Bước 6: Làm quen với Ubuntu sau khi cài đặt thành công
+
+Chào mừng bạn đến với ngôi nhà mới Ubuntu! Để bắt đầu hành trình trải nghiệm một cách mượt mà nhất, đây là 3 điều bạn nên làm ngay:
+
+### 1. Cập nhật toàn bộ hệ thống
+Mở ứng dụng **Terminal** (bằng tổ hợp phím kinh điển `Ctrl + Alt + T`) và gõ lệnh sau rồi nhấn Enter:
+
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+
+Nhập mật khẩu bạn đã tạo lúc cài đặt (khi gõ mật khẩu trên Linux, màn hình sẽ không hiện dấu hoa thị `***` đâu nhé, đây là tính năng bảo mật, bạn cứ gõ đúng rồi Enter là được). Lệnh này sẽ kéo toàn bộ các bản vá lỗi và cập nhật mới nhất về máy.
+
+### 2. Cài phần mềm qua App Center
+Nếu chưa quen với các dòng lệnh gõ phím, Ubuntu có sẵn **App Center** (kho ứng dụng đồ hoạ cực kỳ trực quan). Tại đây bạn có thể tìm và cài đặt các ứng dụng phổ biến như VS Code, Chrome, Spotify, VLC, Discord... chỉ bằng một cú click chuột.
+
+### 3. Truy cập file trên ổ đĩa Windows từ Ubuntu
+Điểm tuyệt vời của Linux là nó có thể đọc và ghi trực tiếp vào các phân vùng định dạng NTFS của Windows. Bạn chỉ cần mở ứng dụng **Files** (quản lý thư mục) của Ubuntu, nhìn sang thanh bên trái ở mục **Other Locations**, bạn sẽ thấy các phân vùng ổ đĩa Windows của mình. Bạn có thể mở nhạc, xem ảnh, code dự án chung trên cùng một ổ đĩa mà không cần copy qua lại bằng USB!
+
+---
+
+## Bước 7: Cách gỡ bỏ Ubuntu an toàn (Nếu một ngày bạn đổi ý)
+
+Một trong những ưu điểm lớn nhất của cách thiết lập này là tính **thuận nghịch** (reversible). Nếu sau một thời gian trải nghiệm, bạn cảm thấy không còn nhu cầu dùng Linux nữa và muốn trả lại toàn bộ dung lượng ổ cứng cho Windows, các bước thực hiện vô cùng nhẹ nhàng:
+
+1. Khởi động máy tính vào **Windows**.
+2. Mở **Disk Management** bằng cách bấm tổ hợp phím `Win + X` → chọn **Disk Management**.
+3. Tìm các phân vùng của Ubuntu (đây là các phân vùng không có ký tự ổ đĩa, thường định dạng EXT4 hoặc có dung lượng khớp với số GB bạn đã chia lúc đầu).
+4. Nhấp chuột phải vào từng phân vùng của Ubuntu và chọn **Delete Volume**. Chúng sẽ biến thành vùng trống màu đen *Unallocated*.
+5. Nhấp chuột phải vào phân vùng ổ `C:` của Windows và chọn **Extend Volume...** (Mở rộng phân vùng), bấm Next theo hướng dẫn để gộp toàn bộ vùng unallocated đó trở lại vào ổ C:.
+6. **Khôi phục lại Windows Boot Manager:** Để xoá triệt để menu GRUB không còn hiện ra khi khởi động, bạn mở **Command Prompt (CMD)** với quyền Run as administrator và chạy các dòng lệnh sau:
+
+```cmd
+bootrec /fixmbr
+bootrec /fixboot
+bootrec /rebuildbcd
+```
+
+Sau bước này, máy tính của bạn sẽ quay trở về trạng thái nguyên bản 100% như trước khi cài đặt, không để lại bất kỳ "tì vết" nào.
+
+---
+
+## Lời kết
+
+Dual Boot không hề đáng sợ hay phức tạp như nhiều người vẫn nghĩ. Chỉ cần chuẩn bị một chiếc USB, bình tĩnh "cắt" một góc ổ cứng nhỏ, tắt Secure Boot và làm theo đúng quy trình, bạn đã có thể sở hữu trọn vẹn cả hai thế giới: sự linh hoạt, mạnh mẽ của Linux cùng hệ sinh thái ứng dụng phong phú của Windows.
+
+Chúc các bạn cài đặt thành công và có những trải nghiệm thật thú vị!

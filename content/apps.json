@@ -3,6 +3,7 @@
     "slug": "dev-tools",
     "title": "DevTools Suite",
     "description": "All-in-one developer utilities suite: formatters, encoders, diffs, hash generators, and network tools.",
+    "descriptionVi": "Bộ tiện ích lập trình tất-cả-trong-một: format code, mã hóa/giải mã, so sánh diff, tạo mã băm và công cụ mạng.",
     "url": "https://dev-tools-jade.vercel.app/",
     "tags": ["Developer Tools", "Utility", "Formatters", "Next.js"]
   },
@@ -10,6 +11,7 @@
     "slug": "json-editor",
     "title": "JSON Editor",
     "description": "Edit, format, and validate JSON directly in your browser.",
+    "descriptionVi": "Chỉnh sửa, định dạng và kiểm tra tính hợp lệ của JSON trực tiếp trên trình duyệt.",
     "url": "https://json-editor.onetimesms.net/",
     "tags": ["JSON", "Developer Tools", "Utility"]
   },
@@ -17,6 +19,7 @@
     "slug": "quick-edit",
     "title": "Quick Edit",
     "description": "Quickly edit text and content directly in your browser.",
+    "descriptionVi": "Trình soạn thảo văn bản và nội dung nhanh chóng ngay trên trình duyệt của bạn.",
     "url": "https://quick-edit-smoky.vercel.app/",
     "tags": ["Editor", "Developer Tools", "Utility"]
   },
@@ -24,6 +27,7 @@
     "slug": "quiz-master",
     "title": "Quiz Master",
     "description": "Create and take interactive quizzes directly in your browser.",
+    "descriptionVi": "Tạo và tham gia các bài trắc nghiệm tương tác trực tiếp trên trình duyệt.",
     "url": "https://quiz-master-ochre-xi.vercel.app/",
     "tags": ["Quiz", "Education", "Utility"]
   }

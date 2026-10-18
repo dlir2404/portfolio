@@ -27,6 +27,15 @@ export function EmbeddedAppClient({ initialUrl, title }: EmbeddedAppClientProps)
 
     // 2. Bi-directional sync via postMessage
     const handleMessage = (event: MessageEvent) => {
+      try {
+        const expectedOrigin = new URL(initialUrl, window.location.href).origin;
+        if (event.origin !== expectedOrigin) {
+          return;
+        }
+      } catch {
+        return;
+      }
+
       // Check if message is from embedded app to sync query params
       if (event.data && typeof event.data === "object" && event.data.type === "SYNC_QUERY_PARAMS") {
         const { params } = event.data;

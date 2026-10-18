@@ -5,10 +5,11 @@ import { BlogPost } from "@/types";
 interface UseSearchOptions {
     maxResults?: number;
     threshold?: number;
+    locale?: 'en' | 'vi';
 }
 
 export function useSearch(options: UseSearchOptions = {}) {
-    const { maxResults = 10, threshold = 0.5 } = options;
+    const { maxResults = 10, threshold = 0.5, locale = 'en' } = options;
 
     const [searchData, setSearchData] = useState<BlogPost[]>([]);
     const [query, setQuery] = useState("");
@@ -30,29 +31,39 @@ export function useSearch(options: UseSearchOptions = {}) {
         shouldSort: true,
     }), [threshold]);
 
-    //load search data
+    // load search data
     useEffect(() => {
+        let isMounted = true;
         const loadSearchData = async () => {
             try {
                 setError(null);
-                const response = await fetch('/blog-search-index.json');
+                setDataLoaded(false);
+                const file = locale === 'vi' ? '/blog-search-index-vi.json' : '/blog-search-index-en.json';
+                const response = await fetch(file);
                 if (!response.ok) {
                     throw new Error('Failed to load search data');
                 }
                 const data: BlogPost[] = await response.json();
-                setSearchData(data);
-                setResults(data.slice(0, maxResults));
-                setDataLoaded(true);
+                if (isMounted) {
+                    setSearchData(data);
+                    setResults(data.slice(0, maxResults));
+                    setDataLoaded(true);
+                }
             } catch (error) {
                 console.error('Error loading search data:', error);
-                setError(error instanceof Error ? error.message : 'Failed to load search data');
-                setResults([]);
-                setDataLoaded(true);
+                if (isMounted) {
+                    setError(error instanceof Error ? error.message : 'Failed to load search data');
+                    setResults([]);
+                    setDataLoaded(true);
+                }
             }
         };
 
         loadSearchData();
-    }, [])
+        return () => {
+            isMounted = false;
+        };
+    }, [locale, maxResults]);
 
     const fuse = useMemo(() => {
         if (searchData.length === 0) return null;
@@ -77,7 +88,7 @@ export function useSearch(options: UseSearchOptions = {}) {
         } finally {
             setLoading(false);
         }
-    }, [fuse, maxResults]);
+    }, [fuse, maxResults, searchData]);
 
     const handleSearchChange = useCallback((newQuery: string) => {
         setQuery(newQuery);
@@ -94,10 +105,14 @@ export function useSearch(options: UseSearchOptions = {}) {
     return {
         query,
         results,
+        searchData,
         loading,
         error,
         dataLoaded,
         handleSearchChange,
         clearSearch,
+        totalResults: results.length,
+        hasResults: results.length > 0,
+        isEmpty: dataLoaded && results.length === 0 && query.trim() !== "",
     };
 }

@@ -18,6 +18,9 @@
 # claude
 /.claude/
 
+# hermes
+/.hermes/
+
 # production
 /build
 

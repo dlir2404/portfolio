@@ -6,8 +6,10 @@ import { ChevronDown, Github, Linkedin, Code, Sparkles, Zap, Rocket, Facebook } 
 import * as THREE from 'three';
 import Link from 'next/link';
 import { baseInfo } from '@/content/informations/info';
+import { useLocale } from '@/components/i18n/LocaleContext';
 
 export default function Hero() {
+  const { t, locale } = useLocale();
   const mountRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene>();
   const rendererRef = useRef<THREE.WebGLRenderer>();
@@ -18,13 +20,7 @@ export default function Hero() {
   const [isDeleting, setIsDeleting] = useState(false);
   const controls = useAnimation();
 
-  const texts = [
-    'Full Stack Developer',
-    'Creative Technologist', 
-    'Problem Solver',
-    'Code Architect',
-    'Digital Innovator'
-  ];
+  const texts = t.hero.roles;
 
   // Typewriter effect
   useEffect(() => {
@@ -51,7 +47,8 @@ export default function Hero() {
 
   // Three.js scene
   useEffect(() => {
-    if (!mountRef.current) return;
+    const mountNode = mountRef.current;
+    if (!mountNode) return;
 
     // Scene setup
     const scene = new THREE.Scene();
@@ -60,7 +57,7 @@ export default function Hero() {
     
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0);
-    mountRef.current.appendChild(renderer.domElement);
+    mountNode.appendChild(renderer.domElement);
 
     sceneRef.current = scene;
     rendererRef.current = renderer;
@@ -174,8 +171,8 @@ export default function Hero() {
         cancelAnimationFrame(animationIdRef.current);
       }
       window.removeEventListener('resize', handleResize);
-      if (mountRef.current && renderer.domElement) {
-        mountRef.current.removeChild(renderer.domElement);
+      if (mountNode && renderer.domElement) {
+        mountNode.removeChild(renderer.domElement);
       }
       renderer.dispose();
     };
@@ -261,7 +258,7 @@ export default function Hero() {
               backgroundSize: '200% 200%',
             }}
           >
-            Hi, I'm{' '}
+            {t.hero.greeting}{' '}
             <motion.span
               className="relative inline-block"
               whileHover={{ scale: 1.05 }}
@@ -357,7 +354,7 @@ export default function Hero() {
               }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              View My Work
+              {t.hero.ctaWork}
             </motion.span>
             <motion.div
               className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300"
@@ -377,7 +374,7 @@ export default function Hero() {
                 color: 'transparent'
               }}
             >
-              Get In Touch
+              {t.hero.ctaContact}
             </motion.span>
           </motion.a>
         </motion.div>

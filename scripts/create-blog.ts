@@ -27,6 +27,7 @@ interface BlogConfig {
   tags: string[]
   featured?: boolean
   author?: string
+  locale?: 'en' | 'vi'
 }
 
 function createBlog(config: BlogConfig) {
@@ -35,12 +36,17 @@ function createBlog(config: BlogConfig) {
     summary,
     tags,
     featured = false,
-    author = 'Larry'
+    author = 'Larry',
+    locale = 'en'
   } = config
 
   // Create slug from title
   const slug = createSlug(title)
   
+  // Ensure locale-specific directory exists
+  const targetBlogDir = path.join(BLOG_DIR, locale)
+  ensureDirectoryExists(targetBlogDir)
+
   // Create blog directory and image directory
   const blogImageDir = path.join(IMAGES_DIR, slug)
   ensureDirectoryExists(blogImageDir)
@@ -64,7 +70,7 @@ Write your blog content here...
 `
 
   // Write MDX file
-  const mdxPath = path.join(BLOG_DIR, `${slug}.mdx`)
+  const mdxPath = path.join(targetBlogDir, `${slug}.mdx`)
   fs.writeFileSync(mdxPath, mdxContent)
 
   // Create placeholder cover image if it doesn't exist
@@ -85,16 +91,18 @@ Write your blog content here...
 // Handle command line arguments
 const args = process.argv.slice(2)
 if (args.length < 3) {
-  console.log('Usage: npm run new-blog "Blog Title" "Blog Summary" "tag1,tag2,tag3" [featured] [author]')
+  console.log('Usage: npm run new-blog "Blog Title" "Blog Summary" "tag1,tag2,tag3" [featured] [author] [locale: en|vi]')
   process.exit(1)
 }
 
-const [title, summary, tagsArg, featured = 'false', author = 'Larry'] = args
+const [title, summary, tagsArg, featured = 'false', author = 'Larry', localeArg = 'en'] = args
+const locale = localeArg === 'vi' ? 'vi' : 'en'
 
 createBlog({
   title,
   summary,
   tags: tagsArg.split(',').map(t => t.trim()),
   featured: featured.toLowerCase() === 'true',
-  author
+  author,
+  locale
 })

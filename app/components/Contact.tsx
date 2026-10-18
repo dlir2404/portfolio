@@ -5,8 +5,11 @@ import { motion } from 'framer-motion';
 import { Send, Mail, MapPin, Phone, Github, Linkedin, Facebook, MessageCircle, Section } from 'lucide-react';
 import SectionHeader from '@/components/ui/SectionHeader';
 import { baseInfo } from '@/content/informations/info';
+import { useLocale } from '@/components/i18n/LocaleContext';
+import { toast } from 'sonner';
 
 export default function Contact() {
+  const { t, locale } = useLocale();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,11 +21,11 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Handle form submission here
     setTimeout(() => {
       setIsSubmitting(false);
       setFormData({ name: '', email: '', subject: '', message: '' });
-    }, 2000);
+      toast.success(t.contact.form.success);
+    }, 1500);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -35,19 +38,19 @@ export default function Contact() {
   const contactInfo = [
     {
       icon: Mail,
-      label: 'Email',
+      label: t.contact.infoLabels.email,
       value: baseInfo.email,
       href: `mailto:${baseInfo.email}`
     },
     {
       icon: Phone,
-      label: 'Phone',
+      label: t.contact.infoLabels.phone,
       value: baseInfo.phone,
       href: `tel:${baseInfo.phone}`
     },
     {
       icon: MapPin,
-      label: 'Location',
+      label: t.contact.infoLabels.location,
       value: baseInfo.location,
       href: '#contact'
     }
@@ -62,7 +65,7 @@ export default function Contact() {
   return (
     <section id="contact" className="py-20 px-4 relative">
       <div className="container mx-auto max-w-7xl">
-        <SectionHeader title="Let's Work Together" subtitle="Have a project in mind or just want to chat? I'd love to hear from you. Let's create something amazing together." />
+        <SectionHeader title={t.contact.title} subtitle={t.contact.subtitle} />
 
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Contact Info */}
@@ -80,15 +83,14 @@ export default function Contact() {
                 transition={{ duration: 2, repeat: Infinity }}
               >
                 <MessageCircle className="text-green-400" size={28} />
-                Get in Touch
+                {t.contact.getInTouch}
               </motion.h3>
               <motion.p
                 className="text-gray-400 leading-relaxed mb-8"
                 animate={{ opacity: [0.8, 1, 0.8] }}
                 transition={{ duration: 3, repeat: Infinity }}
               >
-                I'm always excited to work on new projects and collaborate with talented people. 
-                Whether you have a specific project in mind or just want to connect, feel free to reach out.
+                {t.contact.getInTouchDesc}
               </motion.p>
             </div>
 
@@ -133,7 +135,7 @@ export default function Contact() {
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
-                Connect with me
+                {t.contact.connectWithMe}
               </motion.h4>
               <div className="flex gap-4">
                 {socialLinks.map((social, index) => {
@@ -180,7 +182,7 @@ export default function Contact() {
                   viewport={{ once: true }}
                 >
                   <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                    Name *
+                    {t.contact.form.name} *
                   </label>
                   <motion.input
                     type="text"
@@ -190,7 +192,7 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300"
-                    placeholder="Your name"
+                    placeholder={t.contact.form.namePlaceholder}
                     whileFocus={{ scale: 1.02 }}
                   />
                 </motion.div>
@@ -201,7 +203,7 @@ export default function Contact() {
                   viewport={{ once: true }}
                 >
                   <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                    Email *
+                    {t.contact.form.email} *
                   </label>
                   <motion.input
                     type="email"
@@ -211,7 +213,7 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300"
-                    placeholder="your.email@example.com"
+                    placeholder={t.contact.form.emailPlaceholder}
                     whileFocus={{ scale: 1.02 }}
                   />
                 </motion.div>
@@ -224,7 +226,7 @@ export default function Contact() {
                 viewport={{ once: true }}
               >
                 <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-2">
-                  Subject *
+                  {t.contact.form.subject} *
                 </label>
                 <motion.input
                   type="text"
@@ -234,7 +236,7 @@ export default function Contact() {
                   value={formData.subject}
                   onChange={handleChange}
                   className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300"
-                  placeholder="What's this about?"
+                  placeholder={t.contact.form.subjectPlaceholder}
                   whileFocus={{ scale: 1.02 }}
                 />
               </motion.div>
@@ -246,7 +248,7 @@ export default function Contact() {
                 viewport={{ once: true }}
               >
                 <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-                  Message *
+                  {t.contact.form.message} *
                 </label>
                 <motion.textarea
                   id="message"
@@ -256,7 +258,7 @@ export default function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 resize-none"
-                  placeholder="Tell me about your project or just say hello..."
+                  placeholder={t.contact.form.messagePlaceholder}
                   whileFocus={{ scale: 1.02 }}
                 />
               </motion.div>
@@ -283,7 +285,7 @@ export default function Contact() {
                         animate={{ rotate: 360 }}
                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                       />
-                      Sending...
+                      {t.contact.form.sending}
                     </>
                   ) : (
                     <>
@@ -294,7 +296,7 @@ export default function Contact() {
                         }}
                         transition={{ duration: 2, repeat: Infinity }}
                       >
-                        Send Message
+                        {t.contact.form.send}
                       </motion.span>
                     </>
                   )}

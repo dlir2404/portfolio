@@ -2,10 +2,12 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Code, User, FolderKanban, BriefcaseBusiness, PenTool, Mail } from 'lucide-react';
+import { Menu, X, Code, User, FolderKanban, BriefcaseBusiness, PenTool, Mail, Sparkles } from 'lucide-react';
 import { baseInfo } from '@/content/informations/info';
+import { useLocale } from '@/components/i18n/LocaleContext';
 
 export default function Header() {
+  const { t, locale } = useLocale();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
@@ -34,13 +36,15 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const homeHref = locale === 'vi' ? '/vi/' : '/';
+
   const navItems = [
-    { href: '#home', label: 'Home', icon: Code },
-    { href: '#about', label: 'About', icon: User },
-    { href: '#experiences', label: 'Experiences', icon: BriefcaseBusiness },
-    { href: '#projects', label: 'Projects', icon: FolderKanban },
-    { href: '#blog', label: 'Blog', icon: PenTool },
-    { href: '#contact', label: 'Contact', icon: Mail },
+    { href: `${homeHref}#home`, label: t.nav.home, icon: Code },
+    { href: `${homeHref}#about`, label: t.nav.about, icon: User },
+    { href: `${homeHref}#experiences`, label: t.nav.experiences, icon: BriefcaseBusiness },
+    { href: `${homeHref}#projects`, label: t.nav.projects, icon: FolderKanban },
+    { href: `${homeHref}#blog`, label: t.nav.blog, icon: PenTool },
+    { href: `${homeHref}#contact`, label: t.nav.contact, icon: Mail },
   ];
 
   return (

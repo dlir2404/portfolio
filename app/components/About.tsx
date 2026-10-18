@@ -2,13 +2,20 @@
 
 import SectionHeader from '@/components/ui/SectionHeader';
 import { motion } from 'framer-motion';
-import { aboutDescription, traits, skillGroups, stats } from '@/content/informations/info';
+import { getAboutDescription, getTraits, getSkillGroups, getStats } from '@/content/informations/info';
+import { useLocale } from '@/components/i18n/LocaleContext';
 
 export default function About() {
+  const { t, locale } = useLocale();
+  const aboutDescription = getAboutDescription(locale);
+  const traits = getTraits(locale);
+  const skillGroups = getSkillGroups(locale);
+  const stats = getStats(locale);
+
   return (
     <section id="about" className="py-20 px-4 relative">
       <div className="container mx-auto max-w-7xl">
-        <SectionHeader title="About Me" subtitle="Passionate developer with a love for creating innovative solutions and pushing the boundaries of what's possible with code." />
+        <SectionHeader title={t.about.title} subtitle={t.about.subtitle} />
 
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Column - Text Content */}

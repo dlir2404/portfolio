@@ -7,25 +7,39 @@ import { Project } from '@/types';
 import Link from 'next/link';
 import SectionHeader from '@/components/ui/SectionHeader';
 import { baseInfo } from '@/content/informations/info';
+import { useLocale } from '@/components/i18n/LocaleContext';
 
 export default function Projects({
   projects
 }: {
   projects: Project[];
 }) {
+  const { t, locale } = useLocale();
   const [activeFilter, setActiveFilter] = useState('all');
 
-  const filters = ['all', 'web', 'mobile', 'fullstack', 'opensource'];
+  const filters = ['all', 'web', 'mobile', 'ai'];
 
   const filteredProjects = activeFilter === 'all'
     ? projects
-    : projects.filter(project => project.category === activeFilter);
+    : projects.filter(project => {
+        const cat = (project.category || '').toLowerCase();
+        const tags = (project.tags || []).map(t => t.toLowerCase());
+        const f = activeFilter.toLowerCase();
+        if (f === 'ai') {
+          return cat.includes('machine learning') || cat.includes('ai') || tags.includes('ai') || tags.includes('machine learning');
+        }
+        return cat.includes(f);
+      });
+
+  const getProjectUrl = (slug: string) => {
+    return locale === 'vi' ? `/vi/project/${slug}` : `/project/${slug}`;
+  };
 
   return (
     <section id="projects" className="py-20 px-4 relative">
       <div className="container mx-auto max-w-7xl">
         {/* Section Header */}
-        <SectionHeader title="Featured Projects" subtitle="A showcase of my recent work, spanning web applications, mobile apps, and open source contributions." />
+        <SectionHeader title={t.projects.title} subtitle={t.projects.subtitle} />
 
         {/* Filter Buttons */}
         <motion.div
@@ -49,7 +63,7 @@ export default function Projects({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
             >
-              {filter.charAt(0).toUpperCase() + filter.slice(1)}
+              {t.projects.filters[filter] || (filter.charAt(0).toUpperCase() + filter.slice(1))}
             </motion.button>
           ))}
         </motion.div>
@@ -82,7 +96,7 @@ export default function Projects({
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
                   >
-                    Featured
+                    {t.projects.featuredBadge}
                   </motion.div>
                 )}
 
@@ -128,7 +142,7 @@ export default function Projects({
 
                 {/* Project Content */}
                 <div className="p-6">
-                  <Link href={`/project/${project.slug}`}>
+                  <Link href={getProjectUrl(project.slug)}>
                     <motion.h3
                       className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors duration-300"
                       whileHover={{ x: 5 }}
@@ -162,12 +176,12 @@ export default function Projects({
                   </div>
 
                   {/* Learn More Link */}
-                  <Link href={`/project/${project.slug}`}>
+                  <Link href={getProjectUrl(project.slug)}>
                     <motion.div
                       className="flex items-center text-blue-400 hover:text-blue-300 font-medium text-sm cursor-pointer group/link"
                       whileHover={{ x: 5 }}
                     >
-                      <span>Read case study</span>
+                      <span>{t.projects.viewProject}</span>
                       <motion.div
                         className="ml-2"
                         animate={{ x: [0, 5, 0] }}

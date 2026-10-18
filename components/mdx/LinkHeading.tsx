@@ -1,5 +1,6 @@
 "use client"
 
+import React from "react";
 import { slugify } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { toast } from "sonner"
@@ -7,6 +8,16 @@ import { toast } from "sonner"
 interface LinkHeadingProps {
     children: React.ReactNode
     as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+}
+
+function extractText(node: React.ReactNode): string {
+    if (typeof node === 'string') return node;
+    if (typeof node === 'number') return String(node);
+    if (Array.isArray(node)) return node.map(extractText).join('');
+    if (node && typeof node === 'object' && 'props' in node && (node as any).props?.children) {
+        return extractText((node as any).props.children);
+    }
+    return '';
 }
 
 export default function LinkHeading({ children, as }: LinkHeadingProps) {
@@ -38,7 +49,7 @@ export default function LinkHeading({ children, as }: LinkHeadingProps) {
         h6: '10',
     }
 
-    const id = slugify(children as string);
+    const id = slugify(extractText(children));
 
     const copyURL = (): void => {
         const url = `${window.location.origin}${window.location.pathname}#${id}`;

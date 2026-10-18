@@ -7,8 +7,10 @@ import { ArrowUpRight, Search, X } from 'lucide-react';
 import Link from 'next/link';
 import SectionHeader from '@/components/ui/SectionHeader';
 import { EmbeddedApp } from '@/types';
+import { useLocale } from '@/components/i18n/LocaleContext';
 
 export default function AppsGrid({ apps }: { apps: EmbeddedApp[] }) {
+    const { t, locale } = useLocale();
     const [query, setQuery] = useState('');
 
     const fuse = useMemo(() => new Fuse(apps, {
@@ -28,12 +30,16 @@ export default function AppsGrid({ apps }: { apps: EmbeddedApp[] }) {
             : fuse.search(normalizedQuery).map((result) => result.item);
     }, [apps, fuse, query]);
 
+    const getAppUrl = (slug: string) => {
+        return locale === 'vi' ? `/vi/app/${slug}` : `/app/${slug}`;
+    };
+
     return (
-        <section className="px-4 py-20">
+        <section className="px-4 pt-16 pb-32">
             <div className="container mx-auto max-w-7xl">
                 <SectionHeader
-                    title="Apps"
-                    subtitle="A collection of useful tools that run directly in your browser."
+                    title={t.appsPage.title}
+                    subtitle={t.appsPage.subtitle}
                 />
 
                 <div className="relative mx-auto mb-12 max-w-2xl">
@@ -48,7 +54,7 @@ export default function AppsGrid({ apps }: { apps: EmbeddedApp[] }) {
                         type="search"
                         value={query}
                         onChange={(event) => setQuery(event.target.value)}
-                        placeholder="Search apps by name, description, or tag..."
+                        placeholder={t.appsPage.searchPlaceholder}
                         className="w-full rounded-2xl border border-white/10 bg-white/5 py-4 pl-14 pr-14 text-white placeholder:text-gray-500 backdrop-blur-sm transition-colors focus:border-purple-500/60 focus:outline-none"
                     />
                     {query && (
@@ -89,7 +95,7 @@ export default function AppsGrid({ apps }: { apps: EmbeddedApp[] }) {
                                         {app.title}
                                     </h2>
                                     <p className="mb-6 flex-1 leading-relaxed text-gray-400">
-                                        {app.description}
+                                        {locale === 'vi' && app.descriptionVi ? app.descriptionVi : app.description}
                                     </p>
 
                                     <div className="mb-6 flex flex-wrap gap-2">
@@ -104,10 +110,10 @@ export default function AppsGrid({ apps }: { apps: EmbeddedApp[] }) {
                                     </div>
 
                                     <Link
-                                        href={`/app/${app.slug}`}
+                                        href={getAppUrl(app.slug)}
                                         className="inline-flex items-center gap-2 font-medium text-blue-400 transition-colors hover:text-blue-300"
                                     >
-                                        Launch app
+                                        {t.appsPage.launchApp}
                                         <ArrowUpRight size={17} aria-hidden="true" className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                                     </Link>
                                 </motion.article>
@@ -121,8 +127,8 @@ export default function AppsGrid({ apps }: { apps: EmbeddedApp[] }) {
                             initial={{ opacity: 0, y: 16 }}
                             animate={{ opacity: 1, y: 0 }}
                         >
-                            <h2 className="mb-2 text-xl font-semibold text-white">No apps found</h2>
-                            <p className="text-gray-400">Try a different name, description, or tag.</p>
+                            <h2 className="mb-2 text-xl font-semibold text-white">{t.appsPage.noAppsFound}</h2>
+                            <p className="text-gray-400">{t.appsPage.noAppsFoundDesc}</p>
                         </motion.div>
                     )}
                 </AnimatePresence>
