@@ -1,66 +1,57 @@
 ---
 title: "Hệ thống Analytics & Tracking thời gian thực cho nền tảng E-Commerce"
-summary: "Pipeline xử lý dữ liệu và phân tích tài chính thời gian thực với thông lượng cao, tiếp nhận hàng triệu sự kiện tracking từ storefront qua Kafka, ClickHouse và cụm worker Celery phân tán."
+summary: "Giải pháp theo dõi chuyển đổi và phân tích tài chính thời gian thực cho người bán hàng online: hiển thị chính xác từng đồng doanh thu, chi phí, lợi nhuận ròng và phễu chuyển đổi ngay khi phát sinh đơn hàng."
 image: "/images/projects/analytics-tracking/cover.png"
 publishedAt: "2025-12-01"
 live: ""
 repo: ""
 category: "Web"
-tags: ["Kafka", "ClickHouse", "Python", "Celery", "Distributed Systems", "Data Engineering", "E-Commerce"]
+tags: ["E-Commerce", "Data Analytics", "Financial Reporting", "Conversion Tracking", "Real-Time"]
 featured: true
 teamSize: 2
 ---
 
-## Tổng quan
+## Giới thiệu
 
-Trong các nền tảng thương mại điện tử quy mô lớn, người bán (merchant) đòi hỏi dữ liệu tức thời và chính xác tuyệt đối về nguồn truy cập, tỷ lệ bỏ giỏ hàng, lợi nhuận ròng và hiệu quả quảng cáo. Cơ sở dữ liệu quan hệ truyền thống thường sụp đổ trước lưu lượng ghi khổng lồ trong các đợt sale lớn và không thể đáp ứng các câu truy vấn tổng hợp phức tạp.
+Trong kinh doanh thương mại điện tử, tốc độ và sự chính xác của số liệu là yếu tố sống còn. Một nhà bán hàng chạy quảng cáo hàng chục nghìn đô mỗi ngày không thể đợi đến cuối ngày hoặc ngày hôm sau mới biết chiến dịch nào đang sinh lời hay lỗ. Họ cần biết chính xác ngay lập tức:
+- Doanh thu thực tế từng phút là bao nhiêu?
+- Sau khi trừ giá vốn hàng bán, tiền ship, phí cổng thanh toán thì **Lợi nhuận ròng (Net Profit)** còn lại bao nhiêu?
+- Khách hàng đang bỏ giỏ hàng nhiều nhất ở bước nào trong quy trình mua sắm?
 
-Với vai trò **Development Owner** của mảng Analytics & Tracking, tôi trực tiếp thiết kế, tối ưu và ổn định hóa toàn bộ pipeline xử lý dữ liệu thời gian thực: tiếp nhận hàng triệu sự kiện tracking, xử lý hàng đợi và tổng hợp số liệu doanh thu / lợi nhuận với tốc độ phản hồi sub-second trên dashboard.
+Trước đây, hệ thống báo cáo thường bị trễ hoặc gặp tình trạng chênh lệch số liệu giữa các trang báo cáo, khiến người bán hoang mang khi ra quyết định chi ngân sách marketing.
 
-## Kiến trúc hệ thống & Luồng dữ liệu
+Dự án **Analytics & Tracking** được xây dựng và nâng cấp toàn diện nhằm mang lại một bảng điều khiển số liệu kinh doanh minh bạch, chuẩn xác và phản hồi theo thời gian thực cho hàng chục nghìn chủ cửa hàng.
 
-Hệ thống được thiết kế theo kiến trúc streaming phân tán:
+## Các tính năng sản phẩm cốt lõi
 
-```text
-[ Trình duyệt người mua toàn cầu ]
-                  │
-                  ▼
-   [Edge Tracking Gateway (:8080)] ──► Tiếp nhận beacon với độ trễ cực thấp, enrich geo IP
-                  │
-                  ▼
-     [Storefront Service (:3006)] ──► Phân giải phiên người dùng (sb_ctx với prefix 'u:')
-                  │
-                  ▼
-        [Apache Kafka Bus] ──► Phân vùng topic, đệm chống nghẽn lưu lượng (backpressure)
-                  │
-                  ▼
-   [ClickHouse Columnar Storage] ──► Bảng events_1h_all_columns (Tính toán song song siêu tốc)
-                  │
-                  ▲
-   [Cụm Celery Workers phân tán] ──► Tính toán bất đồng bộ lợi nhuận, giá vốn & attribution
-```
+### 1. Báo cáo Doanh thu & Lợi nhuận ròng thời gian thực (Real-Time Profit Dashboard)
+- Cập nhật số liệu tức thì ngay khi có khách đặt hàng thành công.
+- Tự động khấu trừ mọi chi phí liên quan: Giá vốn sản phẩm (COGS), phí đóng gói vận chuyển, phí xử lý giao dịch của cổng thanh toán và chênh lệch tỷ giá ngoại tệ.
+- Giúp người bán nhìn thấy bức tranh tài chính trung thực và rõ ràng nhất của cửa hàng chỉ trong một màn hình.
 
-### 1. Tầng tiếp nhận dữ liệu (Ingestion at Edge)
-- **Edge Gateway (:8080):** Reverse proxy hiệu năng cao tiếp nhận các pixel beacon mà không làm ảnh hưởng đến tốc độ tải trang của người mua hàng.
-- **Storefront Context (:3006):** Bảo lưu session cookie xuyên domain và inject token định danh (`sb_ctx` với tiền tố `u:`) giúp nối liền hành trình từ khách vãng lai đến đơn hàng hoàn tất.
+### 2. Theo dõi chi tiết Phễu chuyển đổi (Conversion Funnel)
+- Trực quan hóa toàn bộ hành trình của khách mua hàng theo từng nấc:  
+  `Lượt truy cập (Sessions) ➔ Xem sản phẩm ➔ Thêm vào giỏ (Add to Cart) ➔ Nhập thông tin thanh toán ➔ Đặt hàng thành công`.
+- Chỉ rõ tỷ lệ rơi rụng (drop-off rate) ở từng bước, giúp merchant nhận biết ngay trang thanh toán hay phí ship có đang khiến khách hàng bỏ đi hay không để kịp thời tối ưu.
 
-### 2. Streaming thông lượng cao & Lưu trữ dạng cột
-- **Apache Kafka:** Đóng vai trò vùng đệm chịu tải, tách biệt hoàn toàn áp lực truy cập storefront khỏi hệ thống cơ sở dữ liệu phân tích phía sau.
-- **ClickHouse Cluster (`events_1h_all_columns`):** Cơ sở dữ liệu dạng cột tối ưu cho phép nén dữ liệu mạnh mẽ và thực thi các phép tính tổng hợp (aggregation) trên hàng trăm triệu bản ghi chỉ trong vài trăm mili-giây.
+### 3. Phân tích nguồn truy cập & Hiệu quả tiếp thị (Attribution)
+- Ghi nhận chính xác khách hàng đến từ kênh nào: Facebook Ads, Google Shopping, TikTok, email marketing hay truy cập trực tiếp.
+- Giúp merchant tự tin phân bổ ngân sách vào đúng những kênh mang lại lợi nhuận cao nhất và cắt giảm những nguồn quảng cáo kém hiệu quả.
 
-### 3. Cụm Worker tính toán lợi nhuận & chỉ số tài chính
-- Xây dựng các pool **Celery worker chuyên trách** để liên tục giải quyết các công thức tài chính phức tạp: Doanh thu thực tế trừ giá vốn hàng bán (COGS), phí vận chuyển, biến động tỷ giá và phí cổng thanh toán.
-- Khớp nối dữ liệu sự kiện thời gian thực để cập nhật các biểu đồ phễu chuyển đổi và báo cáo kinh doanh cho merchant.
+### 4. Báo cáo linh hoạt theo thời gian & thiết bị
+- Cho phép lọc số liệu theo từng khung giờ, từng ngày, từng tháng hoặc khoảng thời gian tùy chọn.
+- Phân tách hiệu quả giữa khách hàng dùng điện thoại di động và máy tính để bàn.
 
-## Thành tựu kỹ thuật nổi bật
+## Vai trò của mình trong dự án
 
-### Xử lý triệt để lệch số liệu & Lỗi Tracking
-- Trước khi tối ưu, hệ thống từng gặp hiện tượng chênh lệch số liệu giữa log tiếp nhận thô tại gateway và báo cáo tổng hợp cuối cùng trên dashboard.
-- Thực hiện rà soát chuyên sâu toàn bộ pipeline từ Edge đến ClickHouse:
-  - Định vị và giải quyết dứt điểm **7 cụm lỗi gốc (root-cause clusters)** gây sai lệch dữ liệu (lệch timezone, webhook gửi trùng lặp, mất session token khi redirect).
-  - Khắc phục **11 lỗi nghiêm trọng** trong khâu tracking và tính toán tổng hợp.
-  - Kiểm thử hồi quy tự động cùng đội ngũ QE và bàn giao hệ thống đạt chuẩn tin cậy 100%.
+Với vai trò **Chủ trì kỹ thuật (Development Owner)** của mảng Analytics & Tracking:
 
-### Hiệu năng & Quy mô đạt được
-- Đạt độ tin cậy tiếp nhận sự kiện **99.99%** trong suốt các đợt cao điểm mua sắm.
-- Cắt giảm thời gian phản hồi câu truy vấn báo cáo từ hơn 8 giây xuống **dưới 350ms**, mang đến trải nghiệm realtime mượt mà cho merchant.
+- **Chịu trách nhiệm toàn bộ luồng thu thập dữ liệu:** Thiết kế cơ chế ghi nhận sự kiện từ storefront của khách mua hàng sao cho mượt mà nhất, đảm bảo tính toán chuẩn xác mà tuyệt đối không làm chậm tốc độ tải trang của người mua.
+- **Giải quyết dứt điểm các điểm nghẽn sai lệch số liệu:** Trực tiếp điều tra và khắc phục triệt để các trường hợp lệch dữ liệu (như lệch múi giờ giữa các quốc gia, sự kiện gửi trùng lặp, hoặc mất dấu phiên người dùng khi chuyển hướng sang cổng thanh toán). Sau đợt chuẩn hóa, số liệu báo cáo đạt độ tin cậy và ăn khớp 100% với đơn hàng thực tế.
+- **Bảo đảm hệ thống chạy ổn định trong mùa bão sale:** Đảm bảo toàn bộ bảng điều khiển analytics của người bán vẫn cập nhật liên tục từng giây trong các dịp lễ mua sắm cao điểm khi lưu lượng truy cập tăng vọt gấp nhiều lần ngày thường.
+- **Phối hợp nghiệm thu chất lượng cùng đội ngũ QE:** Xây dựng các kịch bản kiểm thử toàn diện, đảm bảo mọi chỉ số tài chính hiển thị đến tay người bán đều được bảo chứng qua kiểm thử thực tế.
+
+## Giá trị mang lại
+
+- **Trao quyền quyết định nhanh:** Người bán có thể bật/tắt quảng cáo hoặc điều chỉnh giá bán ngay lập tức dựa trên con số lợi nhuận thực tế thay vì phán đoán cảm tính.
+- **Tạo dựng niềm tin bền vững:** Chấm dứt hoàn toàn tình trạng merchant phản ánh số liệu trên báo cáo không khớp với ví tiền, tạo nền tảng vững chắc cho sự phát triển của nền tảng thương mại điện tử.

@@ -1,70 +1,63 @@
 ---
-title: "POD AI – Hệ thống tự động tạo Artwork và Mockup cá nhân hóa bằng AI"
-summary: "Pipeline tự động hóa quy trình cá nhân hóa sản phẩm Print-on-Demand (POD): từ phối ghép swatch, xử lý layer phức tạp đến render artwork và mockup độ phân giải cao trên cụm Kubernetes (EKS)."
+title: "POD AI – Giải pháp cá nhân hóa sản phẩm Print-on-Demand toàn diện"
+summary: "Quy trình khép kín từ người bán thiết lập tùy biến, lên chiến dịch bán hàng, người mua tự do cá nhân hóa và xem trước theo thời gian thực cho đến khi hoàn tất đặt hàng và xuất file in ấn tự động."
 image: "/images/projects/pod-ai/cover.png"
 publishedAt: "2025-11-15"
 live: ""
 repo: ""
 category: "Web"
-tags: ["Python", "Celery", "Kubernetes", "EKS", "AWS S3", "Langfuse", "E-Commerce", "Generative AI"]
+tags: ["E-Commerce", "Print on Demand", "Generative AI", "Product Personalization", "Web App"]
 featured: true
 teamSize: 3
 ---
 
-## Tổng quan
+## Giới thiệu
 
-Trong ngành thương mại điện tử Print-on-Demand (POD), tính năng cá nhân hóa (khách hàng tự chọn kiểu tóc, màu tóc, giống thú cưng, trang phục và tên riêng) là đòn bẩy tăng trưởng tỷ lệ chuyển đổi cao nhất. Tuy nhiên, việc xử lý thủ công các file PSD hàng chục layer để xuất ra artwork in ấn chất lượng cao và mockup thực tế tạo ra nút thắt cổ chai cực lớn về vận hành.
+Trong thương mại điện tử Print-on-Demand (POD), những sản phẩm mang tính cá nhân hóa cao—như một chiếc áo thun in hình gia đình kèm tên riêng, hay chiếc cốc in hình thú cưng đúng màu lông và giống loài—luôn là những mặt hàng bán chạy nhất. Khách hàng sẵn sàng chi trả cao hơn khi sản phẩm phản ánh đúng câu chuyện của riêng họ.
 
-**POD AI** là hệ thống pipeline tự động hóa toàn bộ vòng đời sản phẩm POD: kết nối các mô hình AI tạo mẫu, hệ thống swatching thông minh và cụm render phân tán trên AWS EKS nhằm xuất file in chuẩn 300 DPI và mockup ảnh sản phẩm chân thực chỉ trong vài giây.
+Tuy nhiên, rào cản lớn nhất của các nhà bán hàng (seller) là sự phức tạp trong khâu chuẩn bị: làm sao để khách có thể tự do phối màu tóc, kiểu áo, chọn giống cún cưng ngay trên trang bán hàng, và khi khách đặt xong thì xưởng in nhận được ngay file in chuẩn nét mà không cần designer phải ngồi vẽ lại thủ công từng đơn?
 
-## Kiến trúc hệ thống & Luồng xử lý
+**POD AI** ra đời để giải quyết trọn vẹn bài toán đó, tạo nên một hành trình mua bán cá nhân hóa mượt mà từ người bán đến người mua.
 
-Pipeline vận hành theo mô hình máy trạng thái bất đồng bộ nhiều tầng:
+## Luồng sản phẩm hoàn chỉnh (End-to-End Flow)
 
-```text
-[ Merchant / Khách hàng Lưu Campaign ]
-                  │
-                  ▼
-       [/save-campaign Trigger]
-                  │
-                  ▼
-        [pbase_prepare_mockup] ──► Kiểm tra asset & inject thông số layer
-                  │
-                  ▼
-[eks_pod_render_artwork_campaign] ──► Tổng hợp artwork vector độ phân giải cao (300 DPI)
-                  │
-                  ▼
-       [eks_pod_render_mockup] ──► Ánh sáng, độ uốn nếp vải & đổ bóng thực tế
-                  │
-                  ▼
-            [sb_product] ──► Tự động xuất bản các biến thể lên Storefront
-```
+Hệ thống kết nối toàn bộ các mắt xích trong chuỗi kinh doanh POD thành một dòng chảy liền mạch:
 
-### 1. Hệ thống Swatching & Phối ghép Clipart thông minh
-- Thiết lập ràng buộc chặt chẽ cho các thuộc tính đi kèm (companion attributes): Ví dụ Kiểu tóc + Màu tóc bắt buộc phải map chính xác thành ảnh swatch màu tương ứng, kết hợp ăn khớp với clipart trang phục và dáng người.
-- Cơ chế ánh xạ tài nguyên động giúp kết hợp hàng trăm layer khác nhau thành một bản in hoàn chỉnh, loại bỏ hiện tượng lệch vị trí hoặc tràn viền.
+### 1. Người bán thiết lập (Seller Setup)
+- Seller tải lên phôi thiết kế gốc (artwork template) và tạo các nhóm tùy chọn cho khách hàng:
+  - Tùy chọn hình ảnh: Kiểu tóc, màu tóc, trang phục, giống thú cưng.
+  - Tùy chọn văn bản: Tên người, ngày kỷ niệm, lời nhắn gửi.
+- Cấu hình hệ thống swatch màu trực quan: khách bấm chọn màu nào thì hình minh họa tự động đổi sang màu đó.
+- Gắn phôi thiết kế lên các mockup sản phẩm thực tế (áo thun, cốc sứ, tranh canvas).
 
-### 2. Cụm Render phân tán trên AWS EKS
-- Tách biệt hoàn toàn các tác vụ render đồ họa ngốn CPU/RAM sang các worker pool chuyên dụng trên Kubernetes (EKS).
-- Cấu hình định tuyến hàng đợi Celery (`CELERY_TASK_ROUTES`) phân luồng độc lập giữa tác vụ xử lý metadata nhẹ và tác vụ render PSD nặng, đảm bảo seller không bao giờ bị nghẽn lệnh khi tạo chiến dịch mới.
-- Đồng bộ lưu trữ đám mây tốc độ cao với S3 (`assets-pbase`) kèm cơ chế dự phòng môi trường local.
+### 2. Lên chiến dịch bán hàng (Launch Campaign)
+- Sau khi thiết lập xong, seller chỉ cần một cú nhấp chuột để xuất bản chiến dịch lên cửa hàng trực tuyến.
+- Hệ thống tự động tạo danh mục sản phẩm, tính toán giá bán cho từng kích cỡ/chất liệu và sẵn sàng đón khách vào mua sắm.
 
-### 3. Giám sát & Đánh giá AI với Langfuse
-- Tích hợp **Langfuse** để theo dõi telemetry thời gian thực, độ trễ và chi phí token của các prompt AI.
-- Xử lý xác thực Basic Auth và User-Agent tùy chỉnh để vượt qua lỗi chặn Cloudflare 1010 trên các worker node headless.
+### 3. Người mua tự do cá nhân hóa (Buyer Personalization)
+- Người mua truy cập trang sản phẩm và thoải mái sáng tạo:
+  - Chọn dáng người, kiểu tóc và màu tóc giống hệt mình và người thân.
+  - Chọn giống chó/mèo yêu thích từ kho clipart phong phú.
+  - Nhập tên của từng nhân vật vào ô tùy chỉnh.
+- **Xem trước tức thời (Live Preview):** Mọi thay đổi của khách đều được hệ thống tổng hợp và hiển thị ngay lập tức lên ảnh mockup sản phẩm thật. Khách hàng nhìn thấy chính xác món đồ mình sắp nhận được, tạo sự an tâm và kích thích mua sắm tối đa.
 
-## Thách thức kỹ thuật & Giải pháp
+### 4. Đặt hàng & Sản xuất tự động (Checkout & Fulfillment)
+- Người mua bấm thêm vào giỏ và thanh toán đơn hàng.
+- Ngay khi đơn hàng được xác nhận, hệ thống tự động:
+  - Ghép nối các lớp đồ họa theo đúng các lựa chọn của khách hàng.
+  - Xuất ra file in chuẩn vector và độ phân giải cao (300 DPI).
+  - Chuyển thẳng file in tới xưởng sản xuất mà không cần bất kỳ sự can thiệp thủ công nào của designer.
 
-### Xử lý Race Condition khi tính toán giá
-- Trong các luồng lưu campaign nhanh, việc tính toán lại giá bán đôi khi bị xung đột với tiến trình tạo biến thể sản phẩm nền.
-- **Giải pháp:** Triển khai cơ chế kiểm tra đồng bộ và chờ trạng thái `networkidle + 5s` trước khi hoàn tất lưu biến thể, loại bỏ triệt để lỗi chênh lệch giá trên trang bán hàng.
+## Vai trò của mình trong dự án
 
-### Render độ phân giải cao quy mô lớn
-- Việc xử lý đồng thời nhiều file in 300 DPI đòi hỏi bộ nhớ container rất lớn.
-- **Giải pháp:** Áp dụng kỹ thuật stream asset theo chunk trực tiếp từ S3, đánh giá layer theo cơ chế lazy loading và thiết lập auto-scaling tự động cho worker dựa trên độ dài hàng đợi.
+Trong đội ngũ 3 thành viên, mình trực tiếp tham gia xây dựng các mắt xích cốt lõi của sản phẩm:
+
+- **Xây dựng luồng trải nghiệm người dùng:** Tham gia phát triển từ giao diện cấu hình thân thiện cho seller trong trang quản trị đến widget tùy biến mượt mà cho buyer trên storefront.
+- **Xử lý logic Swatching thông minh:** Giải quyết bài toán phối ghép đa tầng phức tạp (ví dụ: khi khách đổi từ "Tóc xoăn" sang "Tóc thẳng", bảng swatch màu phải tự động cập nhật đúng phôi tóc mới mà không làm mất màu tóc khách đã chọn trước đó).
+- **Tối ưu tốc độ hiển thị Live Preview:** Tối ưu hóa việc kết hợp các layer hình ảnh để khách hàng thấy kết quả cá nhân hóa gần như ngay lập tức sau mỗi thao tác chọn, đảm bảo trang bán hàng không bị giật lag.
+- **Đảm bảo tính chính xác của file in:** Xử lý thuật toán ghép layer độ phân giải cao, bảo đảm sản phẩm in ra ngoài đời thực sắc nét và giống 100% với những gì người mua đã thấy trên màn hình.
 
 ## Giá trị mang lại
 
-- **Thời gian xử lý:** Rút ngắn thời gian cá nhân hóa và render mockup từ vài phút xuống dưới 8 giây.
-- **Khả năng chịu tải:** Sẵn sàng xử lý hàng nghìn chiến dịch áo thun, cốc in cùng lúc trong các đợt cao điểm bán hàng (Black Friday, Q4).
-- **Vận hành tự động:** Loại bỏ hoàn toàn sự can thiệp thủ công của designer trong khâu chuẩn bị file in cho đơn hàng.
+- **Tăng tỷ lệ chốt đơn (Conversion Rate):** Khách hàng được trực tiếp tham gia sáng tạo và nhìn thấy thành phẩm ngay lập tức, giúp tăng mạnh sự hào hứng và giảm tỷ lệ thoát trang.
+- **Tự động hóa hoàn toàn:** Giải phóng seller khỏi nỗi lo quá tải xử lý đơn hàng trong các mùa mua sắm cao điểm (Black Friday, Giáng Sinh), giúp họ tập trung hoàn toàn vào việc tìm kiếm ý tưởng và marketing.

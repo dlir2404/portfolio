@@ -1,66 +1,57 @@
 ---
-title: "E-Commerce Real-Time Analytics & Tracking Pipeline"
-summary: "High-throughput real-time event streaming and financial analytics engine processing millions of storefront interactions via Kafka, ClickHouse, and distributed Celery workers."
+title: "Real-Time E-Commerce Analytics & Conversion Tracking Platform"
+summary: "An intuitive real-time tracking and financial analytics solution for online merchants, delivering instant clarity on net profits, customer acquisition funnels, and marketing attribution."
 image: "/images/projects/analytics-tracking/cover.png"
 publishedAt: "2025-12-01"
 live: ""
 repo: ""
 category: "Web"
-tags: ["Kafka", "ClickHouse", "Python", "Celery", "Distributed Systems", "Data Engineering", "E-Commerce"]
+tags: ["E-Commerce", "Data Analytics", "Financial Reporting", "Conversion Tracking", "Real-Time"]
 featured: true
 teamSize: 2
 ---
 
-## Overview
+## Introduction
 
-In global e-commerce platforms, merchants require instant, precise visibility into traffic sources, add-to-cart conversions, net profit, and advertising attribution. Traditional relational databases fail under the massive write volumes of holiday traffic spikes and complex aggregation queries.
+In modern high-velocity e-commerce, real-time data accuracy is the heartbeat of merchant success. Sellers scaling five-figure daily advertising budgets cannot afford to wait until midnight to determine whether an ad campaign is profitable or bleeding money. They need immediate answers:
+- Exactly how much gross revenue was generated in the last hour?
+- After deducting product manufacturing costs, shipping, payment processing fees, and currency conversions, what is the exact **Net Profit** remaining?
+- At which specific step in the checkout flow are prospective buyers dropping off?
 
-As the **Development Owner** for the Analytics & Tracking domain, I designed and stabilized a real-time data ingestion and analytical processing pipeline capable of ingesting millions of storefront tracking events and aggregating revenue and profit metrics with sub-second dashboard query latency.
+Historically, reporting across distributed storefronts suffered from latency lags and metric discrepancies between different reporting screens, undermining merchant confidence.
 
-## Architecture & Data Flow
+The **Analytics & Tracking** initiative was created to deliver an uncompromised, transparent, and instantaneous financial telemetry dashboard empowering tens of thousands of online entrepreneurs.
 
-The system employs a decoupled, streaming-first architecture:
+## Core Product Capabilities
 
-```text
-[ Global Shopper Browser ]
-           │
-           ▼
- [Edge Tracking Gateway (:8080)] ──► Ultra-low latency payload validation & geo-enrichment
-           │
-           ▼
-   [Storefront Service (:3006)] ──► Session resolution (sb_ctx with 'u:' user prefix)
-           │
-           ▼
-     [Apache Kafka Bus] ──► Partitioned topic streaming & backpressure buffer
-           │
-           ▼
-[ClickHouse Columnar Storage] ──► events_1h_all_columns (Vectorized parallel aggregations)
-           │
-           ▲
-[Distributed Celery Workers] ──► Asynchronous profit, COGS & order attribution engine
-```
+### 1. Real-Time Net Profit & Revenue Dashboard
+- Instant metric refresh the second an order is verified.
+- Automatically factors in all variable costs: Cost of Goods Sold (COGS), warehouse fulfillment, dynamic international currency conversions, and merchant gateway transaction surcharges.
+- Delivers a single source of truth for financial health in an uncluttered, executive summary interface.
 
-### 1. Ingestion at the Edge
-- **Edge Gateway (:8080):** High-concurrency reverse proxy terminating tracking beacons with negligible impact on buyer page-load performance.
-- **Storefront Context (:3006):** Preserves cross-domain session cookies and injects deterministic session tokens (`sb_ctx` with `u:` user prefix) to unify anonymous browsing with authenticated checkouts.
+### 2. Comprehensive Conversion Funnel Tracking
+- Visually maps the shopper journey through each critical conversion milestone:  
+  `Storefront Visits ➔ Product Detail View ➔ Add to Cart ➔ Checkout Initiation ➔ Purchase Completed`.
+- Identifies exact step-by-step drop-off rates, highlighting immediately whether high shipping rates or checkout friction are deterring buyers.
 
-### 2. High-Throughput Streaming & Columnar Storage
-- **Apache Kafka:** Serves as a fault-tolerant buffer decoupling traffic surges from downstream analytical ingestion.
-- **ClickHouse Cluster (`events_1h_all_columns`):** Stores append-only raw events with aggressive compression. Columnar partitioning enables parallel aggregations across hundreds of millions of rows in milliseconds.
+### 3. Multi-Touch Traffic & Marketing Attribution
+- Accurately attributes orders to their originating promotional channels: Facebook Ads, Google Shopping, TikTok, email marketing, or direct organic visits.
+- Empowers merchants to double down on winning campaigns and trim underperforming ad spend with total confidence.
 
-### 3. Distributed Profit & Metric Aggregations
-- Configured specialized **Celery task pools** to continuously compute complex profit formulas (gross revenue minus cost of goods sold, shipping fees, dynamic currency conversions, and gateway charges).
-- Real-time event streaming reconciles abandoned checkouts and completed orders into merchant dashboard cards.
+### 4. Granular Segmentation & Device Breakdown
+- Filter performance across customizable time horizons, individual hours, days, or seasonal campaigns.
+- Segment metrics between mobile and desktop shoppers to tailor checkout experiences.
 
-## Key Engineering Achievements
+## My Role & Ownership
 
-### Resolving Data Skew & Tracking Discrepancies
-- Prior to stabilization, tracking reports suffered from subtle metric discrepancies between raw gateway logs and dashboard summaries.
-- Conducted deep forensic analysis across the entire ingestion pipeline:
-  - Isolated and resolved **7 core root-cause data skew clusters** (time-zone offsets, duplicate webhook delivery, session token stripping).
-  - Fixed **11 critical tracking and aggregation bugs**.
-  - Verified stability through end-to-end QE regression suites and live production audit runs.
+Serving as the **Development Owner** for the Analytics & Tracking domain:
 
-### Performance & Scalability Gains
-- Achieved **99.99% event ingestion reliability** during peak sales periods.
-- Reduced analytical query latency from 8+ seconds down to under **350ms**, enabling real-time live dashboard updates for merchants.
+- **End-to-End Tracking Architecture:** Designed the storefront telemetry ingestion pipeline to ensure comprehensive event capture without adding any perceptible latency to buyer page-load speeds.
+- **Resolving Metric Discrepancies:** Headed the forensic investigation into historic reporting discrepancies (such as cross-border timezone skews, duplicate webhook deliveries, and session attribution loss during checkout redirects). Successfully realigned reporting metrics to match real-world bank balances with 100% precision.
+- **High-Traffic Reliability:** Ensured dashboard uptime and sub-second query responsiveness during major global flash sales (Black Friday, Cyber Monday) under tens of millions of concurrent requests.
+- **Quality Engineering & Verification:** Partnered closely with the QE team to author exhaustive test suites, certifying that every financial calculation displayed to merchants is battle-tested against edge cases.
+
+## Business Impact
+
+- **Rapid Decision-Making:** Sellers can scale profitable ad angles or pause losing ad sets within minutes based on true net profit numbers rather than vanity metrics.
+- **Unshakable Merchant Trust:** Eliminated discrepancies between reported platform metrics and actual banking payouts, establishing foundational trust for the entire e-commerce ecosystem.

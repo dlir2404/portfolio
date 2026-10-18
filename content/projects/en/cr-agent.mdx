@@ -1,67 +1,57 @@
 ---
 title: "CR Agent – AI-Powered Product Page Conversion Rate Optimizer"
-summary: "An autonomous AI agent integrated into an e-commerce page builder that audits product pages, suggests high-impact psychological levers across 9 archetypes, and streams voice narrations."
+summary: "An intelligent e-commerce assistant that automatically audits product pages, suggests high-impact psychological conversion levers, and streams voice coaching before applying one-click updates."
 image: "/images/projects/cr-agent/cover.png"
 publishedAt: "2026-01-10"
 live: ""
 repo: ""
 category: "Web"
-tags: ["AI Agent", "MCP", "Python", "Vue.js", "E-Commerce", "Conversion Rate Optimization", "FastAPI"]
+tags: ["AI Assistant", "Conversion Optimization", "E-Commerce", "Web Builder", "Voice AI"]
 featured: true
 teamSize: 2
 ---
 
-## Overview
+## Introduction
 
-In direct-to-consumer e-commerce, the Product Detail Page (PDP) is the ultimate decision gate where buyers either convert or bounce. Even minor friction—unclear delivery estimates, lack of stock transparency, or weak social proof—causes cart abandonment.
+In direct-to-consumer e-commerce, the Product Detail Page (PDP) is the ultimate tipping point. It is where prospective buyers make up their mind—either to click "Add to Cart" or bounce away forever. Even with thousands of ad clicks flowing into a store, minor points of friction—unclear delivery estimates, unconvincing social proof, or vague refund policies—cause shoppers to hesitate and abandon the purchase.
 
-As the **Development Owner** for **CR-Agent** (ConvertCore / sbase-ai), I architected an intelligent optimization agent embedded natively into the merchant's visual web page builder (`web-builder`). The agent analyzes product listings, identifies conversion bottlenecks, and offers actionable optimization levers that sellers can review and apply with a single click.
+Most independent merchants lack the budget to hire expensive Conversion Rate Optimization (CRO) consultants, and few have the specialized expertise to diagnose why their listings fail to convert.
 
-## The 3-Phase Optimization Engine
+**CR-Agent** was created as an **AI CRO co-pilot for online sellers**, built directly inside the store's visual web builder to automatically audit listings, pinpoint shopper hesitation, and deliver actionable conversion boosts.
 
-To balance AI autonomy with merchant control, CR-Agent operates in three distinct, strictly enforced phases:
+## Key Product Capabilities
 
-```text
-[ 1. ANALYZE PHASE ]
-  - Deep audit: stock availability, real delivery ETA, social proof density
-  - Zero side effects: Read-only diagnostics, zero unauthorized mutations
-           │
-           ▼
-[ 2. SUGGEST PHASE ]
-  - Dynamic lever recommendation cards categorized across 9 Archetypes (A to I)
-  - Policy enforcement: Complies with e-commerce ad policies & truth-in-advertising
-  - Synchronous 1st-person voice narration stream (25-40s concise coaching)
-           │
-           ▼
-[ 3. APPLY PHASE ]
-  - Explicit merchant review & approval trigger
-  - Idempotent JSON callback execution to update live page layout
-  - Automated retry mechanisms guaranteeing atomic mutations
-```
+### 1. Automated Product Page Audit
+- With a single click, the AI performs a comprehensive listing scan: headline clarity, imagery, pricing displays, stock transparency, shipping timelines, and customer review sentiment.
+- Identifies the exact friction points that make shoppers second-guess their purchase.
+- The diagnosis is entirely non-destructive: it operates in read-only mode, guaranteeing zero unauthorized alterations to store settings.
 
-### 1. Diagnostic Audit (Analyze Phase)
-- Connects to store APIs via **Model Context Protocol (MCP)** tools (`mcp/tools/ai_cr/` and `web_ai_agent/tools/cr/`).
-- Inspects pricing structure, inventory thresholds, regional shipping logistics, and review distributions without writing any data to the database.
+### 2. High-Impact Psychological Levers
+- Instead of vague suggestions, CR-Agent delivers clear, actionable recommendation cards grounded in proven shopper psychology:
+  - **Building Buyer Trust:** Introducing realistic shipping arrival dates and prominent risk-free return badges.
+  - **Social Proof Reinforcement:** Spotlighting verified customer testimonials, star ratings, and recent order activity.
+  - **Motivating Action:** Highlighting genuine limited-time promotions and exclusive bundle savings.
+- Enforces strict truth-in-advertising guidelines: Every suggestion is derived from real store data, prohibiting manipulative dark patterns or manufactured scarcity.
 
-### 2. Psychological Lever Architecture (Suggest Phase)
-- Classifies recommended changes across **9 psychological buyer archetypes (A through I)**, including urgency cues, social trust badges, delivery clarity, and benefit-driven headlines.
-- Safety Guardrails: Enforces strict truthfulness checks to prevent manipulative dark patterns or false-scarcity violations.
+### 3. Voice Narration AI Coaching
+- A standout capability of CR-Agent is its conversational voice stream: Sellers can read the recommendation cards while listening to a concise 30-second AI narration explaining *why* a particular change increases buyer confidence.
+- Provides the dynamic, engaging feel of a personalized 1-on-1 strategy call with an expert growth consultant.
 
-### 3. Voice Narration Audio Streaming
-- Generates a natural, first-person voice narration for each recommended lever (tailored to 60–100 words per lever, 25–40s duration).
-- Streams synthesized speech directly to the merchant's browser alongside visual cards, acting as an interactive CRO consultant.
+### 4. One-Click Layout Updates
+- Sellers do not need to write code or modify stylesheet classes.
+- Once a merchant approves a suggested lever, clicking **"Apply"** updates the live product page immediately.
+- Features real-time visual previews and instantaneous rollback options whenever sellers want to revert changes.
 
-### 4. Interactive Web Builder Panel
-- Implemented the merchant-facing UI within the platform's visual builder (`WbAIPanel.vue`).
-- Features interactive preview toggles, before-and-after visual diffs, and instant rollbacks.
+## My Role & Ownership
 
-## Technical Implementation Highlights
+Serving as the **Development Owner** for the CR-Agent product feature:
 
-- **AI & Agent Architecture:** Python, FastAPI, Model Context Protocol (MCP) server endpoints, LangChain / LangGraph orchestration.
-- **Frontend Integration:** Vue.js, Pinia state management, Web Audio API streaming player in `WbAIPanel.vue`.
-- **Reliability:** Idempotent JSON-RPC callbacks with retry backoff to ensure that applied page changes never create malformed HTML or broken checkout paths.
+- **Architecting the 3-Step Merchant Journey:** Designed the intuitive workflow: `Analyze Listing ➔ Suggest Levers & Audio Narration ➔ Safe 1-Click Application`, ensuring sellers maintain complete visibility and veto power over every storefront change.
+- **Visual AI Panel in the Web Builder:** Developed the merchant-facing AI Panel inside the platform's visual website builder, streamlining card interactions, before/after visual diffs, and smooth streaming audio playback.
+- **Refining Practical Conversion Levers:** Collaborated closely with e-commerce strategists to calibrate AI prompt outputs, ensuring suggestions remain concise, pragmatic, and directly applicable to consumer buying psychology.
+- **Safe Storefront Mutation Engine:** Engineered the underlying update mechanics to guarantee that applied layout updates integrate cleanly into live page templates without disrupting checkout flows or third-party storefront plugins.
 
 ## Business Impact
 
-- **Merchant Adoption:** Enabled non-technical sellers to perform professional-grade CRO audits in under 30 seconds.
-- **Conversion Uplift:** Beta merchant cohorts experienced an average **+12% to +18% increase in PDP add-to-cart conversion rates** after adopting recommended levers.
+- **Dramatic Time & Cost Savings:** Merchants can audit and optimize an entire product listing in under 60 seconds, replacing costly agency retainers with an instant in-app workflow.
+- **Measurable Conversion Gains:** Early beta cohorts adopting CR-Agent recommendations recorded an average **+12% to +18% increase in PDP add-to-cart conversion rates**.
