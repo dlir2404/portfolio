@@ -1,0 +1,80 @@
+---
+title: "DevTools Suite – All-in-One Browser Utility Workbench"
+summary: "A fast, privacy-first developer utility workbench running entirely in the browser with 20+ offline tools: code formatters, JSON/YAML/CSV converters, visual diff visualizer, and TypeScript type generators."
+image: "/images/projects/dev-tools/cover.png"
+publishedAt: "2025-12-15"
+live: "https://larry.is-a.dev/app/dev-tools/"
+repo: ""
+category: "Web App"
+tags: ["Developer Tools", "Utility", "Formatters", "TypeScript", "Next.js", "Web App"]
+featured: false
+teamSize: 1
+---
+
+## Introduction
+
+In daily software engineering workflows, developers repeatedly perform routine utility tasks: formatting an API response payload, comparing configuration differences between staging and production, converting data structures between JSON and YAML, or generating TypeScript type definitions from real sample data.
+
+However, most conventional web-based developer tools are cluttered with invasive banner ads, load slowly, or raise serious privacy and security concerns by transmitting confidential payloads (API credentials, bearer tokens, or user data) to third-party servers.
+
+**DevTools Suite** was designed and built as a **privacy-first, all-in-one developer utility workbench** executing 100% client-side inside your browser with instantaneous performance and zero data leakage.
+
+## Core Tool Suites
+
+<Image
+  src="/images/projects/dev-tools/cover.png"
+  alt="DevTools Suite Overview Dashboard"
+  width={1200}
+  height={675}
+  className="w-full h-auto rounded-xl"
+/>
+
+### 1. Code Formatting & Validation
+- **JSON Formatter & Beautifier / Minifier:** Instantly clean or compress JSON structures with customizable indentation spacing (2 or 4 spaces).
+- **SQL & XML Formatters:** Structure nested SQL queries and hierarchical XML documents with clean indentation.
+- **Markdown Live Preview:** Real-time markdown authoring with synchronized preview rendering.
+
+### 2. Visual Data Comparison (JSON Diff)
+- Side-by-side graphical JSON structural comparator.
+- Color-coded visual diff highlights: additions (green), deletions (red), and mutated values (amber).
+- Automatic key sorting ensures that key-order variations do not trigger false positive differences.
+
+<Image
+  src="/images/projects/dev-tools/feature-json-diff.png"
+  alt="Visual JSON Diff Tool"
+  width={1200}
+  height={675}
+  className="w-full h-auto rounded-xl"
+/>
+
+### 3. Versatile Format Converters
+- **JSON ↔ YAML:** Two-way converter for Docker Compose files, Kubernetes manifests, and GitHub Actions workflows.
+- **JSON ↔ CSV:** Flattens array datasets into structured tabular rows for spreadsheet ingestion.
+- **JSON → TOML:** Generates configuration files for Python, Rust, and Go runtimes.
+- **JSON → TypeScript:** Analyzes real API payloads to generate accurate `interface` and `type` definitions, eliminating tedious boilerplate typing.
+- **JSON → JSON Schema:** Automatically infers validation contracts for schema-driven architectures.
+
+<Image
+  src="/images/projects/dev-tools/feature-json-to-ts.png"
+  alt="JSON to TypeScript Type Generator"
+  width={1200}
+  height={675}
+  className="w-full h-auto rounded-xl"
+/>
+
+### 4. Encoding, Hashing & Security
+- Base64 Encoder / Decoder (standard text and URL-safe formats).
+- URL Encoder / Decoder and HTML Entity escaping.
+- Cryptographic Hashes: Instant generation of MD5, SHA-1, SHA-256, and SHA-512 hashes.
+- JWT Token Inspector: Decodes JSON Web Tokens to inspect claims, headers, and expiration dates securely client-side.
+
+## Technical Highlights & Integration
+
+- **Privacy-First Architecture:** All data processing executes locally inside the browser using modern Web APIs and Web Workers. No sensitive customer payloads or tokens are transmitted over the network.
+- **Seamless Portfolio Integration:** Embedded directly at `/app/dev-tools/` with bi-directional `postMessage` URL query sync, allowing direct deep-linking to specific utilities (e.g., `?tool=json-diff`).
+- **Ergonomic Developer UX:** Fully dark-mode native, complete with keyboard shortcuts and one-click clipboard copying.
+
+## Impact & Utility
+
+- Serves as an indispensable daily workbench for myself and team members across engineering teams.
+- Replaces dozens of fragmented, ad-heavy web tools with a single clean, high-performance, and secure utility suite.

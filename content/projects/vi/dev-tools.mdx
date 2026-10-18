@@ -1,0 +1,80 @@
+---
+title: "DevTools Suite – Bộ tiện ích lập trình đa năng chạy trên trình duyệt"
+summary: "Bộ tiện ích lập trình toàn diện chạy trực tiếp trên trình duyệt với hơn 20 công cụ: định dạng code, chuyển đổi JSON/YAML/CSV, so sánh diff trực quan và tự động sinh kiểu dữ liệu TypeScript."
+image: "/images/projects/dev-tools/cover.png"
+publishedAt: "2025-12-15"
+live: "https://larry.is-a.dev/app/dev-tools/"
+repo: ""
+category: "Web App"
+tags: ["Developer Tools", "Utility", "Formatters", "TypeScript", "Next.js", "Web App"]
+featured: false
+teamSize: 1
+---
+
+## Giới thiệu
+
+Trong quá trình phát triển phần mềm hàng ngày, các lập trình viên liên tục phải thực hiện những tác vụ phụ trợ: format một đoạn JSON trả về từ API, so sánh sự khác nhau (diff) giữa hai cấu hình, chuyển đổi qua lại giữa JSON, YAML, CSV hoặc sinh nhanh interface TypeScript từ payload thực tế.
+
+Tuy nhiên, hầu hết các công cụ online hiện nay đều chứa đầy quảng cáo rác, tốc độ tải chậm, hoặc tiềm ẩn nguy cơ bảo mật khi gửi dữ liệu nhạy cảm (API key, token, customer payload) lên máy chủ của bên thứ ba.
+
+**DevTools Suite** được mình xây dựng như một **trạm làm việc (workbench) tiện ích tất-cả-trong-một**, hoạt động hoàn toàn ở phía client (trình duyệt của bạn), tốc độ tức thì và bảo mật tuyệt đối.
+
+## Các nhóm công cụ chính
+
+<Image
+  src="/images/projects/dev-tools/cover.png"
+  alt="Giao diện tổng quan DevTools Suite"
+  width={1200}
+  height={675}
+  className="w-full h-auto rounded-xl"
+/>
+
+### 1. Định dạng & Kiểm tra hợp lệ (Format & Validate)
+- **JSON Formatter & Beautifier / Minifier:** Làm đẹp hoặc nén gọn chuỗi JSON với tùy chọn thụt lề 2 hoặc 4 spaces.
+- **SQL & XML Formatter:** Căn chỉnh câu truy vấn SQL phức tạp hoặc tài liệu XML rõ ràng, dễ đọc.
+- **Markdown Preview:** Soạn thảo và xem trước tài liệu Markdown theo thời gian thực.
+
+### 2. So sánh dữ liệu trực quan (JSON Diff)
+- Cho phép so sánh trực quan hai cấu trúc JSON cạnh nhau.
+- Làm nổi bật chính xác các trường dữ liệu bị thêm mới (màu xanh), bị xóa (màu đỏ) hoặc bị sửa đổi giá trị.
+- Hỗ trợ sắp xếp khóa tự động trước khi so sánh để tránh báo sai do khác biệt thứ tự trường.
+
+<Image
+  src="/images/projects/dev-tools/feature-json-diff.png"
+  alt="Tính năng JSON Diff trực quan"
+  width={1200}
+  height={675}
+  className="w-full h-auto rounded-xl"
+/>
+
+### 3. Chuyển đổi định dạng đa năng (Converters)
+- **JSON ↔ YAML:** Chuyển đổi qua lại mượt mà, phục vụ cấu hình Docker Compose, Kubernetes manifests và GitHub Actions.
+- **JSON ↔ CSV:** Trích xuất mảng dữ liệu dạng bảng phục vụ xuất nhập báo cáo Excel.
+- **JSON → TOML:** Hỗ trợ cấu hình dự án Python, Rust.
+- **JSON → TypeScript:** Tự động phân tích cấu trúc dữ liệu thực tế và sinh ra các `interface` / `type` TypeScript chuẩn xác, giúp tiết kiệm hàng giờ viết type thủ công.
+- **JSON → JSON Schema:** Tự động suy luận schema xác thực dữ liệu.
+
+<Image
+  src="/images/projects/dev-tools/feature-json-to-ts.png"
+  alt="Tính năng sinh TypeScript types từ JSON"
+  width={1200}
+  height={675}
+  className="w-full h-auto rounded-xl"
+/>
+
+### 4. Mã hóa, Băm & Bảo mật (Encoders & Hash Generators)
+- Base64 Encode / Decode (hỗ trợ cả văn bản và URL-safe).
+- URL Encoder / Decoder và HTML Entities.
+- Hash Generator: Tạo nhanh các mã băm MD5, SHA-1, SHA-256, SHA-512 trực tiếp trên trình duyệt.
+- JWT Debugger: Giải mã token JWT, kiểm tra payload và thời gian hết hạn mà không lưu trữ token.
+
+## Điểm nhấn kỹ thuật & Trải nghiệm
+
+- **Bảo mật tối đa (Privacy-First):** 100% logic xử lý dữ liệu chạy trực tiếp bằng Web APIs và Web Workers trên trình duyệt của người dùng. Không có bất kỳ payload nào bị gửi về máy chủ.
+- **Tích hợp sâu vào Portfolio:** Được nhúng trực tiếp tại `/app/dev-tools/` với cơ chế đồng bộ tham số URL hai chiều (`postMessage`), cho phép chia sẻ liên kết trực tiếp tới công cụ cụ thể (ví dụ: `?tool=json-diff`).
+- **Giao diện hiện đại & Dark Mode:** Tối ưu hóa phím tắt, hỗ trợ sao chép 1-click vào clipboard và phản hồi tức thì.
+
+## Giá trị mang lại
+
+- Đóng vai trò là công cụ hỗ trợ công việc đắc lực hàng ngày cho bản thân và các đồng nghiệp trong nhóm kỹ thuật.
+- Thay thế hoàn toàn hàng chục tab trình duyệt rời rạc bằng một công cụ tập trung, sạch sẽ và an toàn.

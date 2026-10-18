@@ -72,7 +72,7 @@ export default function Projects({
         <AnimatePresence mode="wait">
           <motion.div
             key={activeFilter}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 [grid-auto-flow:dense]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
