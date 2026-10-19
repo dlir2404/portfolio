@@ -95,6 +95,10 @@ In addition to the core T2T engine, StackVid incorporates essential utilities fo
 - **TikTok Streak Keeper:** Automates daily direct messaging to preserve account engagement streaks (`🔥`). Employs a smart "End-of-Day Rescue" mode (22:30) that skips execution if accounts already interacted, alongside a 0–15 minute randomized delay (jitter) to prevent anti-bot heuristics from flagging accounts.
 - **Instant VietQR Top-Up:** Reconciles banking transfers via automated QR codes (SePay), updating credit wallets in 5–15 seconds without administrative intervention.
 - **NestJS Monorepo & gRPC Microservices:** Decouples public API gateways from heavy compute workers via binary gRPC for minimal inter-service latency.
+- **Selective Build Optimization & Parallel Deploy Pipelines:**
+  - *Change-Aware Selective Builds:* The monorepo hosts multiple microservices (`api-gateway`, `tiktok-service`, `flow-service`, `flow-worker`) and frontend packages (`dashboard`, `admin`, `landing`, `docs`). Leveraging `pnpm --filter` and targeted Nest CLI compilation, CI/CD pipelines compile only the exact modified services instead of rebuilding the full repository, slashing build and deployment times by over 75%.
+  - *Multi-Stage Docker & Parallel Image Packaging:* Dedicated Dockerfiles (`Dockerfile.gateway`, `Dockerfile.tiktok`, `Dockerfile.flow-*`) share cached base layers and package container images concurrently across distributed build runners.
+  - *Parallel Chunk Rendering Pipeline:* Sliced video segments within the T2T workflow are distributed simultaneously across worker pools, reducing end-to-end rendering latency from several minutes down to under 40 seconds.
 - **Atomic Two-Phase Credits Engine:** Employs atomic SQL deductions and an interceptor pattern to hold funds in escrow and automatically refund 100% if third-party APIs fail.
 - **Dedicated Sticky Proxies:** Binds each connected social account to an isolated residential proxy IP and sandboxed cookie vault.
 

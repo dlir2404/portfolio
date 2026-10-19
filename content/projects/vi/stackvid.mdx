@@ -95,6 +95,10 @@ Bên cạnh cỗ máy T2T cốt lõi, StackVid được trang bị các module b
 - **Giữ chuỗi nhắn tin TikTok (Streak Keeper):** Tự động gửi tin nhắn hàng ngày giữa các tài khoản để nuôi tương tác và duy trì ngọn lửa chuỗi (`🔥`). Cơ chế thông minh "Cứu cuối ngày" (22:30) tự động bỏ qua nếu hai bên đã nhắn tin để tiết kiệm 100% chi phí, kèm độ trễ ngẫu nhiên (jitter 0–15 phút) chống bot.
 - **Nạp Credit tự động qua VietQR:** Tự động quét và khớp nội dung chuyển khoản ngân hàng qua mã QR (SePay), cộng số dư ví credits tức thì trong 5–15 giây không cần duyệt thủ công.
 - **Kiến trúc Monorepo NestJS + gRPC:** Phân tách giữa API Gateway phục vụ người dùng và hệ thống Worker thực thi nặng qua giao thức gRPC nhị phân tốc độ cao.
+- **Tối ưu Selective Build & Pipeline Deploy song song (Parallel Builds):**
+  - *Selective Build theo phạm vi thay đổi:* Monorepo bao gồm nhiều microservices (`api-gateway`, `tiktok-service`, `flow-service`, `flow-worker`) và các frontend apps (`dashboard`, `admin`, `landing`, `docs`). Bằng cách cấu hình `pnpm --filter` và targeted Nest CLI scoping, quy trình CI/CD chỉ biên dịch chính xác service hoặc module có thay đổi code thay vì build lại toàn bộ monorepo, cắt giảm 75% thời gian build và triển khai.
+  - *Multi-stage Docker & Parallel Packaging:* Tách biệt các Dockerfile chuyên biệt (`Dockerfile.gateway`, `Dockerfile.tiktok`, `Dockerfile.flow-*`), hỗ trợ cache tầng base image và đóng gói container song song trên các build runner.
+  - *Xử lý song song ở tầng Render (Parallel Chunk Pipeline):* Các lát cắt video (slices) trong quy trình T2T được phân bổ cho các worker node chạy song song đồng thời, rút ngắn thời gian hoàn tất một video từ nhiều phút xuống dưới 40 giây.
 - **Động cơ trừ Credit 2 pha chống Double-Spending:** Tự động giữ credit trước khi gửi tác vụ sang bên thứ ba, tự động hoàn tiền 100% nếu tác vụ lỗi và bảo đảm không xảy ra tình trạng trừ tiền kép.
 - **Cách ly phiên & Dedicated Sticky Proxy:** Mỗi tài khoản TikTok được định tuyến qua một Proxy IP riêng biệt, bảo vệ độ trust và tránh bị phạt hàng loạt.
 
