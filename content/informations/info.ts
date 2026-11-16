@@ -114,19 +114,22 @@ export function getExperiences(locale: Locale = 'en'): Experience[] {
 
 export const experiences = experiencesEn;
 
+// Years of experience rounded down to the nearest half year (e.g. 3 years 8 months -> 3.5).
+// The site is statically exported, so this is evaluated at build time.
 export function getYearsOfExperience(from: string = baseInfo.careerStartDate): number {
     const [year, month] = from.split("-").map(Number);
-    const start = new Date(year, (month ?? 1) - 1, 1);
     const now = new Date();
-    let years = now.getFullYear() - start.getFullYear();
-    if (now.getMonth() < start.getMonth()) {
-        years -= 1;
-    }
-    return Math.max(0, years);
+    const months = (now.getFullYear() - year) * 12 + (now.getMonth() + 1 - (month ?? 1));
+    return Math.max(0, Math.floor(months / 6) / 2);
+}
+
+// Vietnamese uses a decimal comma: 3.5 -> "3,5".
+function formatYears(years: number, locale: Locale): string {
+    return locale === 'vi' ? String(years).replace('.', ',') : String(years);
 }
 
 export function getAboutDescription(locale: Locale = 'en'): string[] {
-    const years = getYearsOfExperience();
+    const years = formatYears(getYearsOfExperience(), locale);
     if (locale === 'vi') {
         return [
             `Lập trình viên Full-Stack với hơn ${years} năm kinh nghiệm kiến tạo các ứng dụng web thực tế. Nền tảng vững vàng về hệ thống backend, kiến trúc phân tán và phát triển cloud-native với ưu tiên hàng đầu về hiệu năng, độ chịu tải và bảo mật.`,
@@ -192,7 +195,7 @@ export function getSkillGroups(locale: Locale = 'en'): SkillGroup[] {
 export const skillGroups = getSkillGroups('en');
 
 export function getStats(locale: Locale = 'en'): Stat[] {
-    const years = getYearsOfExperience();
+    const years = formatYears(getYearsOfExperience(), locale);
     if (locale === 'vi') {
         return [
             { number: `${years}+`, label: "Năm kinh nghiệm" },
