@@ -32,7 +32,7 @@ export const baseInfo = {
     location: "Dong Da, Hanoi, Vietnam",
     locationVi: "Đống Đa, Hà Nội, Việt Nam",
     socials: {
-        linkedin: "https://www.linkedin.com/in/linh-%C4%91%C3%ACnh-128b7630a/",
+        linkedin: "https://www.linkedin.com/in/dlir2404/",
         facebook: "https://www.facebook.com/Dlir24",
         github: "https://github.com/dlir2404",
     }
