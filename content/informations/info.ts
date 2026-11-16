@@ -52,23 +52,23 @@ export const experiencesEn: Experience[] = [
         role: ["Full Stack Developer", "Business Analyst", "Tester"],
         startDate: "2023-08",
         endDate: "2024-07",
-        summary: "Worked in a 10-member product team as a Full Stack Developer, Business Analyst, and Tester. Designed and developed scalable web applications, collaborated closely with stakeholders, and optimized delivery processes.",
+        summary: "Full Stack Developer, Business Analyst, and Tester in a 10-member product team building VDONE, a social-commerce ecosystem that connects consumers, suppliers, manufacturers, and logistics partners. Built backend APIs and admin portal interfaces, clarified requirements with stakeholders, and tested features across web, iOS, and Android before each release.",
         techStack: ["Next.js", "NestJS", "PostgreSQL", "Jira", "Confluence", "Figma", "Notion"]
     },
     {
         company: "True Platform Vietnam JSC",
         role: ["Full Stack Developer"],
-        startDate: "2024-08",
+        startDate: "2024-07",
         endDate: "2025-09",
-        summary: "Serving as a Full Stack Developer in a 15-member engineering team. Building and maintaining enterprise-grade web applications, integrating complex business logic, and ensuring system scalability and performance.",
-        techStack: ["JavaScript", "PHP", "MySQL", "In-house proprietary framework"]
+        summary: "Full Stack Developer in a 15-member engineering team, building production web applications on the company's in-house PHP and JavaScript framework. Built Socials, a multi-platform publishing tool for Facebook, Instagram, Threads, X, and LinkedIn, with scheduled publishing through background queues and cron workers, full-text search over historical posts with Apache Solr, and a drag-and-drop content calendar built from scratch. Also built Bookmarks and an AI-assisted SEO writing tool.",
+        techStack: ["PHP", "JavaScript", "jQuery", "MySQL", "Apache Solr", "In-house framework"]
     },
     {
         company: "OpenCommerce Group",
         role: ["Full Stack Developer", "Domain Owner"],
         startDate: "2025-10",
         endDate: "Present",
-        summary: "Serving as Development Owner for Analytics & Tracking and CR-Agent (ConvertCore / sbase-ai). Architecting high-throughput real-time event streaming pipelines with Kafka and ClickHouse, engineering AI-powered Conversion Rate Optimization (CRO) agents with Model Context Protocol (MCP), and scaling automated POD AI rendering workflows.",
+        summary: "Development Owner of two e-commerce domains: Analytics & Tracking (a real-time event pipeline on Kafka and ClickHouse) and CR-Agent (an AI conversion-rate-optimization agent built on the Model Context Protocol). Also built the POD AI personalization product end to end, from seller setup and campaign launch to buyer personalization and print fulfillment, through to its production release.",
         techStack: ["Python", "Kafka", "ClickHouse", "Celery", "FastAPI", "Vue.js", "Django", "MCP"]
     }
 ];
@@ -87,23 +87,23 @@ export const experiencesVi: Experience[] = [
         role: ["Lập trình viên Full Stack", "Phân tích nghiệp vụ", "Kiểm thử phần mềm"],
         startDate: "2023-08",
         endDate: "2024-07",
-        summary: "Làm việc trong đội ngũ sản phẩm 10 người với vai trò Full Stack Developer, BA và Tester. Thiết kế và phát triển các hệ thống web tối ưu, cộng tác chặt chẽ với các bên liên quan để đẩy nhanh tiến độ sản phẩm.",
+        summary: "Full Stack Developer, BA và Tester trong đội ngũ sản phẩm 10 người phát triển VDONE, hệ sinh thái thương mại xã hội kết nối người tiêu dùng, nhà cung cấp, nhà sản xuất và đối tác vận chuyển. Xây dựng API backend và giao diện cổng quản trị, làm rõ yêu cầu với các bên liên quan, đồng thời kiểm thử tính năng trên web, iOS và Android trước mỗi lần phát hành.",
         techStack: ["Next.js", "NestJS", "PostgreSQL", "Jira", "Confluence", "Figma", "Notion"]
     },
     {
         company: "Công ty Cổ phần True Platform Việt Nam",
         role: ["Lập trình viên Full Stack"],
-        startDate: "2024-08",
+        startDate: "2024-07",
         endDate: "2025-09",
-        summary: "Đảm nhiệm vị trí Full Stack Developer trong đội ngũ kỹ thuật 15 thành viên. Xây dựng và tối ưu các ứng dụng web cấp doanh nghiệp, tích hợp nghiệp vụ phức tạp, bảo đảm tính sẵn sàng và hiệu năng hệ thống.",
-        techStack: ["JavaScript", "PHP", "MySQL", "In-house proprietary framework"]
+        summary: "Full Stack Developer trong đội ngũ kỹ thuật 15 thành viên, phát triển các ứng dụng web production trên framework PHP và JavaScript nội bộ của công ty. Xây dựng Socials, công cụ đăng bài đa nền tảng cho Facebook, Instagram, Threads, X và LinkedIn, với cơ chế lên lịch đăng qua hàng đợi nền và cron worker, tìm kiếm toàn văn trên kho bài viết bằng Apache Solr, và lịch nội dung kéo thả tự xây dựng từ đầu. Đồng thời phát triển Bookmarks và công cụ hỗ trợ viết bài chuẩn SEO tích hợp AI.",
+        techStack: ["PHP", "JavaScript", "jQuery", "MySQL", "Apache Solr", "In-house framework"]
     },
     {
         company: "OpenCommerce Group",
         role: ["Lập trình viên Full Stack", "Chủ trì kỹ thuật (Domain Owner)"],
         startDate: "2025-10",
         endDate: "Present",
-        summary: "Đảm nhiệm vai trò Chủ trì kỹ thuật (Development Owner) cho mảng Analytics & Tracking và CR-Agent (ConvertCore / sbase-ai). Trực tiếp xây dựng hệ thống streaming sự kiện thời gian thực thông lượng cao với Kafka & ClickHouse, kiến trúc trợ lý AI tối ưu tỷ lệ chuyển đổi (CRO) qua giao thức MCP, và phát triển pipeline render tự động cho sản phẩm POD AI.",
+        summary: "Chủ trì kỹ thuật (Development Owner) của hai mảng e-commerce: Analytics & Tracking (luồng events thời gian thực trên Kafka và ClickHouse) và CR-Agent (trợ lý AI tối ưu tỷ lệ chuyển đổi, xây dựng trên giao thức MCP). Đồng thời tham gia trọn vẹn sản phẩm cá nhân hóa POD AI từ đầu đến cuối, từ setup của seller, lên campaign, buyer cá nhân hóa đến in ấn, cho đến khi lên production.",
         techStack: ["Python", "Kafka", "ClickHouse", "Celery", "FastAPI", "Vue.js", "Django", "MCP"]
     }
 ];

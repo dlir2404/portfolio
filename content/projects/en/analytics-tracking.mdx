@@ -1,8 +1,8 @@
 ---
 title: "Real-Time E-Commerce Analytics & Conversion Tracking Platform"
-summary: "An intuitive real-time tracking and financial analytics solution for online merchants: retains the familiar ShopBase reporting experience while completely redesigning the event pipeline via Backend Hooks and Edge instead of client-side JS SDKs."
+summary: "An intuitive real-time tracking and financial analytics solution for online merchants: retains the familiar ShopBase reporting experience on top of an event pipeline captured via Backend Hooks and Edge instead of client-side JS SDKs."
 image: "/images/projects/analytics-tracking/cover.png"
-publishedAt: "2025-12-01"
+publishedAt: "2026-09-01"
 live: ""
 repo: ""
 category: "Web"
@@ -13,11 +13,11 @@ teamSize: 1
 
 ## Introduction
 
-In modern high-velocity e-commerce, real-time data accuracy is the heartbeat of merchant success. Sellers scaling five-figure daily advertising budgets cannot afford to wait until midnight to determine whether an ad campaign is profitable or bleeding money. They need immediate answers: Exactly how much gross revenue was generated in the last hour? After deducting product costs, shipping, and payment gateway fees, what is the exact **Net Profit** remaining? At which step in the checkout flow are prospective buyers dropping off?
+In e-commerce, timely and accurate data is essential to a merchant's decisions. Sellers running large daily advertising budgets cannot wait until the end of the day to learn whether a campaign is profitable or losing money. They need immediate answers: Exactly how much gross revenue was generated in the last hour? After deducting product costs, shipping, and payment gateway fees, what is the exact **Net Profit** remaining? At which step in the checkout flow are prospective buyers dropping off?
 
 From a merchant-facing perspective, the product experience builds upon the familiar, proven reporting workflow of the earlier ShopBase analytics ecosystem (Profit Dashboards, Funnels, Sales Reports, Live View, and Traffic Sources).
 
-However, transition to the new platform generation required a **complete architectural redesign of the event capture and processing engine**: Instead of relying on traditional client-side JavaScript SDKs (which are prone to browser ad-blockers, tracking prevention, and page-load overhead), the system shifted to direct telemetry capture via **Backend Hooks and Edge infrastructure**. This redesign ensures bulletproof event delivery, zero data loss, and pristine data accuracy while preserving a clean, familiar reporting interface for merchants.
+However, the move to the new platform generation required a **complete redesign of the event capture and processing engine**. Instead of relying on traditional client-side JavaScript SDKs (which are prone to browser ad-blockers, tracking prevention, and page-load overhead), the system shifted to direct telemetry capture via **Backend Hooks and Edge infrastructure**. This design makes event collection more complete and accurate, while preserving the familiar reporting interface for merchants.
 
 <Image
   src="/images/projects/analytics-tracking/cover.png"
@@ -44,7 +44,7 @@ However, transition to the new platform generation required a **complete archite
 
 ### 2. Comprehensive 7-Step Conversion Funnel Tracking
 - Visually maps the shopper journey through each critical conversion milestone:  
-  `View product (VP) ➔ Add to cart (AC) ➔ Reach checkout (RC) ➔ Fill email (FE) ➔ Fill shipping address (FS) ➔ Fill phone (FP) ➔ Purchase (PU)`.
+  `View product (VP) → Add to cart (AC) → Reach checkout (RC) → Fill email (FE) → Fill shipping address (FS) → Fill phone (FP) → Purchase (PU)`.
 - Pinpoints exact step-by-step drop-off rates with granular daily and country breakdowns.
 - Tracks daily conversion rate fluctuations over time (`Conversion rate over time`).
 
@@ -58,7 +58,7 @@ However, transition to the new platform generation required a **complete archite
 ### 3. Traffic Sources & Multi-Touch Attribution
 - Accurately attributes orders to their originating promotional channels: Direct, Referral, Search (Google), or specific paid campaigns.
 - Flexible deep-dive dimensions: group by Channel, UTM Source, UTM Medium, Source / Medium, UTM Campaign, or UTM Term.
-- Empowers merchants to double down on winning campaigns and trim underperforming ad spend with total confidence.
+- Helps merchants allocate budget to the campaigns that generate profit and reduce spending on underperforming ones.
 
 <Image
   src="/images/projects/analytics-tracking/analytics-traffic-sources.png"
@@ -79,16 +79,45 @@ However, transition to the new platform generation required a **complete archite
   ]}
 />
 
+## Architecture: From a Browser SDK to Backend Tracking
+
+### Why Move Away from a Client-Side SDK
+- **Events lost without a trace:** Ad-blockers and browser privacy features such as Safari ITP block tracking requests silently. The loss cannot even be measured from the server side.
+- **Difficult to debug:** When an event is missing, it is impossible to tell whether the SDK never fired, the request was blocked, or the pipeline failed. Server-side capture makes every step traceable.
+- **Duplicated and skipped events:** A browser SDK can fire the same event twice on a double click or a slow network, and it never fires on steps that do not render a page, such as express checkout.
+- **Attribution mix-ups:** UTM parameters stored in browser storage are shared across tabs and sessions, which assigns orders to the wrong campaign.
+- **The edge already has the data:** The load-balancer layer sees the IP, user agent, URL, and UTM parameters of every request, including requests served from cache, which makes it a more reliable source than JavaScript.
+
+### How Events Flow
+1. **Edge capture:** The edge proxy (OpenResty) records page views after the response has been sent, so shoppers never wait for tracking, and assigns the session cookie.
+2. **Backend hooks:** Cart, checkout, and order events are emitted by the commerce backend at the moment the business action happens, exactly once.
+3. **Ingestion:** Events are validated, filtered for bots, rate-limited per shop, and enriched by background workers with location, device, traffic channel, UTM data, and profit. Server-built keys remove duplicates.
+4. **Stream and storage:** Events flow through Kafka into ClickHouse. Materialized views roll them up into minute-level and hour-level tables: the current hour is read from minute tables, history from hour tables.
+5. **Dashboards:** A query API with a short-lived cache serves the reports, and Live View refreshes every 10 seconds.
+
+### Technology Choices
+- **Edge capture instead of a browser beacon:** It cannot be blocked by browser extensions, it also captures cached pages, and running after the response adds no latency for the shopper.
+- **ClickHouse instead of Elasticsearch or PostgreSQL:** A columnar engine built for aggregations and time-series queries. Elasticsearch was not a good fit for time-series analytics and was removed from the design.
+- **Kafka for the event stream:** A durable log that can be replayed. Offsets are committed only after a successful insert, so a failed write is retried instead of lost.
+- **Django and Celery instead of separate Go services:** Enough for the current traffic, with far less operational complexity.
+- **Separate worker pools for CPU-bound and I/O-bound work:** The pipeline is split into two Celery stages with very different workload profiles:
+  - *Enrichment (CPU-bound):* parsing user agents, resolving locations from the local GeoIP database, merging UTM parameters, classifying referrers into traffic channels, and resolving products. These tasks spend their time computing, so their pool is sized to the available CPU cores; adding more concurrency would only add context switching.
+  - *Ingestion (I/O-bound):* deduplication checks in Redis, profit and currency lookups, and inserts into ClickHouse. These tasks spend most of their time waiting on the network, so their pool can run many more tasks at once without overloading the CPU.
+  - Keeping the two stages apart means each pool scales on its own, and a slow database write cannot block parsing, or the other way round. A backlog in one stage stays visible and contained instead of slowing down the whole pipeline.
+- **A local GeoIP database instead of a remote lookup service:** Removes a network hop and a single point of failure.
+- **Redis:** Used for caching, deduplication keys, and per-shop rate limits.
+- **Polling instead of WebSockets for Live View:** Simpler to operate, and sufficient for a 10-second refresh.
+
 ## My Role & Ownership
 
-Serving as the **Sole Development Owner** for the Analytics & Tracking domain:
+Serving as the **Development Owner** of the Analytics & Tracking domain, the single developer accountable for the module end to end:
 
-- **Redesigning the Event Model & Pipeline:** Spearheaded the transition from client-side JS SDK tracking to robust server-side capture using **Backend Hooks and Edge processing**, guaranteeing zero event drops from browser ad-blockers and eliminating tracking script overhead on shopper storefronts.
-- **Resolving Metric Discrepancies:** Headed the forensic investigation into historic reporting discrepancies (such as cross-border timezone skews, duplicate webhook deliveries, and session attribution loss during checkout redirects). Successfully realigned reporting metrics to match real-world bank balances with 100% precision.
-- **High-Traffic Reliability:** Ensured dashboard uptime and sub-second query responsiveness during major global flash sales (Black Friday, Cyber Monday) under tens of millions of concurrent requests.
-- **Quality Engineering & Verification:** Partnered closely with the QE team to author exhaustive test suites, certifying that every financial calculation displayed to merchants is battle-tested against edge cases.
+- **Server-Side Event Pipeline:** Owned the full flow, Backend Hooks and Edge capture → Kafka → ClickHouse → merchant dashboards, so every page view, cart, and order event is recorded on the server without relying on a browser SDK.
+- **Clean Traffic at the Edge:** Page views are captured at the edge layer, which filters out link prefetches and keeps the session stable through checkout, so traffic and funnel numbers reflect real shoppers.
+- **Accurate Revenue & Profit:** Order and profit events flow through background workers into ClickHouse rollups, so each order counts exactly once and every report follows the shop's own timezone.
+- **Attribution & Reporting:** UTM and referrer attribution carries from the first visit through to purchase, powering Traffic Sources, a 7-step conversion funnel, Live View, and Sales Reports by product and by country.
 
 ## Business Impact
 
-- **Rapid Decision-Making:** Sellers can scale profitable ad angles or pause losing ad sets within minutes based on true net profit numbers rather than vanity metrics.
-- **Unshakable Merchant Trust:** Eliminated discrepancies between reported platform metrics and actual banking payouts, establishing foundational trust for the entire e-commerce ecosystem.
+- **Rapid Decision-Making:** Sellers can scale profitable ad angles or pause losing ad sets within minutes, based on true net profit numbers rather than vanity metrics.
+- **Trustworthy Reporting:** Revenue, profit, and attribution are computed from server-side events, so merchants can rely on the dashboard instead of reconciling it by hand.

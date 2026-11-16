@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 680" width="1280" height="680" role="img" aria-labelledby="t d">
+  <title id="t">StackVid CI/CD pipeline</title>
+  <desc id="d">Every push to main runs a build and migration gate, detects which services changed since the last successful deploy, builds only those Docker images and Cloudflare Pages frontends in parallel, deploys to Docker Swarm with a rolling update, then marks the commit as deployed.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b"/>
+    </marker>
+    <style>
+      .card { fill: #131c2e; stroke: #263247; stroke-width: 1.5; }
+      .label { font: 600 12px ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; letter-spacing: 1.2px; }
+      .title { font: 700 17px ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; fill: #f1f5f9; }
+      .body { font: 400 14px ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; fill: #a8b3c4; }
+      .note { font: 400 13px ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; fill: #8492a6; font-style: italic; }
+      .mono { font: 500 13.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #d5dde8; }
+      .flow { stroke: #64748b; stroke-width: 2; fill: none; }
+      .loop { stroke: #34d399; stroke-width: 2; fill: none; stroke-dasharray: 6 6; }
+    </style>
+  </defs>
+
+  <rect width="1280" height="680" rx="20" fill="#0b1220"/>
+
+  <text x="40" y="58" style="font: 700 26px ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; fill: #f8fafc;">StackVid CI/CD pipeline</text>
+  <text x="40" y="88" class="body">GitHub Actions → Docker Swarm + Cloudflare Pages, on every push to main</text>
+
+  <!-- Local pre-push hook -->
+  <rect class="card" x="40" y="130" width="150" height="110" rx="12"/>
+  <text x="58" y="158" class="label" fill="#94a3b8">LOCAL</text>
+  <text x="58" y="184" class="title">Pre-push hook</text>
+  <text x="58" y="208" class="body">Full Jest suite</text>
+  <text x="58" y="228" class="body">(~1,100 tests)</text>
+
+  <!-- Trigger -->
+  <rect class="card" x="40" y="280" width="150" height="90" rx="12"/>
+  <text x="58" y="308" class="label" fill="#94a3b8">TRIGGER</text>
+  <text x="58" y="334" class="title">git push</text>
+  <text x="58" y="356" class="body">to main</text>
+
+  <!-- Step 1: Gate -->
+  <g transform="translate(0,-10)">
+  <rect class="card" x="230" y="130" width="220" height="360" rx="12"/>
+  <rect x="244" y="130" width="192" height="4" rx="2" fill="#f59e0b"/>
+  <text x="250" y="162" class="label" fill="#f59e0b">STEP 1</text>
+  <text x="250" y="188" class="title">Build &amp; migration gate</text>
+  <text x="250" y="226" class="body">Throwaway Postgres</text>
+  <text x="250" y="256" class="mono">prisma migrate deploy</text>
+  <text x="250" y="286" class="body">Schema-drift check</text>
+  <text x="250" y="316" class="mono">pnpm build:all</text>
+  <text x="250" y="346" class="mono">pnpm build:frontend</text>
+  <line x1="250" y1="380" x2="430" y2="380" stroke="#263247" stroke-width="1.5"/>
+  <text x="250" y="410" class="note">A broken migration fails</text>
+  <text x="250" y="430" class="note">here, not in production.</text>
+  </g>
+
+  <!-- Step 2: Detect changes -->
+  <g transform="translate(0,-10)">
+  <rect class="card" x="490" y="130" width="210" height="360" rx="12"/>
+  <rect x="504" y="130" width="182" height="4" rx="2" fill="#38bdf8"/>
+  <text x="510" y="162" class="label" fill="#38bdf8">STEP 2</text>
+  <text x="510" y="188" class="title">Detect changes</text>
+  <text x="510" y="226" class="body">Diff against the</text>
+  <text x="510" y="248" class="mono">deployed-main</text>
+  <text x="510" y="270" class="body">tag, not the last push</text>
+  <text x="510" y="306" class="body">Path rules per service</text>
+  <text x="510" y="342" class="body">Infra or workflow change</text>
+  <text x="510" y="364" class="body">→ rebuild everything</text>
+  <line x1="510" y1="380" x2="680" y2="380" stroke="#263247" stroke-width="1.5"/>
+  <text x="510" y="410" class="note">Only changed services</text>
+  <text x="510" y="430" class="note">are rebuilt.</text>
+  </g>
+
+  <!-- Step 3a: Docker images -->
+  <rect class="card" x="740" y="120" width="230" height="290" rx="12"/>
+  <rect x="754" y="120" width="202" height="4" rx="2" fill="#a78bfa"/>
+  <text x="760" y="152" class="label" fill="#a78bfa">STEP 3A</text>
+  <text x="760" y="178" class="title">Docker images</text>
+  <text x="760" y="200" class="body">built in parallel</text>
+  <text x="760" y="232" class="mono">api-gateway</text>
+  <text x="760" y="256" class="mono">tiktok-service</text>
+  <text x="760" y="280" class="mono">flow-service</text>
+  <text x="760" y="304" class="mono">flow-worker</text>
+  <text x="760" y="328" class="mono">media-engine</text>
+  <text x="760" y="352" class="mono">web-router</text>
+  <text x="760" y="376" class="mono">headless-runner</text>
+  <text x="760" y="398" class="note">Layer cache per service</text>
+
+  <!-- Step 3b: Cloudflare Pages -->
+  <rect class="card" x="740" y="440" width="230" height="170" rx="12"/>
+  <rect x="754" y="440" width="202" height="4" rx="2" fill="#fb923c"/>
+  <text x="760" y="472" class="label" fill="#fb923c">STEP 3B</text>
+  <text x="760" y="498" class="title">Cloudflare Pages</text>
+  <text x="760" y="530" class="mono">dashboard</text>
+  <text x="760" y="554" class="mono">admin</text>
+  <text x="760" y="578" class="mono">landing</text>
+  <text x="760" y="602" class="mono" dy="-2">docs</text>
+
+  <!-- Step 4: Deploy -->
+  <rect class="card" x="1010" y="120" width="230" height="290" rx="12"/>
+  <rect x="1024" y="120" width="202" height="4" rx="2" fill="#34d399"/>
+  <text x="1030" y="152" class="label" fill="#34d399">STEP 4</text>
+  <text x="1030" y="178" class="title">Deploy to Swarm</text>
+  <text x="1030" y="216" class="body">1. Migration task</text>
+  <text x="1030" y="246" class="body">2. Rolling update</text>
+  <text x="1030" y="276" class="body">3. Rollback check</text>
+  <line x1="1030" y1="300" x2="1220" y2="300" stroke="#263247" stroke-width="1.5"/>
+  <text x="1030" y="330" class="note">Deploys queue one at a</text>
+  <text x="1030" y="350" class="note">time; a running rollout</text>
+  <text x="1030" y="370" class="note">is never cancelled.</text>
+
+  <!-- Step 5: Mark deployed -->
+  <rect class="card" x="1010" y="440" width="230" height="170" rx="12"/>
+  <rect x="1024" y="440" width="202" height="4" rx="2" fill="#34d399"/>
+  <text x="1030" y="472" class="label" fill="#34d399">STEP 5</text>
+  <text x="1030" y="498" class="title">Mark deployed</text>
+  <text x="1030" y="532" class="body">Moves the</text>
+  <text x="1030" y="554" class="mono">deployed-main</text>
+  <text x="1030" y="576" class="body">tag to this commit</text>
+
+  <!-- Flow arrows -->
+  <line class="flow" x1="115" y1="240" x2="115" y2="276" marker-end="url(#arrow)"/>
+  <line class="flow" x1="190" y1="325" x2="226" y2="325" marker-end="url(#arrow)"/>
+  <line class="flow" x1="450" y1="310" x2="486" y2="310" marker-end="url(#arrow)"/>
+  <path class="flow" d="M700,290 C720,290 718,265 736,265" marker-end="url(#arrow)"/>
+  <path class="flow" d="M700,330 C724,330 712,525 736,525" marker-end="url(#arrow)"/>
+  <line class="flow" x1="970" y1="265" x2="1006" y2="265" marker-end="url(#arrow)"/>
+  <line class="flow" x1="1125" y1="410" x2="1125" y2="436" marker-end="url(#arrow)"/>
+  <line class="flow" x1="970" y1="525" x2="1006" y2="525" marker-end="url(#arrow)"/>
+
+  <!-- Feedback loop: next push diffs from the deployed tag -->
+  <path class="loop" d="M1125,610 L1125,640 L595,640 L595,484" marker-end="url(#arrow)"/>
+  <text x="620" y="630" class="note" style="fill:#34d399;">Next push diffs from the last successful deploy</text>
+</svg>

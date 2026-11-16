@@ -1,6 +1,6 @@
 ---
 title: "StackVid – Nền tảng AI Video & Tự động hóa phân phối TikTok Shop"
-summary: "Nền tảng AI Video thế hệ mới: tự động cào video đối thủ có gắn giỏ hàng, tái tạo video qua pipeline AI T2T (thay đổi nhân vật, bối cảnh, lồng tiếng nhưng giữ nguyên sản phẩm bán để triệt tiêu trùng lặp) và tự động đăng bài gắn giỏ hàng TikTok Shop."
+summary: "Nền tảng AI video cho người bán trên TikTok Shop: tạo video mới có người dẫn và kịch bản bán hàng mới từ một video tham chiếu, giữ chính xác hình ảnh sản phẩm, sau đó lên lịch đăng kèm liên kết sản phẩm của shop. Xây dựng trên kiến trúc microservices NestJS và gRPC, render song song và quy trình CI/CD tự động."
 image: "/images/projects/stackvid/cover.png"
 publishedAt: "2026-03-01"
 live: ""
@@ -13,72 +13,69 @@ teamSize: 1
 
 ## Giới thiệu
 
-Trong thương mại điện tử qua video ngắn (TikTok Shop, Affiliate Marketing), nội dung video chính là nguồn sống của doanh thu. Các nhà bán hàng và đội ngũ sáng tạo nội dung đều đối mặt với bài toán nan giải:
-- Tự quay dựng từ đầu mất quá nhiều thời gian, chi phí thuê mẫu và setup studio đắt đỏ.
-- Tìm thấy video bán chạy của đối thủ nhưng nếu tải về re-up nguyên xi sẽ ngay lập tức bị thuật toán TikTok phạt lỗi **Trùng lặp nội dung (Duplicate Content)**, khiến video bị bóp lượt xem về 0 view, thậm chí bị khóa kênh.
+Trong thương mại điện tử qua video ngắn (TikTok Shop và tiếp thị liên kết), người bán cần một nguồn video sản phẩm liên tục, nhưng mỗi video đều đòi hỏi người dẫn, studio và thời gian dựng.
 
-**StackVid** ra đời như một hệ sinh thái tự động hóa khép kín: khai thác các video có gắn giỏ hàng chuyển đổi cao của đối thủ, đưa qua **Pipeline AI T2T (TikTok-to-TikTok / Video-to-Video)** để biến đổi thành một video hoàn toàn mới (thay diễn viên, bối cảnh, lời thoại mới khớp khẩu hình) nhưng **giữ nguyên 100% trang phục/sản phẩm đang bán**, sau đó tự động đăng tải kèm thẻ giỏ hàng TikTok Shop.
+**StackVid** tự động hóa khâu sản xuất này. Từ một video tham chiếu về sản phẩm, **pipeline AI T2T (Video-to-Video)** tạo ra một video mới với người dẫn khác, bối cảnh mới và kịch bản mới, đồng thời **giữ chính xác hình ảnh sản phẩm** đúng như món hàng người mua sẽ nhận. Sau đó, nền tảng lên lịch đăng video hoàn chỉnh kèm liên kết sản phẩm TikTok Shop.
 
 <Image
   src="/images/projects/stackvid/cover.png"
-  alt="Giao diện trung tâm StackVid Dashboard Overview"
+  alt="Tổng quan dashboard StackVid"
   width={1920}
   height={1080}
   className="w-full h-auto rounded-xl"
 />
 
-## Trọng tâm cốt lõi: Pipeline AI Video T2T & Tự động hóa TikTok Shop
+## Luồng sản phẩm
 
-### 1. Quét kênh đối thủ & Bóc tách video có gắn giỏ hàng TikTok Shop
-- **Khai thác danh mục sản phẩm (Showcase Telemetry):** Hệ thống tự động theo dõi các kênh đối thủ tiềm năng (ví dụ `@sieu.tichcuc`), liên tục cập nhật danh sách video mới.
-- **Nhận diện chính xác giỏ hàng:** Tự động phát hiện và phân loại các video có đính kèm thẻ sản phẩm e-commerce (ví dụ `Anchor Product #867635`) so với các video thường không gắn giỏ hàng.
-- **Trích xuất dữ liệu gốc:** Tải video sạch không logo watermark, phân tích chỉ số tương tác (views, likes) và bóc tách toàn bộ bản phụ đề lời thoại gốc (WebVTT transcript) để làm dữ liệu đầu vào cho AI.
+### 1. Tiếp nhận video tham chiếu
+- **Kênh nguồn:** Người bán chọn các kênh cần theo dõi, nền tảng tự động cập nhật video mới của các kênh này.
+- **Nhận diện video sản phẩm:** Video có gắn liên kết sản phẩm TikTok Shop được tách riêng khỏi các bài đăng thông thường, chỉ nội dung sản phẩm mới được đưa vào pipeline.
+- **Trích xuất dữ liệu đầu vào:** Với mỗi video, nền tảng thu thập chỉ số tương tác và bản phụ đề lời thoại (WebVTT) làm đầu vào cho bước tạo kịch bản.
 
 <Image
   src="/images/projects/stackvid/t2t-crawl-showcase-queue.png"
-  alt="Danh sách quét kênh đối thủ phân loại video có giỏ hàng e-commerce và không gắn giỏ hàng"
+  alt="Hàng đợi video tham chiếu được phân loại theo liên kết sản phẩm"
   width={1920}
   height={1080}
   className="w-full h-auto rounded-xl"
 />
 
-### 2. Kỹ thuật Master Anchor & Giữ nguyên trang phục bán (Garment Preservation)
-Để video sau khi tái tạo triệt tiêu 100% thuật toán nhận diện trùng lặp của TikTok, pipeline áp dụng kiến trúc **Master Anchor**:
-- **Thay đổi nhân vật & bối cảnh:** Thay thế toàn bộ khuôn mặt, dáng người và bối cảnh quay phòng ngủ/ngoài trời lộn xộn của clip gốc bằng một nhân vật chỉ định (ví dụ persona `Nhân vật: Dũng`) trong bối cảnh studio tối giản sang trọng.
-- **Bảo toàn sản phẩm bán (Strict Garment Constraint):** AI nhận diện chính xác trang phục của đối thủ và khóa chặt thuộc tính sản phẩm (`washed blue denim jacket, regular fit, metal buttons, chest flap pockets... - Giữ nguyên trang phục bán`), bảo đảm từ chất liệu vải jean, cúc áo, đường may đến túi áo đều giữ nguyên hiện trạng thật để khách nhận đúng hàng.
+### 2. Tạo video giữ đúng sản phẩm (Master Anchor)
+- **Người dẫn và bối cảnh mới:** Mỗi video được tạo với một nhân vật số (digital persona) được chỉ định, trong bối cảnh studio gọn gàng.
+- **Ràng buộc chặt chẽ về sản phẩm:** AI nhận diện sản phẩm và cố định đặc điểm của nó trong prompt sinh video (ví dụ *"washed blue denim jacket, regular fit, metal buttons, chest flap pockets; keep product unchanged"*). Chất liệu, màu sắc, cúc áo và túi áo được giữ đúng như món hàng người mua thực sự nhận được.
 
 <Image
   src="/images/projects/stackvid/t2t-master-anchor-pipeline.png"
-  alt="Giao diện thiết lập Master Anchor: Video gốc đối chiếu Nhân vật Dũng và prompt giữ nguyên trang phục"
+  alt="Thiết lập Master Anchor: khung hình nguồn và nhân vật được tạo kèm prompt giữ nguyên sản phẩm"
   width={1920}
   height={1080}
   className="w-full h-auto rounded-xl"
 />
 
-### 3. Tái cấu trúc kịch bản AI & Khớp khẩu hình tự nhiên (Lip-sync Engine)
-- **Công thức bán hàng 5 phân đoạn:** Hệ thống tự động chia video thành các lát cắt ngữ nghĩa (`#0 HOOK ➔ #1 FEATURE ➔ #2 FEATURE ➔ #3 BENEFIT ➔ #4 CTA`), viết lại lời thoại tiếp thị mới mẻ, thu hút hơn nhưng vẫn truyền tải trọn vẹn điểm mạnh của sản phẩm.
-- **Chuẩn hóa mật độ từ theo nhịp đọc:** Kịch bản mới được tự động khống chế trong khoảng **25–36 từ mỗi chunk**, khớp chính xác với thời lượng từng phân đoạn (ví dụ 10 giây = 240 khung hình) để khẩu hình khi lồng tiếng ăn khớp tự nhiên với cử động môi của nhân vật AI.
+### 3. Tạo kịch bản và căn nhịp khớp khẩu hình
+- **Cấu trúc bán hàng 5 phân đoạn:** Kịch bản theo cấu trúc direct-response (`#0 HOOK → #1 FEATURE → #2 FEATURE → #3 BENEFIT → #4 CTA`) và được viết mới theo các lợi ích chính của sản phẩm.
+- **Kiểm soát nhịp lời thoại:** Mỗi phân đoạn giới hạn **25–36 từ**, tương ứng độ dài một đoạn video 10 giây (240 khung hình ở 24 fps), để giọng đọc được tạo ra khớp với khẩu hình của người dẫn.
 
 <Image
   src="/images/projects/stackvid/t2t-script-slices-consistency.png"
-  alt="Đối chiếu lời thoại gốc vs kịch bản AI biến đổi và bảng phân đoạn đo lường độ đồng nhất"
+  alt="Các phân đoạn kịch bản và bảng đánh giá độ nhất quán từng phân đoạn"
   width={1920}
   height={1080}
   className="w-full h-auto rounded-xl"
 />
 
-### 4. Đánh giá độ đồng nhất & Video thành phẩm thực tế
-- **Chấm điểm kiểm soát chất lượng:** Mỗi lát cắt render đều được hệ thống tính toán chỉ số đồng nhất: độ đồng nhất khuôn mặt (`Mặt: 78%`) và độ đồng nhất trang phục (`Áo: 80%`).
-- **Tự động ghép nối & Remix âm thanh:** Sau khi cả 5 phân đoạn hoàn tất, hệ thống tự động nối các lát cắt thành một video dọc 9:16 liền mạch và remix với âm thanh lồng tiếng chuẩn nhịp điệu tiếng Việt.
+### 4. Chấm điểm chất lượng và ghép video hoàn chỉnh
+- **Kiểm tra chất lượng tự động:** Mỗi phân đoạn sau khi render được chấm điểm độ nhất quán của khuôn mặt và của sản phẩm trước khi được chấp nhận.
+- **Ghép video:** Các phân đoạn hoàn chỉnh được ghép thành một video dọc 9:16 với bản âm thanh lồng tiếng Việt.
 
 <Video
   src="/images/projects/stackvid/final_1e50c513-f93e-4bf2-bf8e-a132fb5a1dfe.mp4"
-  caption="Video thực tế xuất ra từ pipeline T2T: thay thế diễn viên Dũng, bối cảnh studio mới, lồng tiếng mới nhưng giữ nguyên sản phẩm áo khoác denim của đối thủ."
+  caption="Video do pipeline T2T tạo ra: người dẫn được tạo bằng AI, bối cảnh studio và lời thoại mới, sản phẩm áo khoác denim được giữ nguyên."
 />
 
-### 5. Tự động đăng video gắn giỏ hàng TikTok Shop theo lịch
-- **Cơ chế Watch tự động (Autonomous Factory):** Người dùng chỉ cần bật chế độ theo dõi kênh (`Watch: BẬT`), toàn bộ video mới phát sinh từ kênh nguồn sẽ tự động được đưa vào hàng đợi xử lý.
-- **Đăng bài gắn giỏ hàng tự động:** Hệ thống tự động canh khung giờ vàng (`08:00 - 22:30`) để xuất bản video thành phẩm lên kênh bán hàng chỉ định (ví dụ `Thời trang Kudo`), đồng thời tự động đính kèm thẻ sản phẩm TikTok Shop (Anchor Showcase) phục vụ tiếp thị liên kết hoàn toàn tự động.
+### 5. Lên lịch đăng kèm liên kết sản phẩm
+- **Chế độ theo dõi (Watch mode):** Khi bật, video mới từ các kênh nguồn đã chọn tự động được đưa vào hàng đợi xử lý.
+- **Đăng bài:** Video hoàn chỉnh được đăng trong khung giờ đã cấu hình (`08:00 – 22:30`) lên kênh của chính người bán, kèm liên kết sản phẩm TikTok Shop.
 
 <Carousel
   images={[
@@ -88,20 +85,29 @@ Trong thương mại điện tử qua video ngắn (TikTok Shop, Affiliate Marke
   ]}
 />
 
-## Các tính năng phụ trợ & Nền tảng hạ tầng
+## Điểm nhấn kỹ thuật
 
-Bên cạnh cỗ máy T2T cốt lõi, StackVid được trang bị các module bổ trợ phục vụ vận hành đa tài khoản an toàn:
+- **Monorepo NestJS với microservices gRPC:** API gateway công khai được tách khỏi các worker xử lý nặng thông qua gRPC. Các service gồm API gateway, service tích hợp TikTok, flow service và các worker, media engine viết bằng Rust và headless runner.
+- **Render song song theo phân đoạn:** Mỗi video nguồn được cắt thành các đoạn 10 giây, mỗi đoạn là một tác vụ độc lập có thể render trên bất kỳ runner nào đang rảnh. Đoạn nào lỗi sẽ được chạy lại trên runner khác, và video hoàn chỉnh được ghép lại khi tất cả các đoạn đã xong.
+- **Cơ chế trừ credit hai pha:** Credit được giữ trước bằng một lệnh trừ SQL nguyên tử trước khi gửi tác vụ sang nhà cung cấp AI bên thứ ba, sau đó được xác nhận khi thành công hoặc hoàn lại toàn bộ khi thất bại, bảo đảm không xảy ra trừ tiền hai lần.
+- **Thanh toán tự động:** Chuyển khoản ngân hàng qua VietQR (SePay) được đối soát tự động và cộng vào ví của người dùng trong 5–15 giây, không cần duyệt thủ công.
+- **Build chọn lọc và triển khai an toàn:** Quy trình CI/CD so sánh mỗi lần push với lần triển khai thành công gần nhất và chỉ build lại những service có thay đổi. Một bước kiểm tra migration chạy toàn bộ migration trên cơ sở dữ liệu tạm trước, để migration lỗi bị chặn ngay ở bước build thay vì khi triển khai lên production. Các Docker image được build song song với cache theo layer, và bản cập nhật production được triển khai qua Docker Swarm.
 
-- **Giữ chuỗi nhắn tin TikTok (Streak Keeper):** Tự động gửi tin nhắn hàng ngày giữa các tài khoản để nuôi tương tác và duy trì ngọn lửa chuỗi (`🔥`). Cơ chế thông minh "Cứu cuối ngày" (22:30) tự động bỏ qua nếu hai bên đã nhắn tin để tiết kiệm 100% chi phí, kèm độ trễ ngẫu nhiên (jitter 0–15 phút) chống bot.
-- **Nạp Credit tự động qua VietQR:** Tự động quét và khớp nội dung chuyển khoản ngân hàng qua mã QR (SePay), cộng số dư ví credits tức thì trong 5–15 giây không cần duyệt thủ công.
-- **Kiến trúc Monorepo NestJS + gRPC:** Phân tách giữa API Gateway phục vụ người dùng và hệ thống Worker thực thi nặng qua giao thức gRPC nhị phân tốc độ cao.
-- **Tối ưu Selective Build & Pipeline Deploy song song (Parallel Builds):**
-  - *Selective Build theo phạm vi thay đổi:* Monorepo bao gồm nhiều microservices (`api-gateway`, `tiktok-service`, `flow-service`, `flow-worker`) và các frontend apps (`dashboard`, `admin`, `landing`, `docs`). Bằng cách cấu hình `pnpm --filter` và targeted Nest CLI scoping, quy trình CI/CD chỉ biên dịch chính xác service hoặc module có thay đổi code thay vì build lại toàn bộ monorepo, cắt giảm 75% thời gian build và triển khai.
-  - *Multi-stage Docker & Parallel Packaging:* Tách biệt các Dockerfile chuyên biệt (`Dockerfile.gateway`, `Dockerfile.tiktok`, `Dockerfile.flow-*`), hỗ trợ cache tầng base image và đóng gói container song song trên các build runner.
-  - *Xử lý song song ở tầng Render (Parallel Chunk Pipeline):* Các lát cắt video (slices) trong quy trình T2T được phân bổ cho các worker node chạy song song đồng thời, rút ngắn thời gian hoàn tất một video từ nhiều phút xuống dưới 40 giây.
-- **Động cơ trừ Credit 2 pha chống Double-Spending:** Tự động giữ credit trước khi gửi tác vụ sang bên thứ ba, tự động hoàn tiền 100% nếu tác vụ lỗi và bảo đảm không xảy ra tình trạng trừ tiền kép.
-- **Cách ly phiên & Dedicated Sticky Proxy:** Mỗi tài khoản TikTok được định tuyến qua một Proxy IP riêng biệt, bảo vệ độ trust và tránh bị phạt hàng loạt.
+Quy trình triển khai dưới đây chạy trên mỗi lần push lên nhánh `main`:
+
+<Image
+  src="/images/projects/stackvid/cicd-pipeline.svg"
+  alt="Quy trình CI/CD của StackVid: kiểm tra build và migration, phát hiện thay đổi, build song song image và frontend, triển khai Docker Swarm và đánh dấu bản đã triển khai"
+  width={1280}
+  height={680}
+  className="w-full h-auto rounded-xl"
+/>
+
+## Tính năng hỗ trợ
+
+- **Quản lý tài khoản:** Mỗi tài khoản TikTok được kết nối chạy trong một phiên làm việc riêng biệt.
+- **Streak Keeper:** Gửi tin nhắn theo lịch hằng ngày giữa các tài khoản của chính người bán để duy trì chuỗi tương tác (streak), và bỏ qua lượt gửi nếu các tài khoản đã tương tác trong ngày.
 
 ## Vai trò trong dự án
 
-- **Tác giả duy nhất (Sole Creator & Owner):** Trực tiếp thiết kế toàn bộ ý tưởng nghiệp vụ, xây dựng pipeline biến đổi AI Video T2T, thuật toán Master Anchor bảo toàn trang phục, hệ thống tự động gắn giỏ hàng TikTok Shop, và hoàn thiện toàn bộ frontend dashboard.
+- **Tác giả duy nhất (Sole Creator & Architecture Owner):** Lên ý tưởng và xây dựng toàn bộ sản phẩm, từ nghiên cứu thị trường, pipeline video T2T, cơ chế sinh video giữ đúng sản phẩm, đăng bài lên TikTok Shop, hệ thống thanh toán, quy trình CI/CD đến toàn bộ giao diện quản trị.

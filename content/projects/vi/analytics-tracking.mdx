@@ -2,7 +2,7 @@
 title: "Hệ thống Analytics & Tracking thời gian thực cho nền tảng E-Commerce"
 summary: "Giải pháp theo dõi chuyển đổi và phân tích tài chính thời gian thực cho người bán hàng online: kế thừa giao diện ShopBase quen thuộc nhưng được thiết kế lại toàn bộ hệ thống events qua Backend Hooks và Edge thay vì JS SDK."
 image: "/images/projects/analytics-tracking/cover.png"
-publishedAt: "2025-12-01"
+publishedAt: "2026-09-01"
 live: ""
 repo: ""
 category: "Web"
@@ -13,11 +13,11 @@ teamSize: 1
 
 ## Giới thiệu
 
-Trong kinh doanh thương mại điện tử, tốc độ và sự chính xác của số liệu là yếu tố sống còn. Một nhà bán hàng chạy quảng cáo hàng chục nghìn đô mỗi ngày không thể đợi đến cuối ngày mới biết chiến dịch nào đang sinh lời hay lỗ. Họ cần biết chính xác ngay lập tức: Doanh thu thực tế từng phút là bao nhiêu? Sau khi trừ giá vốn, tiền ship, phí cổng thanh toán thì **Lợi nhuận ròng (Net Profit)** còn lại bao nhiêu? Khách hàng đang bỏ giỏ hàng ở bước nào?
+Trong kinh doanh thương mại điện tử, tốc độ và độ chính xác của số liệu có vai trò quyết định. Một nhà bán hàng chạy quảng cáo hàng chục nghìn đô mỗi ngày không thể đợi đến cuối ngày mới biết chiến dịch nào đang sinh lời hay lỗ. Họ cần biết chính xác ngay lập tức: Doanh thu thực tế từng phút là bao nhiêu? Sau khi trừ giá vốn, tiền ship, phí cổng thanh toán thì **Lợi nhuận ròng (Net Profit)** còn lại bao nhiêu? Khách hàng đang bỏ giỏ hàng ở bước nào?
 
 Về mặt tính năng và giao diện cho người bán, giải pháp **Analytics & Tracking** này về cơ bản kế thừa trải nghiệm quen thuộc của hệ thống ShopBase trước đây (bảng điều khiển lợi nhuận, phễu chuyển đổi, báo cáo bán hàng, Live View và nguồn lưu lượng). 
 
-Tuy nhiên, khi bước sang phiên bản nền tảng mới, **toàn bộ hệ thống sự kiện (events) và quy trình xử lý events đã được thiết kế lại hoàn toàn**: Thay vì phụ thuộc vào thư viện JavaScript SDK chạy trên trình duyệt người dùng (vốn dễ bị chặn bởi các trình chặn quảng cáo ad-blocker hoặc làm chậm trang), hệ thống chuyển sang mô hình theo dõi trực tiếp qua **Edge và Backend Hooks**. Sự thay đổi này giúp dữ liệu thu thập được trọn vẹn, độ chính xác cao và an toàn tuyệt đối.
+Tuy nhiên, khi bước sang phiên bản nền tảng mới, **toàn bộ hệ thống sự kiện (events) và quy trình xử lý events đã được thiết kế lại**. Thay vì phụ thuộc vào thư viện JavaScript SDK chạy trên trình duyệt người dùng (vốn dễ bị chặn bởi các trình chặn quảng cáo ad-blocker hoặc làm chậm trang), hệ thống chuyển sang mô hình theo dõi trực tiếp qua **Edge và Backend Hooks**. Thiết kế này giúp dữ liệu được thu thập đầy đủ và chính xác hơn.
 
 <Image
   src="/images/projects/analytics-tracking/cover.png"
@@ -44,7 +44,7 @@ Tuy nhiên, khi bước sang phiên bản nền tảng mới, **toàn bộ hệ 
 
 ### 2. Theo dõi chi tiết Phễu chuyển đổi 7 bước (7-Step Conversion Funnel)
 - Trực quan hóa toàn bộ hành trình của khách mua hàng qua từng nấc thanh toán chi tiết:  
-  `View product (VP) ➔ Add to cart (AC) ➔ Reach checkout (RC) ➔ Fill email (FE) ➔ Fill shipping address (FS) ➔ Fill phone (FP) ➔ Purchase (PU)`.
+  `View product (VP) → Add to cart (AC) → Reach checkout (RC) → Fill email (FE) → Fill shipping address (FS) → Fill phone (FP) → Purchase (PU)`.
 - Chỉ rõ tỷ lệ rơi rụng (drop-off rate) ở từng bước, kèm bảng thống kê chi tiết theo ngày và quốc gia để merchant nhận biết ngay khâu nào cần tối ưu.
 - Theo dõi biến động tỷ lệ chuyển đổi (Conversion Rate over time) liên tục theo từng ngày.
 
@@ -79,16 +79,45 @@ Tuy nhiên, khi bước sang phiên bản nền tảng mới, **toàn bộ hệ 
   ]}
 />
 
-## Vai trò của mình trong dự án
+## Kiến trúc: Từ SDK trên trình duyệt sang tracking phía backend
 
-Với vai trò **Chủ trì kỹ thuật duy nhất (Sole Owner)** của mảng Analytics & Tracking:
+### Lý do không dùng SDK phía client
+- **Mất event mà không truy vết được:** Trình chặn quảng cáo và các cơ chế bảo vệ quyền riêng tư của trình duyệt như Safari ITP âm thầm chặn request tracking. Tỷ lệ mất event thậm chí không thể đo được từ phía server.
+- **Khó gỡ lỗi:** Khi thiếu event, không thể biết SDK không gửi, request bị chặn hay pipeline gặp lỗi. Ghi nhận phía server cho phép truy vết từng bước.
+- **Event bị trùng hoặc bị bỏ sót:** SDK có thể gửi cùng một event hai lần khi người dùng bấm liên tục hoặc mạng chậm, và không gửi event ở những bước không hiển thị trang, như thanh toán nhanh (express checkout).
+- **Ghi nhận nguồn bị nhầm lẫn:** Tham số UTM lưu trong bộ nhớ trình duyệt bị dùng chung giữa nhiều tab và nhiều phiên, khiến đơn hàng bị gán sai chiến dịch.
+- **Tầng Edge đã có sẵn dữ liệu:** Tầng cân bằng tải nhìn thấy IP, User-Agent, URL và tham số UTM của mọi request, kể cả request được trả từ cache, nên là nguồn dữ liệu đáng tin cậy hơn JavaScript.
 
-- **Thiết kế lại toàn bộ hệ thống events và luồng xử lý events mới:** Chuyển đổi mô hình tracking từ JavaScript SDK truyền thống phía client sang cơ chế ghi nhận qua **Backend Hooks và Edge**, bảo đảm dữ liệu được ghi nhận trọn vẹn, không bị chặn bởi ad-blocker và hoàn toàn không gây ảnh hưởng đến tốc độ tải trang của người mua.
-- **Giải quyết triệt để các bài toán sai lệch số liệu:** Trực tiếp phân tích và khắc phục các trường hợp lệch dữ liệu (như lệch múi giờ quốc tế, sự kiện gửi trùng lặp, hoặc mất dấu phiên người dùng khi chuyển hướng sang cổng thanh toán), đưa số liệu báo cáo đạt độ tin cậy và ăn khớp 100% với dòng tiền thực tế.
-- **Bảo đảm độ tin cậy trong các đợt cao điểm mua sắm:** Giữ vững sự ổn định và tốc độ phản hồi tức thì của toàn bộ bảng điều khiển analytics khi lưu lượng truy cập tăng vọt gấp nhiều lần.
-- **Phối hợp nghiệm thu chất lượng cùng đội ngũ QE:** Xây dựng các kịch bản kiểm thử toàn diện, bảo đảm mọi chỉ số tài chính hiển thị đến tay người bán đều được bảo chứng qua kiểm thử thực tế.
+### Luồng xử lý events
+1. **Ghi nhận tại Edge:** Edge proxy (OpenResty) ghi nhận lượt xem trang sau khi response đã được gửi, nên người mua không phải chờ tracking, đồng thời gán cookie phiên.
+2. **Backend hooks:** Các sự kiện giỏ hàng, thanh toán và đơn hàng được phát ra từ backend đúng thời điểm nghiệp vụ xảy ra, và chỉ đúng một lần.
+3. **Tiếp nhận:** Event được kiểm tra hợp lệ, lọc bot, giới hạn tần suất theo từng shop, rồi được worker nền bổ sung vị trí, thiết bị, kênh traffic, UTM và lợi nhuận. Khóa chống trùng do server tạo giúp loại bỏ event lặp.
+4. **Luồng dữ liệu và lưu trữ:** Event đi qua Kafka vào ClickHouse. Materialized view tổng hợp dữ liệu vào các bảng theo phút và theo giờ: giờ hiện tại đọc từ bảng phút, dữ liệu lịch sử đọc từ bảng giờ.
+5. **Dashboard:** API truy vấn có cache ngắn hạn phục vụ các báo cáo, Live View tự làm mới mỗi 10 giây.
+
+### Lựa chọn công nghệ
+- **Ghi nhận tại Edge thay vì beacon trên trình duyệt:** Không bị tiện ích trình duyệt chặn, ghi nhận được cả trang trả từ cache, và vì chạy sau khi response đã gửi nên không làm chậm người mua.
+- **ClickHouse thay vì Elasticsearch hoặc PostgreSQL:** Cơ sở dữ liệu dạng cột được thiết kế cho truy vấn tổng hợp và chuỗi thời gian. Elasticsearch không phù hợp với phân tích chuỗi thời gian nên đã bị loại khỏi thiết kế.
+- **Kafka cho luồng event:** Log bền vững, có thể phát lại. Offset chỉ được commit sau khi ghi thành công, nên lần ghi lỗi sẽ được thử lại thay vì mất dữ liệu.
+- **Django và Celery thay vì các service Go riêng biệt:** Đủ đáp ứng lưu lượng hiện tại với độ phức tạp vận hành thấp hơn nhiều.
+- **Tách nhóm worker cho tác vụ nặng CPU và tác vụ nặng I/O:** Pipeline được chia thành hai bước Celery có đặc tính tải rất khác nhau:
+  - *Bổ sung dữ liệu (CPU-bound):* phân tích User-Agent, tra vị trí từ cơ sở dữ liệu GeoIP cục bộ, hợp nhất tham số UTM, phân loại referrer thành kênh traffic và xác định sản phẩm. Các tác vụ này chủ yếu tiêu tốn thời gian tính toán, nên nhóm worker được định cỡ theo số nhân CPU; tăng thêm concurrency chỉ làm tăng chi phí chuyển ngữ cảnh.
+  - *Ghi dữ liệu (I/O-bound):* kiểm tra chống trùng trên Redis, tra cứu lợi nhuận và tỷ giá, ghi vào ClickHouse. Các tác vụ này phần lớn thời gian là chờ mạng, nên nhóm worker có thể chạy đồng thời nhiều tác vụ hơn hẳn mà không làm quá tải CPU.
+  - Tách riêng hai bước giúp mỗi nhóm worker mở rộng độc lập: một lần ghi cơ sở dữ liệu chậm không làm tắc bước phân tích, và ngược lại. Khi một bước bị dồn hàng đợi, vấn đề được khoanh vùng và dễ quan sát, thay vì làm chậm toàn bộ pipeline.
+- **Cơ sở dữ liệu GeoIP cục bộ thay vì service tra cứu từ xa:** Bỏ bớt một bước gọi mạng và một điểm lỗi đơn lẻ.
+- **Redis:** Dùng cho cache, khóa chống trùng và giới hạn tần suất theo shop.
+- **Polling thay vì WebSocket cho Live View:** Đơn giản hơn khi vận hành và đủ cho tần suất làm mới 10 giây.
+
+## Vai trò trong dự án
+
+Với vai trò **Chủ trì kỹ thuật (Development Owner)** của mảng Analytics & Tracking, tôi là developer duy nhất chịu trách nhiệm toàn bộ module:
+
+- **Luồng events phía server:** Own toàn bộ luồng Backend Hooks và Edge → Kafka → ClickHouse → dashboard cho người bán. Mọi sự kiện xem trang, thêm giỏ hàng, đặt hàng đều được ghi nhận phía server, không phụ thuộc SDK trên trình duyệt.
+- **Traffic sạch ngay từ tầng Edge:** Page view được ghi nhận tại tầng Edge, nơi lọc bỏ các lượt prefetch link và giữ phiên ổn định suốt quá trình checkout, để số liệu traffic và phễu chuyển đổi phản ánh đúng người mua thật.
+- **Doanh thu & lợi nhuận chính xác:** Sự kiện đơn hàng và lợi nhuận đi qua worker nền vào các bảng tổng hợp ClickHouse, mỗi đơn chỉ được tính đúng một lần và mọi báo cáo theo đúng múi giờ của shop.
+- **Ghi nhận nguồn & báo cáo:** Nguồn UTM và referrer được giữ từ lượt truy cập đầu tiên đến lúc mua hàng, làm nền cho các màn Nguồn traffic, phễu chuyển đổi 7 bước, Live View và Báo cáo doanh số theo sản phẩm, theo quốc gia.
 
 ## Giá trị mang lại
 
 - **Trao quyền quyết định nhanh:** Người bán có thể bật/tắt quảng cáo hoặc điều chỉnh giá bán ngay lập tức dựa trên con số lợi nhuận thực tế thay vì phán đoán cảm tính.
-- **Dữ liệu minh bạch và chuẩn xác:** Loại bỏ tình trạng thiếu hụt dữ liệu do trình duyệt hay ad-blocker, mang lại sự an tâm tuyệt đối cho các nhà bán hàng quy mô lớn.
+- **Báo cáo đáng tin cậy:** Doanh thu, lợi nhuận và nguồn traffic đều được tính từ sự kiện phía server, người bán có thể tin dashboard thay vì phải tự đối soát bằng tay.
