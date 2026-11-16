@@ -69,7 +69,7 @@ export const experiencesEn: Experience[] = [
         startDate: "2025-10",
         endDate: "Present",
         summary: "Development Owner of two e-commerce domains: Analytics & Tracking (a real-time event pipeline on Kafka and ClickHouse) and CR-Agent (an AI conversion-rate-optimization agent built on the Model Context Protocol). Also built the POD AI personalization product end to end, from seller setup and campaign launch to buyer personalization and print fulfillment, through to its production release.",
-        techStack: ["Python", "Kafka", "ClickHouse", "Celery", "FastAPI", "Vue.js", "Django", "MCP"]
+        techStack: ["Python", "Django", "FastAPI", "Celery", "Kafka", "ClickHouse", "Vue.js", "MCP", "Kubernetes"]
     }
 ];
 
@@ -104,7 +104,7 @@ export const experiencesVi: Experience[] = [
         startDate: "2025-10",
         endDate: "Present",
         summary: "Chủ trì kỹ thuật (Development Owner) của hai mảng e-commerce: Analytics & Tracking (luồng events thời gian thực trên Kafka và ClickHouse) và CR-Agent (trợ lý AI tối ưu tỷ lệ chuyển đổi, xây dựng trên giao thức MCP). Đồng thời tham gia trọn vẹn sản phẩm cá nhân hóa POD AI từ đầu đến cuối, từ setup của seller, lên campaign, buyer cá nhân hóa đến in ấn, cho đến khi lên production.",
-        techStack: ["Python", "Kafka", "ClickHouse", "Celery", "FastAPI", "Vue.js", "Django", "MCP"]
+        techStack: ["Python", "Django", "FastAPI", "Celery", "Kafka", "ClickHouse", "Vue.js", "MCP", "Kubernetes"]
     }
 ];
 
@@ -175,7 +175,7 @@ export function getSkillGroups(locale: Locale = 'en'): SkillGroup[] {
             name: locale === 'vi' ? "Hệ thống (Backend)" : "Backend",
             icon: Server,
             color: "from-violet-500 to-purple-500",
-            skills: ["NestJS", "Python (FastAPI, Django)", "gRPC", "Kafka", "Redis", "Spring Boot", "MCP / AI Agents", "Golang", "PHP"],
+            skills: ["NestJS", "Python (FastAPI, Django)", "gRPC", "Kafka", "Redis", "Celery", "MCP / AI Agents", "PHP"],
         },
         {
             name: locale === 'vi' ? "Cơ sở dữ liệu" : "Database",
