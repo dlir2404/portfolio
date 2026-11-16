@@ -108,9 +108,9 @@ However, the move to the new platform generation required a **complete redesign 
 - **Redis:** Used for caching, deduplication keys, and per-shop rate limits.
 - **Polling instead of WebSockets for Live View:** Simpler to operate, and sufficient for a 10-second refresh.
 
-## My Role & Ownership
+## My Role
 
-Serving as the **Development Owner** of the Analytics & Tracking domain, the single developer accountable for the module end to end:
+As the Full Stack Developer and **sole developer owning the Analytics & Tracking module end to end**:
 
 - **Server-Side Event Pipeline:** Owned the full flow, Backend Hooks and Edge capture → Kafka → ClickHouse → merchant dashboards, so every page view, cart, and order event is recorded on the server without relying on a browser SDK.
 - **Clean Traffic at the Edge:** Page views are captured at the edge layer, which filters out link prefetches and keeps the session stable through checkout, so traffic and funnel numbers reflect real shoppers.

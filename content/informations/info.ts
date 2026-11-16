@@ -65,10 +65,10 @@ export const experiencesEn: Experience[] = [
     },
     {
         company: "OpenCommerce Group",
-        role: ["Full Stack Developer", "Domain Owner"],
+        role: ["Full Stack Developer"],
         startDate: "2025-10",
         endDate: "Present",
-        summary: "Development Owner of two e-commerce domains: Analytics & Tracking (a real-time event pipeline on Kafka and ClickHouse) and CR-Agent (an AI conversion-rate-optimization agent built on the Model Context Protocol). Also built the POD AI personalization product end to end, from seller setup and campaign launch to buyer personalization and print fulfillment, through to its production release.",
+        summary: "Owned two e-commerce domains end to end: Analytics & Tracking (a real-time event pipeline on Kafka and ClickHouse) and CR-Agent (an AI conversion-rate-optimization agent built on the Model Context Protocol). Also built the POD AI personalization product end to end, from seller setup and campaign launch to buyer personalization and print fulfillment, through to its production release.",
         techStack: ["Python", "Django", "FastAPI", "Celery", "Kafka", "ClickHouse", "Vue.js", "MCP", "Kubernetes"]
     }
 ];
@@ -100,10 +100,10 @@ export const experiencesVi: Experience[] = [
     },
     {
         company: "OpenCommerce Group",
-        role: ["Lập trình viên Full Stack", "Chủ trì kỹ thuật (Domain Owner)"],
+        role: ["Lập trình viên Full Stack"],
         startDate: "2025-10",
         endDate: "Present",
-        summary: "Chủ trì kỹ thuật (Development Owner) của hai mảng e-commerce: Analytics & Tracking (luồng events thời gian thực trên Kafka và ClickHouse) và CR-Agent (trợ lý AI tối ưu tỷ lệ chuyển đổi, xây dựng trên giao thức MCP). Đồng thời tham gia trọn vẹn sản phẩm cá nhân hóa POD AI từ đầu đến cuối, từ setup của seller, lên campaign, buyer cá nhân hóa đến in ấn, cho đến khi lên production.",
+        summary: "Chịu trách nhiệm toàn bộ hai mảng e-commerce: Analytics & Tracking (luồng events thời gian thực trên Kafka và ClickHouse) và CR-Agent (trợ lý AI tối ưu tỷ lệ chuyển đổi, xây dựng trên giao thức MCP). Đồng thời tham gia trọn vẹn sản phẩm cá nhân hóa POD AI từ đầu đến cuối, từ setup của seller, lên campaign, buyer cá nhân hóa đến in ấn, cho đến khi lên production.",
         techStack: ["Python", "Django", "FastAPI", "Celery", "Kafka", "ClickHouse", "Vue.js", "MCP", "Kubernetes"]
     }
 ];
